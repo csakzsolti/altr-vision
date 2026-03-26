@@ -295,16 +295,16 @@
         .signal-section[hidden] { display: none !important; }
         .signal-shell {
             display: grid;
-            grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr);
-            gap: 22px;
-            padding: 28px;
+            grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+            gap: 30px;
+            padding: 32px;
             border: 1px solid var(--glass-border);
             border-radius: 30px;
             background:
                 radial-gradient(circle at top left, rgba(0, 229, 255, 0.12), transparent 28%),
                 radial-gradient(circle at bottom right, rgba(255, 0, 127, 0.1), transparent 30%),
                 linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-            box-shadow: 0 26px 60px rgba(0,0,0,0.24);
+            box-shadow: 0 18px 36px rgba(0,0,0,0.18);
             overflow: hidden;
             position: relative;
         }
@@ -319,7 +319,7 @@
         .signal-intro {
             position: relative;
             z-index: 1;
-            padding: 8px 4px 8px 2px;
+            padding: 8px 6px 8px 4px;
         }
         .signal-kicker {
             display: inline-flex;
@@ -339,36 +339,40 @@
             background: linear-gradient(90deg, var(--neon-blue), transparent);
         }
         .signal-main-title {
-            margin: 0 0 14px;
-            max-width: 12ch;
-            font-size: clamp(2rem, 4.3vw, 3.6rem);
-            line-height: 0.98;
+            margin: 0 0 18px;
+            max-width: 11ch;
+            font-size: clamp(1.85rem, 3.8vw, 3.1rem);
+            line-height: 1.02;
             letter-spacing: -0.05em;
             color: #fff;
             text-shadow: 0 0 22px rgba(255,255,255,0.08);
         }
 .signal-main-copy {
     margin: 0;
-    max-width: 48ch;
+    max-width: 42ch;
     color: #c0c4d2;
-    font-size: 1rem;
-    line-height: 1.78;
+    font-size: 0.98rem;
+    line-height: 1.72;
 }
 .signal-visuals {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 14px;
-    margin-top: 22px;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 28px;
+    max-width: 560px;
 }
 .signal-shot {
     margin: 0;
     position: relative;
-    min-height: 158px;
+    min-height: 0;
     border-radius: 20px;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,0.08);
     background: rgba(255,255,255,0.03);
-    box-shadow: 0 16px 34px rgba(0,0,0,0.18);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.14);
+}
+.signal-shot-large {
+    aspect-ratio: 1.72 / 1;
 }
 .signal-shot::after {
     content: "";
@@ -378,6 +382,9 @@
     background: linear-gradient(180deg, transparent, rgba(5,5,7,0.86));
 }
 .signal-shot-image {
+    display: block;
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -401,43 +408,18 @@
     line-height: 1.45;
     text-shadow: 0 0 18px rgba(0,0,0,0.4);
 }
-.signal-metrics {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 22px;
-        }
-        .signal-metric {
-            min-width: 0;
-            padding: 14px 14px 12px;
-            border-radius: 18px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.04);
-        }
-        .signal-metric strong {
-            display: block;
-            margin-bottom: 6px;
-            color: #fff;
-            font-size: 1rem;
-        }
-        .signal-metric span {
-            display: block;
-            color: #96a0b4;
-            font-size: 0.8rem;
-            line-height: 1.5;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-        }
         .signal-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 18px;
+            grid-template-columns: 1fr;
+            gap: 14px;
             position: relative;
             z-index: 1;
+            align-content: start;
+            align-self: start;
         }
         .signal-card {
-            min-height: 100%;
-            padding: 22px 20px 20px;
+            min-height: 0;
+            padding: 18px 18px 16px;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025));
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 22px;
@@ -445,12 +427,27 @@
             overflow: hidden;
             transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
         }
+        .signal-card:first-child {
+            background:
+                radial-gradient(circle at top right, rgba(0, 229, 255, 0.12), transparent 45%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.025));
+        }
+        .signal-card:nth-child(2) {
+            background:
+                radial-gradient(circle at top right, rgba(156, 39, 176, 0.14), transparent 48%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025));
+        }
+        .signal-card:nth-child(3) {
+            background:
+                radial-gradient(circle at top right, rgba(255, 0, 127, 0.14), transparent 48%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025));
+        }
         .signal-card::before {
             content: attr(data-index);
             position: absolute;
-            top: 16px;
-            right: 16px;
-            font-size: 0.66rem;
+            top: 14px;
+            right: 14px;
+            font-size: 0.62rem;
             color: rgba(255,255,255,0.24);
             letter-spacing: 0.3em;
             text-transform: uppercase;
@@ -459,32 +456,32 @@
         .signal-card:hover {
             transform: translateY(-6px);
             border-color: rgba(0,229,255,0.24);
-            box-shadow: 0 18px 34px rgba(0,0,0,0.2);
+            box-shadow: 0 14px 22px rgba(0,0,0,0.16);
         }
         .signal-label {
             display: inline-block;
-            margin-bottom: 14px;
-            padding: 6px 10px;
+            margin-bottom: 12px;
+            padding: 5px 9px;
             border-radius: 999px;
             border: 1px solid rgba(255,255,255,0.08);
             background: rgba(0,0,0,0.18);
-            font-size: 0.62rem;
+            font-size: 0.58rem;
             letter-spacing: 0.18em;
             text-transform: uppercase;
             color: #8fd9e7;
             font-weight: 800;
         }
         .signal-card h3 {
-            margin: 0 0 12px;
-            font-size: 1.14rem;
-            line-height: 1.22;
+            margin: 0 0 10px;
+            font-size: 1.06rem;
+            line-height: 1.2;
             letter-spacing: -0.02em;
         }
         .signal-card p {
             margin: 0;
             color: #b7bdcb;
-            line-height: 1.68;
-            font-size: 0.95rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
         }
 
         .lab-section {
@@ -498,19 +495,44 @@
             display: grid;
             grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
             gap: 24px;
-            padding: 28px;
+            padding: 30px;
             border: 1px solid var(--glass-border);
             border-radius: 28px;
             background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
-                radial-gradient(circle at top right, rgba(255, 0, 127, 0.08), transparent 45%);
+                radial-gradient(circle at top left, rgba(0, 229, 255, 0.12), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(255, 0, 127, 0.1), transparent 34%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
             overflow: hidden;
+            position: relative;
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
+        }
+
+        .lab-shell::before {
+            content: "";
+            position: absolute;
+            inset: 16px;
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 22px;
+            pointer-events: none;
         }
 
         .lab-copy h3 {
             margin: 0 0 14px;
-            font-size: 1.45rem;
+            font-size: 1.55rem;
             letter-spacing: -0.03em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lab-copy h3::before {
+            content: "RELAY FEED";
+            display: block;
+            margin-bottom: 10px;
+            color: var(--neon-blue);
+            font-size: 0.66rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-weight: 800;
         }
 
         .lab-copy p {
@@ -518,32 +540,64 @@
             color: #b8b8c2;
             line-height: 1.7;
             max-width: 52ch;
+            position: relative;
+            z-index: 1;
         }
 
         .lab-feed {
             display: grid;
-            gap: 12px;
+            gap: 14px;
+            position: relative;
+            z-index: 1;
         }
 
         .lab-feed-item {
-            padding: 14px 16px;
-            border-radius: 16px;
+            padding: 16px 16px 15px 18px;
+            border-radius: 18px;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.03);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lab-feed-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 14px;
+            bottom: 14px;
+            width: 3px;
+            border-radius: 999px;
+            background: var(--neon-blue);
+            box-shadow: 0 0 14px rgba(0, 229, 255, 0.35);
+        }
+
+        .lab-feed-item:nth-child(2)::before {
+            background: var(--neon-purple);
+            box-shadow: 0 0 14px rgba(156, 39, 176, 0.35);
+        }
+
+        .lab-feed-item:nth-child(3)::before {
+            background: var(--neon-pink);
+            box-shadow: 0 0 14px rgba(255, 0, 127, 0.35);
         }
 
         .lab-feed-item strong {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 7px;
             font-size: 0.78rem;
-            letter-spacing: 1.8px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--neon-blue);
         }
 
+        .lab-feed-item:nth-child(2) strong { color: #d27dff; }
+        .lab-feed-item:nth-child(3) strong { color: #ff72b6; }
+
         .lab-feed-item span {
             color: #a8a8b2;
-            line-height: 1.55;
+            line-height: 1.6;
             font-size: 0.9rem;
         }
 
@@ -780,8 +834,9 @@
             .signal-shell { grid-template-columns: 1fr; padding: 22px; }
             .signal-main-title { max-width: none; }
             .signal-visuals { grid-template-columns: 1fr; }
-            .signal-shot { min-height: 142px; }
-            .signal-metrics { grid-template-columns: 1fr; }
+            .signal-shot,
+            .signal-shot-large,
+            .signal-shot-small { aspect-ratio: 1.45 / 1; max-width: none; }
             .signal-grid { grid-template-columns: 1fr; }
             .lab-shell { grid-template-columns: 1fr; padding: 22px; }
             .section-title { font-size: 1.05rem; letter-spacing: 0.24em; margin: 94px 0 40px 0; }

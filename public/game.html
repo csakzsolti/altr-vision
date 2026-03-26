@@ -499,6 +499,52 @@
         restartHintEl.style.display = "block";
     }
 
+    function drawPlayerAvatar(x, y) {
+        const pulse = Math.sin(Date.now() * 0.012) * 1.5;
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.shadowBlur = 16;
+        ctx.shadowColor = "#ff00ff";
+
+        ctx.strokeStyle = "rgba(255, 0, 255, 0.95)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(0, 0, 12 + pulse * 0.25, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgba(0, 229, 255, 0.9)";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(0, 0, 6 + pulse * 0.18, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(0, 0, 2.4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = "rgba(255, 0, 255, 0.9)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(-17, 0);
+        ctx.lineTo(-9, 0);
+        ctx.moveTo(9, 0);
+        ctx.lineTo(17, 0);
+        ctx.moveTo(0, -17);
+        ctx.lineTo(0, -9);
+        ctx.moveTo(0, 9);
+        ctx.lineTo(0, 17);
+        ctx.stroke();
+
+        ctx.fillStyle = "rgba(0, 229, 255, 0.95)";
+        ctx.fillRect(-15, -14, 5, 2);
+        ctx.fillRect(10, 12, 5, 2);
+        ctx.fillRect(-2, -18, 4, 2);
+
+        ctx.restore();
+    }
+
     function draw() {
         resize();
         if (gameActive && restartHintEl.style.display !== "none") restartHintEl.style.display = "none";
@@ -917,9 +963,7 @@
         });
 
         if (gameActive) {
-            ctx.shadowBlur = 15; ctx.shadowColor = "#ff00ff";
-            ctx.fillStyle = "#ff00ff"; ctx.font = "bold 28px sans-serif";
-            ctx.fillText("R", player.x - 10, player.y + 10);
+            drawPlayerAvatar(player.x, player.y);
         }
 
         if (gameActive) {
