@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project X | AltR Vision</title>
+    <style>
+        :root {
+            --neon-purple: #9c27b0;
+            --neon-blue: #00e5ff;
+            --dark-bg: #050507;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; cursor: none !important; }
+
+        body { 
+            background: var(--dark-bg);
+            background-image: radial-gradient(circle at center, rgba(156, 39, 176, 0.1) 0%, transparent 70%);
+            color: white; 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Kurzor */
+        #cursor { width: 22px; height: 22px; border: 2px solid var(--neon-purple); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate3d(-50%, -50%, 0); box-shadow: 0 0 15px var(--neon-purple); }
+
+        /* Központi tartalom */
+        .coming-soon-container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .x-logo {
+            font-size: 8rem;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff, #333);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            line-height: 1;
+            filter: drop-shadow(0 0 30px rgba(156, 39, 176, 0.3));
+            animation: pulse 4s infinite ease-in-out;
+        }
+
+        .status-text {
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            font-size: 0.9rem;
+            color: var(--neon-blue);
+            margin-top: 20px;
+            opacity: 0.8;
+        }
+
+        .description {
+            color: rgba(255,255,255,0.4);
+            max-width: 400px;
+            margin: 30px auto;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Home gomb */
+        .home-nav {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .home-btn {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            backdrop-filter: blur(15px);
+            transition: 0.4s;
+        }
+
+        .home-btn:hover {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 20px rgba(156, 39, 176, 0.2);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+        }
+
+        canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <canvas id="particles"></canvas>
+
+    <nav class="home-nav">
+        <a href="index.html" class="home-btn">Vissza a kezdőlapra</a>
+    </nav>
+
+    <div class="coming-soon-container">
+        <h1 class="x-logo">X</h1>
+        <div class="status-text" id="status-text">Hamarosan</div>
+        <p class="description" id="desc-text">
+            Valami radikális készül a háttérben. Az AltR Vision következő nagy dobása még titkosítás alatt áll.
+        </p>
+    </div>
+
+    <script>
+        const translations = {
+            hu: {
+                "status-text": "Hamarosan",
+                "desc-text": "Valami radikális készül a háttérben. Az AltR Vision következő nagy dobása még titkosítás alatt áll.",
+                "home": "Vissza a kezdőlapra"
+            },
+            en: {
+                "status-text": "Coming Soon",
+                "desc-text": "Something radical is brewing in the background. AltR Vision's next big move is currently under encryption.",
+                "home": "Back to Home"
+            }
+        };
+
+        let currentLang = localStorage.getItem('selectedLang') || 'hu';
+        document.getElementById('status-text').innerText = translations[currentLang]["status-text"];
+        document.getElementById('desc-text').innerText = translations[currentLang]["desc-text"];
+        document.querySelector('.home-btn').innerText = translations[currentLang]["home"];
+
+        // Egyszerűsített kurzor követés
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Minimál részecskék
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let dots = [];
+        for(let i=0; i<50; i++) {
+            dots.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vX: (Math.random() - 0.5) * 0.5,
+                vY: (Math.random() - 0.5) * 0.5
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(156, 39, 176, 0.3)";
+            dots.forEach(d => {
+                d.x += d.vX; d.y += d.vY;
+                if(d.x < 0 || d.x > canvas.width) d.vX *= -1;
+                if(d.y < 0 || d.y > canvas.height) d.vY *= -1;
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, 1, 0, Math.PI*2);
+                ctx.fill();
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>

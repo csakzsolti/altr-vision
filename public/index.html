@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AltR Vision | Game & App Studio</title>
+    <meta name="description" id="meta-description" content="AltR Vision is a game and app studio building experimental digital experiences, distinctive product worlds, and atmospheric interactive systems.">
+    <meta property="og:title" id="meta-og-title" content="AltR Vision | Game & App Studio">
+    <meta property="og:description" id="meta-og-description" content="Experimental apps, indie games, and digital worlds built with technical precision and artistic chaos.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/altr1.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="meta-twitter-title" content="AltR Vision | Game & App Studio">
+    <meta name="twitter:description" id="meta-twitter-description" content="Experimental apps, indie games, and digital worlds built with technical precision and artistic chaos.">
+    <meta name="twitter:image" content="assets/altr1.png">
+    <link rel="icon" type="image/png" href="assets/altr1.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/index.css">
+</head>
+<body>
+
+    <div id="home"></div>
+    <div id="cursor"></div>
+    <canvas id="particles"></canvas>
+
+    <nav class="nav-bar">
+        <div class="nav-status" id="nav-status">LIVE // <strong id="nav-status-value">STUDIO 00:00</strong></div>
+        
+        <div class="nav-links">
+            <a href="#inside" id="nav-signal">Inside</a>
+            <a href="#projects" id="nav-projects">Projektek</a>
+            <a href="#vision" id="nav-vision">Vízió</a>
+            <a href="#contact" id="nav-contact">Kapcsolat</a>
+        </div>
+
+        <div class="lang-switcher">
+            <button class="lang-btn active" id="btn-hu" onclick="setLang('hu')">HU</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="logo-container">
+            <img src="assets/altr1.png" alt="AltR Vision Logo" class="main-logo" id="main-logo">
+            <div class="logo-hover-hint">tap to distort</div>
+            <div class="logo-mobile-pulse" aria-hidden="true"></div>
+        </div>
+        <p id="hero-text" class="i18n-fade"></p>
+        <div class="scroll-indicator i18n-fade" id="scroll-indicator">Scroll to Explore</div>
+        
+        <div id="game-container">
+            <iframe id="game-frame" src="game.html" scrolling="yes"></iframe>
+        </div>
+    </section>
+
+    <div class="section-title" id="inside">A műhelyből</div>
+    <section class="signal-section signal-section-next">
+        <div class="signal-shell">
+            <div class="signal-intro">
+                <div class="signal-kicker" id="inside-kicker">CURRENT MODE</div>
+                <h3 class="signal-main-title" id="inside-title">Rendszerek, hangulatok és ötletek egyszerre mozognak.</h3>
+                <p class="signal-main-copy" id="inside-copy">Az AltR Visionnél a terméklogika és az atmoszféra együtt épül. Nem külön kezeljük a funkciót, a vizuális világot és a játékosságot, hanem ugyanannak a rendszernek a részeiként.</p>
+                <div class="signal-visuals">
+                    <figure class="signal-shot signal-shot-large">
+                        <img src="assets/altr2.png" alt="AltR Vision visual frame" class="signal-shot-image">
+                        <figcaption class="signal-shot-caption" id="inside-shot-1">Vizuális irányok / live frame</figcaption>
+                    </figure>
+                    <figure class="signal-shot signal-shot-small">
+                        <img src="assets/altr2.png" alt="AltR Vision concept layer" class="signal-shot-image signal-shot-image-alt">
+                        <figcaption class="signal-shot-caption" id="inside-shot-2">Hangulat, rendszer, prototípus</figcaption>
+                    </figure>
+                </div>
+                <div class="signal-metrics">
+                    <div class="signal-metric">
+                        <strong id="inside-metric-value-1">Apps + Games</strong>
+                        <span id="inside-metric-label-1">Párhuzamos irányok</span>
+                    </div>
+                    <div class="signal-metric">
+                        <strong id="inside-metric-value-2">Fast Iteration</strong>
+                        <span id="inside-metric-label-2">Gyors prototípus körök</span>
+                    </div>
+                    <div class="signal-metric">
+                        <strong id="inside-metric-value-3">Strong Identity</strong>
+                        <span id="inside-metric-label-3">Felismerhető saját hang</span>
+                    </div>
+                </div>
+            </div>
+            <div class="signal-grid">
+                <article class="signal-card" data-index="01">
+                    <span class="signal-label" id="signal-label-1">Creative Systems</span>
+                    <h3 id="signal-title-1">Appok, amiknek saját ritmusa van</h3>
+                    <p id="signal-desc-1">Nem csak funkciót építünk, hanem teljes digitális jelenlétet: hangot, ritmust és felismerhető karaktert.</p>
+                </article>
+                <article class="signal-card" data-index="02">
+                    <span class="signal-label" id="signal-label-2">Experimental Games</span>
+                    <h3 id="signal-title-2">Játszható ötletek kontrollált káosszal</h3>
+                    <p id="signal-desc-2">Kísérleti mechanikák, rejtett rendszerek és világépítő rétegek találkoznak olyan prototípusokban, amik szeretnek meglepni.</p>
+                </article>
+                <article class="signal-card" data-index="03">
+                    <span class="signal-label" id="signal-label-3">Studio Mode</span>
+                    <h3 id="signal-title-3">Gyors iteráció, erős saját hang</h3>
+                    <p id="signal-desc-3">A cél nem a zajos mennyiség, hanem hogy minden projekt mögött legyen egy világos belső logika és egy emlékezetes atmoszféra.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="signal-section" id="signal" hidden>
+        <div class="signal-grid">
+            <article class="signal-card">
+                <span class="signal-label" id="signal-label-1">Creative Systems</span>
+                <h3 id="signal-title-1">Appok, amiknek saját ritmusa van</h3>
+                <p id="signal-desc-1">Nem csak funkciót építünk, hanem világot is köré. Letisztult használhatóság, karakteres vizuális nyelvvel.</p>
+            </article>
+            <article class="signal-card">
+                <span class="signal-label" id="signal-label-2">Experimental Games</span>
+                <h3 id="signal-title-2">Kísérleti játékok kiszámított káosszal</h3>
+                <p id="signal-desc-2">Prototípusok, rendszerek és hangulatok találkoznak olyan játékötletekben, amik inkább emlékezetesek, mint biztonsági játékosak.</p>
+            </article>
+            <article class="signal-card">
+                <span class="signal-label" id="signal-label-3">Studio Mode</span>
+                <h3 id="signal-title-3">Gyors iteráció, erős identitás</h3>
+                <p id="signal-desc-3">Szeretünk gyorsan kísérletezni, de közben végig őrizzük a projekt saját hangját és rendszerlogikáját.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="lab-section">
+        <div class="lab-shell">
+            <div class="lab-copy">
+                <h3 id="lab-title">Studio Signal // jelenlegi fókusz</h3>
+                <p id="lab-copy">Az AltR Vision jelenleg különböző app- és játékirányokat tesztel párhuzamosan. A cél nem a mennyiség, hanem az, hogy minden ötletből egy felismerhető, saját atmoszférájú digitális élmény szülessen.</p>
+            </div>
+            <div class="lab-feed">
+                <div class="lab-feed-item">
+                    <strong id="lab-feed-title-1">Feed 01</strong>
+                    <span id="lab-feed-desc-1">Anonim közösségi élmények újragondolása gyors, letisztult felületekkel.</span>
+                </div>
+                <div class="lab-feed-item">
+                    <strong id="lab-feed-title-2">Feed 02</strong>
+                    <span id="lab-feed-desc-2">Mozgás, útvonal és szállítás témák újrakeretezése termékoldali szemlélettel.</span>
+                </div>
+                <div class="lab-feed-item">
+                    <strong id="lab-feed-title-3">Feed 03</strong>
+                    <span id="lab-feed-desc-3">Interaktív, rejtett rendszerek és világépítő game-mechanikák prototipizálása.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-title" id="projects">PROJEKTEK</div>
+    
+    <main class="content-grid">
+        <a href="gossipr.html" class="card">
+            <div class="card-image-area"><img src="assets/gossiprbrand.png" alt="GossipR"></div>
+            <div class="card-content">
+                <div><span class="tag" id="tag-app">App</span><span class="tag" id="tag-progress">Fejlesztés alatt</span></div>
+                <h2 style="color: var(--neon-blue);">GossipR</h2>
+                <p id="desc-gossipr">Az anonim közösségi élmény újradefiniálása. Biztonságos, gyors és valódi.</p>
+            </div>
+        </a>
+
+        <a href="wayr.html" class="card">
+            <div class="card-image-area"><img src="assets/wayrbrand.png" alt="WayR"></div>
+            <div class="card-content">
+                <div><span class="tag" id="tag-tool">APP</span><span class="tag" id="tag-concept">Koncepció</span></div>
+                <h2 style="color: var(--neon-purple);">WayR</h2>
+                <p id="desc-wayr">A csomagszállítás új formája. Gyors, és környezetbarát!</p>
+            </div>
+        </a>
+
+        <a href="projectx.html" class="card">
+            <div class="card-image-area"><img src="assets/altr1.jpg" alt="Project X" style="filter: hue-rotate(280deg) brightness(0.8);"></div>
+            <div class="card-content">
+                <div><span class="tag" id="tag-gaming">Gaming</span><span class="tag" id="tag-future">Hamarosan</span></div>
+                <h2 style="color: var(--neon-pink);">Project X</h2>
+                <p id="desc-projectx">Egy sötét, atmoszférikus kalandjáték, ami feszegeti a technológia határait.</p>
+            </div>
+        </a>
+    </main>
+
+    <div class="section-title" id="vision">A víziónk</div>
+    <section class="info-section">
+         <div id="mission-text">Határokat feszegetünk, hogy <span class='highlight-blue'>felejthetetlen élményeket</span> hagyjunk magunk után. Ahol a technikai precizitás és a <span class='highlight-pink'>művészi káosz</span> eggyé válik.</div>
+    </section>
+
+    <section class="about-section">
+        <div class="about-kicker" id="about-kicker">Behind the signal</div>
+        <h2 class="about-title" id="about-title">Kód, zene és vizuális világépítés ugyanabban a rendszerben.</h2>
+        <div class="about-copy">
+            <p id="about-copy-1">A stúdió alapja a tesztelésből induló gondolkodás, ami idővel kreatív irányokkal rétegződött tovább: zenei produceri munkákkal, festéssel és vizuális kísérletekkel. Ezek a hatások ma ugyanabban a fejlesztői szemléletben találkoznak.</p>
+            <p id="about-copy-2">A WayR ötlete abból a hétköznapi kérdésből indult, hogy ha az emberek úgyis ingáznak munkából haza, miért ne mozoghatnának csomagok is ezekkel az útvonalakkal együtt? A GossipR később érkezett, amikor Egerben való sétálás közben egy falon hagyott sok üzenet, firka és spontán nyom kezdett el egy másfajta közösségi tér gondolatává összeállni.</p>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="social-links">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-icon">GH</a>
+            <a href="#" class="social-icon">IT</a>
+            <a href="#" class="social-icon">DC</a>
+        </div>
+        <a href="mailto:varadizsolt3@gmail.com" class="contact-btn" id="contact-link">Üzenet küldése</a>
+        <p style="color: #222; margin-top: 40px; font-size: 0.75rem; letter-spacing: 1px;">© 2026 ALTR VISION STUDIO • CRAFTED IN KÁOSZ</p>
+    </footer>
+
+    <nav class="floating-dock" aria-label="Section navigation">
+        <a href="#home" class="dock-link" title="Home">⌂</a>
+        <a href="#projects" class="dock-link" title="Projects">◫</a>
+        <a href="#vision" class="dock-link" title="Vision">◉</a>
+        <a href="#contact" class="dock-link" title="Contact">✦</a>
+    </nav>
+
+    <script src="assets/scripts/index.config.js"></script>
+    <script src="assets/scripts/index.js"></script>
+</body>
+</html>

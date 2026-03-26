@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | AltR Vision</title>
+    <meta name="description" id="meta-description" content="AltR Vision fallback page for routes that are currently unavailable.">
+    <meta property="og:title" id="meta-og-title" content="404 | AltR Vision">
+    <meta property="og:description" id="meta-og-description" content="This route is currently unavailable. Return to the main signal or open the studio projects.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/altr1.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="meta-twitter-title" content="404 | AltR Vision">
+    <meta name="twitter:description" id="meta-twitter-description" content="This route is currently unavailable. Return to the main signal or open the studio projects.">
+    <meta name="twitter:image" content="assets/altr1.png">
+    <link rel="icon" type="image/png" href="assets/altr1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #00e5ff;
+            --pink: #ff007f;
+            --bg: #050507;
+            --card: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background:
+                radial-gradient(circle at top left, rgba(0, 229, 255, 0.16), transparent 32%),
+                radial-gradient(circle at bottom right, rgba(255, 0, 127, 0.14), transparent 36%),
+                linear-gradient(180deg, #050507, #0a0b11);
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .panel {
+            width: min(680px, 100%);
+            padding: 34px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            background: rgba(8, 9, 14, 0.76);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+            font-size: 0.72rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 32px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        .code {
+            margin: 18px 0 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(4rem, 16vw, 8rem);
+            line-height: 0.9;
+            letter-spacing: -0.08em;
+            color: white;
+            text-shadow:
+                0 0 24px rgba(255, 255, 255, 0.1),
+                -8px 0 0 rgba(255, 0, 127, 0.12),
+                8px 0 0 rgba(0, 229, 255, 0.14);
+        }
+
+        h1 {
+            margin: 0 0 14px;
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            line-height: 1.08;
+        }
+
+        p {
+            margin: 0;
+            color: rgba(255,255,255,0.72);
+            line-height: 1.72;
+            font-size: 1rem;
+            max-width: 54ch;
+        }
+
+        .action-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 26px;
+        }
+
+        .action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 18px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: white;
+            background: var(--card);
+            font-size: 0.74rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .action.primary {
+            border-color: rgba(0, 229, 255, 0.34);
+            color: #050507;
+            background: linear-gradient(90deg, #00e5ff, #74f7ff);
+            box-shadow: 0 0 24px rgba(0, 229, 255, 0.24);
+        }
+
+        .action:hover {
+            transform: translateY(-2px);
+        }
+
+        .action.secondary:hover {
+            border-color: var(--pink);
+            color: var(--pink);
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.16);
+        }
+
+        .system-note {
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.42);
+            font-size: 0.78rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 720px) {
+            .panel { padding: 24px 18px; border-radius: 24px; }
+            p { font-size: 0.95rem; }
+            .action-row { flex-direction: column; }
+            .action { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <main class="panel">
+        <div class="eyebrow" id="eyebrow">Signal Lost</div>
+        <div class="code">404</div>
+        <h1 id="title">This page drifted outside the current route map.</h1>
+        <p id="desc">The address you opened does not point to an active page right now. You can head back to the main signal, review the studio projects, or try the link again.</p>
+
+        <div class="action-row">
+            <a href="/index.html#home" class="action primary" id="home-link">Return Home</a>
+            <a href="/index.html#projects" class="action secondary" id="projects-link">Open Projects</a>
+        </div>
+
+        <div class="system-note" id="note">AltR Vision fallback route // page not resolved</div>
+    </main>
+    <script>
+        const translations = {
+            hu: {
+                eyebrow: "Jel elveszett",
+                title: "Ez az oldal kicsúszott az aktuális útvonalból.",
+                desc: "A megnyitott cím most nem mutat aktív oldalra. Visszamehetsz a fő jelhez, átnézheted a projekteket, vagy újraellenőrizheted a hivatkozást.",
+                home: "Vissza a főoldalra",
+                projects: "Projektek megnyitása",
+                note: "AltR Vision tartalék útvonal // oldal nem található"
+            },
+            en: {
+                eyebrow: "Signal Lost",
+                title: "This page drifted outside the current route map.",
+                desc: "The address you opened does not point to an active page right now. You can head back to the main signal, review the studio projects, or try the link again.",
+                home: "Return Home",
+                projects: "Open Projects",
+                note: "AltR Vision fallback route // page not resolved"
+            }
+        };
+
+        translations.hu.metaTitle = "404 | AltR Vision";
+        translations.hu.metaDescription = "AltR Vision tartalék oldal olyan útvonalakhoz, amelyek jelenleg nem érhetők el.";
+        translations.hu.metaOgDescription = "Ez az útvonal jelenleg nem elérhető. Térj vissza a fő jelhez vagy nyisd meg a projekteket.";
+        translations.en.metaTitle = "404 | AltR Vision";
+        translations.en.metaDescription = "AltR Vision fallback page for routes that are currently unavailable.";
+        translations.en.metaOgDescription = "This route is currently unavailable. Return to the main signal or open the studio projects.";
+        const lang = localStorage.getItem('selectedLang') === 'en' ? 'en' : 'hu';
+        document.documentElement.lang = lang;
+        const copy = translations[lang];
+        document.title = copy.metaTitle;
+        document.getElementById('meta-description').setAttribute('content', copy.metaDescription);
+        document.getElementById('meta-og-title').setAttribute('content', copy.metaTitle);
+        document.getElementById('meta-og-description').setAttribute('content', copy.metaOgDescription);
+        document.getElementById('meta-twitter-title').setAttribute('content', copy.metaTitle);
+        document.getElementById('meta-twitter-description').setAttribute('content', copy.metaOgDescription);
+        document.getElementById('eyebrow').textContent = copy.eyebrow;
+        document.getElementById('title').textContent = copy.title;
+        document.getElementById('desc').textContent = copy.desc;
+        document.getElementById('home-link').textContent = copy.home;
+        document.getElementById('projects-link').textContent = copy.projects;
+        document.getElementById('note').textContent = copy.note;
+    </script>
+</body>
+</html>

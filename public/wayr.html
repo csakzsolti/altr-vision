@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WayR | AltR Vision</title>
+    <meta name="description" id="meta-description" content="WayR is an AltR Vision logistics concept exploring commuter-powered package delivery, urban routing, and greener movement systems.">
+    <meta property="og:title" id="meta-og-title" content="WayR | AltR Vision">
+    <meta property="og:description" id="meta-og-description" content="A mobility-driven delivery concept shaped around existing routes, lower waste, and a cleaner system layer.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/wayrbrand.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="meta-twitter-title" content="WayR | AltR Vision">
+    <meta name="twitter:description" id="meta-twitter-description" content="A mobility-driven delivery concept shaped around existing routes, lower waste, and a cleaner system layer.">
+    <meta name="twitter:image" content="assets/wayrbrand.png">
+    <link rel="icon" type="image/png" href="assets/altr1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #8b5cf6;
+            --accent-soft: rgba(139, 92, 246, 0.16);
+            --accent-strong: rgba(139, 92, 246, 0.3);
+            --bg: #050507;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-soft: rgba(255, 255, 255, 0.72);
+        }
+        * { box-sizing: border-box; cursor: none !important; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, rgba(139, 92, 246, 0.18), transparent 32%),
+                radial-gradient(circle at bottom right, rgba(0, 229, 255, 0.14), transparent 36%),
+                linear-gradient(180deg, #050507, #0a0b11);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        #particles { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        #cursor {
+            width: 22px; height: 22px; border: 2px solid #00e5ff; border-radius: 50%;
+            position: fixed; top: 0; left: 0; transform: translate3d(-50%, -50%, 0);
+            pointer-events: none; z-index: 9999; box-shadow: 0 0 16px #00e5ff;
+            will-change: transform;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .topbar {
+            position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
+            width: min(1120px, calc(100% - 24px)); display: flex; align-items: center; justify-content: space-between;
+            gap: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 18px;
+            background: rgba(10, 11, 17, 0.92); z-index: 1000;
+        }
+        .topbar-group { display: flex; align-items: center; gap: 10px; }
+        .lang-switcher { display: flex; align-items: center; gap: 8px; }
+        .nav-chip {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 40px;
+            padding: 0 16px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+            color: white; text-decoration: none; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em;
+            text-transform: uppercase; transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .nav-chip:hover { transform: translateY(-2px); border-color: #00e5ff; color: #00e5ff; box-shadow: 0 0 20px rgba(0,229,255,0.18); }
+        .nav-chip.compact { width: 40px; padding: 0; font-size: 1rem; letter-spacing: 0; }
+        .lang-btn {
+            min-width: 42px;
+            height: 40px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+            color: rgba(255,255,255,0.74);
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+        .lang-btn.active {
+            color: white;
+            border-color: #00e5ff;
+            background: rgba(0,229,255,0.08);
+            box-shadow: 0 0 16px rgba(0,229,255,0.18);
+        }
+        .project-shell {
+            width: min(1180px, calc(100% - 32px)); margin: 116px auto 40px;
+            display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr); gap: 34px; align-items: start;
+        }
+        .media-panel, .content-panel {
+            border: 1px solid var(--border); border-radius: 32px; background: rgba(8, 9, 14, 0.72);
+            overflow: hidden; box-shadow: 0 18px 42px rgba(0,0,0,0.26); contain: paint;
+        }
+        .media-panel { position: sticky; top: 104px; }
+        .media-stage {
+            position: relative; aspect-ratio: 1.08 / 1; overflow: hidden;
+            background: radial-gradient(circle at top right, rgba(139,92,246,0.16), transparent 32%), linear-gradient(160deg, rgba(0,229,255,0.08), rgba(12,13,18,0.22)), #0b0d12;
+        }
+        .media-stage::after { content: ""; position: absolute; inset: auto 0 0 0; height: 42%; background: linear-gradient(180deg, transparent, rgba(5,5,7,0.72)); pointer-events: none; }
+        .project-image { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transform: scale(1.01); transition: transform 0.7s ease, opacity 0.7s ease; }
+        .media-panel:hover .project-image { transform: scale(1.03); opacity: 0.93; }
+        .media-badge {
+            position: absolute; left: 24px; bottom: 24px; display: inline-flex; align-items: center; gap: 10px;
+            padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.12); background: rgba(8,11,18,0.88);
+            font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: white;
+        }
+        .media-badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #00e5ff; box-shadow: 0 0 14px #00e5ff; }
+        .content-panel {
+            padding: 38px 38px 40px;
+            background:
+                linear-gradient(180deg, rgba(13, 12, 24, 0.92), rgba(10, 11, 18, 0.9)),
+                radial-gradient(circle at top right, rgba(139, 92, 246, 0.12), transparent 36%);
+            position: relative;
+        }
+        .content-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.6), transparent);
+            pointer-events: none;
+        }
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: 10px; margin-bottom: 18px; color: #00e5ff;
+            font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; font-weight: 700;
+        }
+        .eyebrow::before { content: ""; width: 30px; height: 1px; background: linear-gradient(90deg, #00e5ff, transparent); }
+        .project-title {
+            margin: 0; font-family: 'Orbitron', sans-serif; font-size: clamp(2.8rem, 7vw, 5rem); line-height: 0.94;
+            letter-spacing: -0.06em; text-transform: uppercase; color: white; text-shadow: 0 0 26px rgba(255,255,255,0.08);
+        }
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 10px; margin: 18px 0 20px; padding: 9px 14px; border-radius: 999px;
+            border: 1px solid var(--accent-strong); background: var(--accent-soft); color: #c8b6ff; font-size: 0.72rem;
+            letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700;
+        }
+        .status-badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 10px currentColor; }
+        .project-text { margin: 0; font-size: 1.04rem; line-height: 1.86; color: rgba(255,255,255,0.8); max-width: 56ch; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 32px 0 36px; }
+        .stat-card {
+            min-width: 0;
+            padding: 18px 16px;
+            border-radius: 22px;
+            border: 1px solid rgba(255,255,255,0.09);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)),
+                radial-gradient(circle at top left, rgba(139, 92, 246, 0.14), transparent 58%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+        .stat-label { display: block; margin-bottom: 8px; color: rgba(255,255,255,0.46); font-size: 0.64rem; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 700; }
+        .stat-value { display: block; color: white; font-size: 0.94rem; line-height: 1.4; overflow-wrap: anywhere; }
+        .section-block + .section-block { margin-top: 34px; }
+        .section-block {
+            padding: 24px 24px 22px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.018)),
+                radial-gradient(circle at top right, rgba(139, 92, 246, 0.09), transparent 40%);
+        }
+        .section-title { margin: 0 0 18px; font-size: 0.8rem; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(255,255,255,0.52); font-weight: 800; }
+        .feature-list { display: grid; gap: 14px; }
+        .feature-item {
+            display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 14px; padding: 18px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+        .feature-item:hover { transform: translateY(-2px); border-color: rgba(139, 92, 246, 0.3); background: linear-gradient(180deg, rgba(139,92,246,0.1), rgba(255,255,255,0.04)); }
+        .feature-dot { width: 8px; height: 8px; margin-top: 7px; border-radius: 50%; background: #8b5cf6; box-shadow: 0 0 14px #8b5cf6; }
+        .feature-item strong { display: block; margin-bottom: 6px; font-size: 0.96rem; color: white; }
+        .feature-item span { display: block; color: var(--text-soft); font-size: 0.92rem; line-height: 1.6; }
+        .timeline { display: grid; gap: 12px; }
+        .timeline-row {
+            display: grid;
+            grid-template-columns: 118px minmax(0, 1fr);
+            gap: 16px;
+            padding: 16px 0;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .timeline-row:first-child { border-top: none; padding-top: 0; }
+        .timeline-key { color: rgba(200, 182, 255, 0.86); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.22em; font-weight: 700; }
+        .timeline-value { color: rgba(255,255,255,0.9); line-height: 1.7; }
+        @media (max-width: 1080px) {
+            .project-shell { grid-template-columns: 1fr; }
+            .media-panel { position: relative; top: auto; }
+        }
+        @media (max-width: 720px) {
+            * { cursor: auto !important; }
+            #cursor { display: none; }
+            .topbar { top: 12px; width: calc(100% - 16px); padding: 8px; }
+            .topbar-group { gap: 8px; }
+            .nav-chip { min-height: 38px; padding: 0 12px; font-size: 0.62rem; letter-spacing: 0.16em; }
+            .nav-chip.compact { width: 38px; }
+            .project-shell { width: calc(100% - 18px); margin-top: 86px; gap: 18px; }
+            .content-panel { padding: 24px 18px 26px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .section-block { padding: 20px 18px 18px; }
+            .timeline-row { grid-template-columns: 1fr; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="cursor"></div>
+    <canvas id="particles"></canvas>
+    <nav class="topbar">
+        <div class="topbar-group">
+            <a href="gossipr.html" class="nav-chip compact" aria-label="Previous project">‹</a>
+            <a href="index.html#projects" class="nav-chip" id="btn-home">Főoldal</a>
+        </div>
+        <div class="topbar-group">
+            <a href="projectx.html" class="nav-chip" id="label-next">Következő: Project X</a>
+            <div class="lang-switcher">
+                <button class="lang-btn" id="btn-hu" type="button">HU</button>
+                <button class="lang-btn" id="btn-en" type="button">EN</button>
+            </div>
+        </div>
+    </nav>
+    <main class="project-shell">
+        <section class="media-panel">
+            <div class="media-stage">
+                <img src="assets/wayrbrand.png" alt="WayR preview" class="project-image">
+                <div class="media-badge" id="media-badge">Route Layer</div>
+            </div>
+        </section>
+        <section class="content-panel">
+            <div class="eyebrow" id="eyebrow">Studio System / 02</div>
+            <h1 class="project-title">WayR</h1>
+            <div class="status-badge" id="tag-status">Koncepció / build</div>
+            <p class="project-text" id="wayr-desc"></p>
+            <div class="stats-grid" id="stats-grid"></div>
+            <section class="section-block">
+                <h2 class="section-title" id="features-title">Fő elemek</h2>
+                <div class="feature-list" id="feature-container"></div>
+            </section>
+            <section class="section-block">
+                <h2 class="section-title" id="timeline-title">Miért érdekes</h2>
+                <div class="timeline" id="timeline"></div>
+            </section>
+        </section>
+    </main>
+    <script>
+        const translations = {
+            hu: {
+                btnHome: "Főoldal",
+                nextLabel: "Következő: Project X",
+                eyebrow: "Studio System / 02",
+                mediaBadge: "Route Layer",
+                status: "Koncepció / build",
+                desc: "A WayR egy olyan rendszerkoncepció, ami a meglévő városi mozgást fordítja át okos logisztikai hálózattá. A cél nem újabb futárflotta felépítése, hanem a már létező útvonalak intelligens kihasználása.",
+                featuresTitle: "Fő elemek",
+                timelineTitle: "Miért érdekes",
+                stats: [
+                    { label: "Tér", value: "Urban mobility" },
+                    { label: "Irány", value: "Routing + delivery" },
+                    { label: "Státusz", value: "Concept build" }
+                ],
+                features: [
+                    { title: "100% karbonsemleges irány", desc: "A meglévő közlekedést használja, így nem egy új zajforrást épít a városra." },
+                    { title: "Intelligens illesztés", desc: "A szállítás a már amúgy is megtett útvonalakhoz simul hozzá, minimális kitérővel." },
+                    { title: "WooCommerce-integráció", desc: "A rendszer természetesen kapcsolódhat webshopoldali rendelési folyamatokhoz." },
+                    { title: "Biztonságos átvétel", desc: "QR és OTP alapú átadási logika tarthatja kézben a fizikai találkozási pontokat." }
+                ],
+                timeline: [
+                    { key: "Irány", value: "Logisztika újragondolása több városi érzékenységgel és kevesebb túltermeléssel." },
+                    { key: "Hangulat", value: "Produktív, tiszta és rendszerközpontú felület egy kicsit futurisztikus tónussal." },
+                    { key: "Cél", value: "A mozgás, útvonal és csomagkézbesítés világát egyetlen okos rétegbe rendezni." }
+                ]
+            },
+            en: {
+                btnHome: "Home",
+                nextLabel: "Next: Project X",
+                eyebrow: "Studio System / 02",
+                mediaBadge: "Route Layer",
+                status: "Concept / build",
+                desc: "WayR is a system concept that turns existing urban movement into a smart logistics layer. The goal is not to build yet another courier fleet, but to use already existing routes more intelligently.",
+                featuresTitle: "Core elements",
+                timelineTitle: "Why it matters",
+                stats: [
+                    { label: "Space", value: "Urban mobility" },
+                    { label: "Direction", value: "Routing + delivery" },
+                    { label: "Status", value: "Concept build" }
+                ],
+                features: [
+                    { title: "Carbon-neutral direction", desc: "It uses existing movement instead of adding another noisy logistics layer to the city." },
+                    { title: "Smart matching", desc: "Deliveries align with already planned routes, keeping detours to a minimum." },
+                    { title: "WooCommerce integration", desc: "The system can naturally connect to webshop-side order flows." },
+                    { title: "Secure handover", desc: "QR and OTP-based transfer logic can manage real-world exchange points." }
+                ],
+                timeline: [
+                    { key: "Direction", value: "Rethinking logistics with more urban sensitivity and less waste." },
+                    { key: "Mood", value: "Clean, productive and system-led, with a slightly futuristic tone." },
+                    { key: "Goal", value: "To merge movement, routing and delivery into one intelligent layer." }
+                ]
+            }
+        };
+        translations.hu.metaTitle = "WayR | AltR Vision";
+        translations.hu.metaDescription = "A WayR az AltR Vision logisztikai appkoncepciója, amely az ingázást, útvonalakat és csomagmozgatást intelligens városi réteggé formálná.";
+        translations.hu.metaOgDescription = "Mobilitásalapú csomagszállítási koncepció meglévő útvonalakra, kevesebb pazarlásra és tisztább rendszerlogikára építve.";
+        translations.en.metaTitle = "WayR | AltR Vision";
+        translations.en.metaDescription = "WayR is AltR Vision's logistics concept turning existing commutes and routes into a smarter, greener delivery layer.";
+        translations.en.metaOgDescription = "A mobility-driven delivery concept shaped around existing routes, lower waste, and a cleaner system layer.";
+        let currentLang = localStorage.getItem('selectedLang') === 'en' ? 'en' : 'hu';
+        document.documentElement.lang = currentLang;
+        function renderPage() {
+            const data = translations[currentLang];
+            document.title = data.metaTitle;
+            document.getElementById('meta-description').setAttribute('content', data.metaDescription);
+            document.getElementById('meta-og-title').setAttribute('content', data.metaTitle);
+            document.getElementById('meta-og-description').setAttribute('content', data.metaOgDescription);
+            document.getElementById('meta-twitter-title').setAttribute('content', data.metaTitle);
+            document.getElementById('meta-twitter-description').setAttribute('content', data.metaOgDescription);
+            document.getElementById('btn-home').textContent = data.btnHome;
+            document.getElementById('label-next').textContent = data.nextLabel;
+            document.getElementById('eyebrow').textContent = data.eyebrow;
+            document.getElementById('media-badge').textContent = data.mediaBadge;
+            document.getElementById('tag-status').textContent = data.status;
+            document.getElementById('wayr-desc').textContent = data.desc;
+            document.getElementById('features-title').textContent = data.featuresTitle;
+            document.getElementById('timeline-title').textContent = data.timelineTitle;
+            document.getElementById('stats-grid').innerHTML = data.stats.map(item => `<div class="stat-card"><span class="stat-label">${item.label}</span><span class="stat-value">${item.value}</span></div>`).join('');
+            document.getElementById('feature-container').innerHTML = data.features.map(item => `<article class="feature-item"><div class="feature-dot"></div><div><strong>${item.title}</strong><span>${item.desc}</span></div></article>`).join('');
+            document.getElementById('timeline').innerHTML = data.timeline.map(item => `<div class="timeline-row"><div class="timeline-key">${item.key}</div><div class="timeline-value">${item.value}</div></div>`).join('');
+            document.getElementById('btn-hu').classList.toggle('active', currentLang === 'hu');
+            document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+            document.documentElement.lang = currentLang;
+        }
+        renderPage();
+        document.getElementById('btn-hu').addEventListener('click', () => {
+            currentLang = 'hu';
+            localStorage.setItem('selectedLang', 'hu');
+            renderPage();
+        });
+        document.getElementById('btn-en').addEventListener('click', () => {
+            currentLang = 'en';
+            localStorage.setItem('selectedLang', 'en');
+            renderPage();
+        });
+        const cursor = document.getElementById('cursor');
+        let mouseX = -100;
+        let mouseY = -100;
+        let hasMoved = false;
+        document.addEventListener('mousemove', event => {
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            if (!hasMoved) {
+                hasMoved = true;
+                cursor.style.opacity = '1';
+            }
+        });
+        function renderCursor() {
+            if (hasMoved && window.innerWidth > 720) {
+                cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+            }
+            requestAnimationFrame(renderCursor);
+        }
+        renderCursor();
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = Array.from({ length: 18 }, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.8 + 0.6, speedX: (Math.random() - 0.5) * 0.16, speedY: (Math.random() - 0.5) * 0.16, opacity: Math.random() }));
+        }
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.y > canvas.height) particle.y = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                ctx.fillStyle = `rgba(0, 229, 255, ${particle.opacity * 0.3})`;
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        window.addEventListener('resize', initParticles);
+        initParticles();
+        drawParticles();
+    </script>
+</body>
+</html>

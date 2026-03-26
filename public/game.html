@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; overflow: hidden; background: #050507; font-family: 'Orbitron', monospace; cursor: none; }
+        canvas { width: 100vw; height: 100vh; display: block; }
+        
+        #msg {
+            position: absolute; top: 15px; left: 15px;
+            color: #00ff41; font-size: 14px; letter-spacing: 2px;
+            text-transform: uppercase; text-shadow: 0 0 8px #00ff41;
+            background: rgba(0,0,0,0.85); padding: 12px; border: 1px solid #00ff41; border-radius: 4px;
+            z-index: 10; pointer-events: none; line-height: 1.6;
+        }
+
+        #buffs {
+            position: absolute; top: 15px; right: 15px;
+            display: flex; flex-direction: column; gap: 10px;
+            z-index: 10; pointer-events: none; text-align: right;
+        }
+
+        .buff {
+            font-size: 14px; letter-spacing: 2px; text-transform: uppercase;
+            background: rgba(0,0,0,0.85); padding: 10px 15px; border-radius: 4px;
+        }
+
+        .buff-s { color: #00e5ff; border: 1px solid #00e5ff; text-shadow: 0 0 8px #00e5ff; }
+        .buff-w { color: #ffffff; border: 1px solid #ffffff; text-shadow: 0 0 8px #ffffff; }
+        .buff-x { color: #ff4df0; border: 1px solid #ff4df0; text-shadow: 0 0 8px #ff4df0; }
+
+        #milestone {
+            position: absolute; left: 0; width: 100%; text-align: center; top: 34%;
+            color: #ff007f; font-size: 32px; font-weight: bold;
+            text-transform: uppercase; letter-spacing: 6px;
+            text-shadow: 0 0 20px #ff007f; pointer-events: none;
+            display: none; flex-direction: column; align-items: center; z-index: 10;
+            box-sizing: border-box;
+        }
+
+        #win-text {
+            font-size: clamp(22px, 4vw, 40px);
+            line-height: 1.2;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        #countdown { font-size: 60px; color: #00e5ff; margin-top: 20px; }
+        #end-subtext { margin-top: 14px; font-size: 13px; letter-spacing: 3px; color: rgba(255,255,255,0.72); }
+        #end-joke { margin-top: 18px; font-size: 13px; letter-spacing: 0.4px; color: rgba(255,255,255,0.88); max-width: 520px; line-height: 1.55; padding-bottom: 72px; }
+        #restart-hint {
+            position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+            color: #00e5ff; font-size: 16px; letter-spacing: 3px; text-transform: uppercase;
+            text-shadow: 0 0 12px rgba(0,229,255,0.55); z-index: 11; display: none; text-align: center;
+            padding: 10px 16px; border: 1px solid rgba(0,229,255,0.28); border-radius: 10px;
+            background: rgba(0,0,0,0.35);
+            pointer-events: none;
+        }
+        #restart-hint .key {
+            color: #00e5ff;
+            text-shadow: 0 0 18px rgba(0,229,255,0.85);
+            font-weight: 800;
+        }
+        #restart-hint .rest {
+            color: rgba(255,255,255,0.72);
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        @media (max-width: 768px) and (pointer: coarse) {
+            body {
+                overscroll-behavior: none;
+                touch-action: manipulation;
+            }
+
+            #msg {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                font-size: 11px;
+                letter-spacing: 1.4px;
+                padding: 10px;
+                line-height: 1.45;
+            }
+
+            #buffs {
+                top: auto;
+                right: 10px;
+                left: 10px;
+                bottom: 10px;
+                gap: 8px;
+                align-items: stretch;
+                text-align: left;
+            }
+
+            .buff {
+                font-size: 11px;
+                letter-spacing: 1.4px;
+                padding: 9px 12px;
+            }
+
+            #milestone {
+                top: 14%;
+                padding: 0 16px;
+            }
+
+            #win-text {
+                font-size: 20px;
+                max-width: 100%;
+                letter-spacing: 3px;
+            }
+
+            #end-subtext {
+                font-size: 11px;
+                letter-spacing: 2px;
+                max-width: 100%;
+                padding: 0 8px;
+            }
+
+            #end-joke {
+                font-size: 12px;
+                max-width: 100%;
+                line-height: 1.5;
+                padding-bottom: 108px;
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+
+            #restart-hint {
+                left: 12px;
+                right: 12px;
+                bottom: 12px;
+                transform: none;
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+
+            #restart-hint .rest {
+                font-size: 11px;
+                line-height: 1.4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="msg"></div>
+    <div id="buffs"></div> 
+    <div id="restart-hint"></div>
+    
+    <div id="milestone">
+        <div id="win-text"></div>
+        <div id="end-subtext"></div>
+        <div id="end-joke"></div>
+        <div id="countdown">5</div>
+    </div>
+
+    <canvas id="g"></canvas>
+    
+    <script>
+    const canvas = document.getElementById('g');
+    const ctx = canvas.getContext('2d');
+    const msgEl = document.getElementById('msg');
+    const buffsEl = document.getElementById('buffs');
+    const restartHintEl = document.getElementById('restart-hint');
+    const mileEl = document.getElementById('milestone');
+    const winTextEl = document.getElementById('win-text');
+    const endSubtextEl = document.getElementById('end-subtext');
+    const endJokeEl = document.getElementById('end-joke');
+    const countEl = document.getElementById('countdown');
+
+    let isEn = localStorage.getItem('selectedLang') === 'en' || 
+               document.documentElement.lang === 'en' || 
+               new URLSearchParams(window.location.search).get('lang') === 'en';
+
+    let txt = {};
+    function updateTexts() {
+        txt = {
+            init: isEn ? "INITIALIZING TERMINAL..." : "TERMINÁL INICIALIZÁLÁSA...",
+            win: isEn ? "Oh no. We lost 100 MB of data. :(" : "Jaj ne. Elvesztettünk 100 MB adatot. :(",
+            crash: isEn ? "SYSTEM CRASHED! REBOOTING..." : "RENDSZER ÖSSZEOMLOTT! ÚJRAINDÍTÁS...",
+            boss: isEn ? "WARNING: MAINFRAME CORE DETECTED!" : "FIGYELEM: MAINFRAME CORE DETEKTÁLVA!",
+            shield: isEn ? "SHIELD" : "PAJZS",
+            weapon: isEn ? "WEAPON" : "FEGYVER",
+            superWeapon: isEn ? "OVERDRIVE" : "TURBÓ",
+            data: isEn ? "DATA" : "ADAT",
+            superDrop: isEn ? "OVERDRIVE WEAPON ONLINE!" : "TURBÓ FEGYVER ONLINE!",
+            final: isEn ? "SYSTEM BREACH COMPLETE" : "RENDSZERFELTÖRÉS KÉSZ",
+            finalSub: isEn ? "CORE DESTABILIZED // LEGAL TEAM PANICKING" : "MAG INSTABIL // A JOGI OSZTALY PANIKOL",
+            finalJoke: isEn ? "Great work. We definitely should not have left that port open." : "Szép munka. Ezt a portot valószínűleg nem kellett volna nyitva hagynunk.",
+            finalRestartKey: isEn ? "PRESS R" : "NYOMJ R-T",
+            finalRestartRest: isEn ? "to open the 100 MB package" : "a 100 MB csomag megnyitásához",
+            finalHud: isEn ? "PACKAGE ACQUIRED" : "CSOMAG MEGSZEREZVE",
+            bossFail: isEn ? "TRACE LOST // MAINFRAME SEALED THE EXIT" : "A NYOM ELVESZETT // A MAINFRAME LEZÁRTA A KIJÁRATOT",
+            bossFailSub: isEn ? "REBOOTING INTRUSION ROUTE..." : "A BESZIVÁRGÁSI ÚTVONAL ÚJRAÉPÜL...",
+            bossPulse: isEn ? "MAINFRAME PULSE INCOMING!" : "ÉRKEZIK A MAINFRAME IMPULZUS!",
+            bossTrace: isEn ? "TRACE SPIKES DEPLOYED!" : "NYOMKÖVETŐ TÜSKÉK AKTIVÁLVA!",
+            bossBeam: isEn ? "CORE BEAM LOCKED // MOVE!" : "A MAGCSÓVA BECÉLZOTT // MOZOGJ!"
+        };
+        
+        if (msgEl) msgEl.innerText = txt.init;
+        if (winTextEl) winTextEl.innerText = txt.win;
+        if (endSubtextEl) endSubtextEl.innerText = txt.finalSub;
+        if (endJokeEl) endJokeEl.innerText = txt.finalJoke;
+        if (restartHintEl) {
+            restartHintEl.innerHTML = `<span class="key">${txt.finalRestartKey}</span><span class="rest">${txt.finalRestartRest}</span>`;
+        }
+    }
+    
+    updateTexts();
+
+    window.addEventListener('message', (event) => {
+        if (event.data.type === 'SET_LANG') {
+            isEn = (event.data.lang === 'en');
+            updateTexts();
+        }
+        else if (gameActive) {
+            msgEl.innerText = boss.active ? txt.boss : `${txt.data}: ${score} MB/100 MB`;
+        }
+    });
+
+    let score = 0;
+    let gameActive = true;
+    let flashRed = 0, shake = 0, crashTimer = 0;
+    let shieldTime = 0, weaponTime = 0, superWeaponTime = 0;
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || ('ontouchstart' in window);
+    const playerFollow = isTouchDevice ? 0.29 : 0.15;
+    const pickupRadius = isTouchDevice ? 46 : 30;
+    const bossTraceInterval = isTouchDevice ? 145 : 90;
+    const bossPulseInterval = isTouchDevice ? 315 : 210;
+    const bossBeamInterval = isTouchDevice ? 455 : 300;
+    const bossSupplyInterval = isTouchDevice ? 145 : 240;
+    const bossProjectileSpeed = isTouchDevice ? 4 : 5.5;
+    const bossPulseSpeed = isTouchDevice ? 3.2 : 4.2;
+    const shieldDuration = isTouchDevice ? 620 : 420;
+    const weaponDuration = isTouchDevice ? 600 : 420;
+    const superWeaponDuration = isTouchDevice ? 500 : 360;
+    const bossSkipHoldMs = 3000;
+    let player = { x: window.innerWidth/2, y: window.innerHeight/2, targetX: window.innerWidth/2, targetY: window.innerHeight/2 };
+    let items = [], enemies = [], bullets = [], bossProjectiles = [];
+    let boss = { active: false, x: 0, y: 0, hp: 200, maxHp: 200, angle: 0 };
+    let finalEventTimer = 0;
+    let winMessageTicker = 0;
+    let superWeaponDropped = false;
+    let endOverlayPhase = 0;
+    let typedSecret = "";
+    let bossAttackTimer = 0;
+    let bossSupplyTimer = 0;
+    let bossBeam = null;
+    let bossFailTimer = 0;
+    let holdBossSkipTimer = null;
+    let pointerLocked = false;
+
+    function resize() {
+        const width = Math.max(1, Math.round(canvas.clientWidth || window.innerWidth));
+        const height = Math.max(1, Math.round(canvas.clientHeight || window.innerHeight));
+        if (canvas.width === width && canvas.height === height) return;
+        canvas.width = width;
+        canvas.height = height;
+    }
+    window.onresize = resize;
+    resize();
+
+    window.onmousemove = (e) => {
+        if (!gameActive || pointerLocked) return;
+        player.targetX = e.clientX;
+        player.targetY = e.clientY;
+    };
+
+    window.addEventListener('touchstart', (e) => {
+        if (!gameActive) {
+            if (restartHintEl.style.display === "block") {
+                openLootPackage();
+                e.preventDefault();
+            }
+            return;
+        }
+        player.targetX = e.touches[0].clientX;
+        player.targetY = e.touches[0].clientY;
+        player.x += (player.targetX - player.x) * 0.55;
+        player.y += (player.targetY - player.y) * 0.55;
+        if (isTouchDevice && !boss.active && score < 90 && !holdBossSkipTimer) {
+            holdBossSkipTimer = window.setTimeout(() => {
+                activateBossSkip();
+                holdBossSkipTimer = null;
+            }, bossSkipHoldMs);
+        }
+        e.preventDefault();
+    }, { passive: false });
+
+    canvas.addEventListener('click', () => {
+        if (isTouchDevice || pointerLocked || !gameActive) return;
+        if (canvas.requestPointerLock) canvas.requestPointerLock();
+    });
+    canvas.addEventListener('contextmenu', (e) => {
+        if (!pointerLocked) return;
+        e.preventDefault();
+        document.exitPointerLock?.();
+    });
+    canvas.addEventListener('wheel', (e) => {
+        if (!pointerLocked) return;
+        e.preventDefault();
+        document.exitPointerLock?.();
+    }, { passive: false });
+
+    document.addEventListener('pointerlockchange', () => {
+        pointerLocked = document.pointerLockElement === canvas;
+        if (pointerLocked) {
+            msgEl.innerText = isEn
+                ? "POINTER LOCK ACTIVE // ESC TO RELEASE"
+                : "POINTER LOCK AKTÍV // ESC A KILÉPÉSHEZ";
+        }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!pointerLocked || !gameActive) return;
+        player.targetX = Math.max(0, Math.min(canvas.width, player.targetX + e.movementX));
+        player.targetY = Math.max(0, Math.min(canvas.height, player.targetY + e.movementY));
+    });
+
+    window.addEventListener('touchend', () => {
+        if (holdBossSkipTimer) {
+            clearTimeout(holdBossSkipTimer);
+            holdBossSkipTimer = null;
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchcancel', () => {
+        if (holdBossSkipTimer) {
+            clearTimeout(holdBossSkipTimer);
+            holdBossSkipTimer = null;
+        }
+    }, { passive: true });
+
+    function openLootPackage() {
+        if (isTouchDevice) {
+            window.location.href = '100mbadat.html';
+            return;
+        }
+        const lootWindow = window.open('100mbadat.html', '_blank');
+        if (!lootWindow) {
+            if (window.top && window.top !== window) window.top.location.href = '100mbadat.html';
+            else window.location.href = '100mbadat.html';
+        }
+    }
+
+    function activateBossSkip() {
+        if (!gameActive) return;
+        if (holdBossSkipTimer) {
+            clearTimeout(holdBossSkipTimer);
+            holdBossSkipTimer = null;
+        }
+        score = 90;
+        boss.active = true;
+        boss.hp = 200;
+        boss.x = canvas.width / 2;
+        boss.y = canvas.height / 2;
+        enemies = [];
+        items = [];
+        bullets = [];
+        bossProjectiles = [];
+        bossBeam = null;
+        shieldTime = Math.max(shieldTime, isTouchDevice ? 340 : 240);
+        weaponTime = Math.max(weaponTime, isTouchDevice ? 340 : 240);
+        superWeaponTime = 0;
+        superWeaponDropped = false;
+        bossAttackTimer = 0;
+        bossSupplyTimer = 0;
+        crashTimer = 0;
+        msgEl.innerText = isTouchDevice
+            ? (isEn ? "HOLD DETECTED // BOSSFIGHT UNLOCKED" : "HOSSZÚ NYOMÁS ÉRZÉKELVE // BOSSHARC AKTIVÁLVA")
+            : (isEn ? "CHEAT ACCEPTED // BOSSFIGHT UNLOCKED" : "CSALÁS ELFOGADVA // BOSSHARC AKTIVÁLVA");
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (!gameActive && e.key.toLowerCase() === 'r') {
+            openLootPackage();
+            return;
+        }
+        if (e.shiftKey && e.key.toLowerCase() === 'b') {
+            activateBossSkip();
+            return;
+        }
+
+        if (e.key.length === 1) {
+            typedSecret += e.key.toLowerCase();
+            if (typedSecret.endsWith("boss")) {
+                activateBossSkip();
+                typedSecret = "";
+            }
+            if (typedSecret.length > 12) typedSecret = typedSecret.slice(-12);
+        }
+    });
+
+    function isPlayerInBeam(beam) {
+        const dx = Math.cos(beam.angle);
+        const dy = Math.sin(beam.angle);
+        const px = player.x - boss.x;
+        const py = player.y - boss.y;
+        const projection = px * dx + py * dy;
+        if (projection < 0) return false;
+        const perpendicular = Math.abs(px * dy - py * dx);
+        return perpendicular < beam.width + 12;
+    }
+
+    function drawCenteredLines(lines, startY, font, color, lineHeight, shadowColor) {
+        ctx.save();
+        ctx.textAlign = "center";
+        ctx.fillStyle = color;
+        ctx.shadowBlur = 18;
+        ctx.shadowColor = shadowColor;
+        ctx.font = font;
+        lines.forEach((line, index) => {
+            ctx.fillText(line, canvas.width / 2, startY + index * lineHeight);
+        });
+        ctx.restore();
+    }
+
+    function spawn(type) {
+        let x, y;
+        let speedMult = 1 + (Math.min(score, 60) / 42) + (Math.max(0, score - 60) / 84); 
+        if (['i', 's', 'w'].includes(type)) {
+            x = Math.random() * (canvas.width - 60) + 30;
+            y = Math.random() * (canvas.height - 60) + 30;
+        } else {
+            const side = Math.floor(Math.random() * 4);
+            if(side === 0) { x = Math.random() * canvas.width; y = -30; }
+            else if(side === 1) { x = canvas.width + 30; y = Math.random() * canvas.height; }
+            else if(side === 2) { x = Math.random() * canvas.width; y = canvas.height + 30; }
+            else { x = -30; y = Math.random() * canvas.height; }
+        }
+        return {
+            x, y, vx: (Math.random()-0.5)*4*speedMult, vy: (Math.random()-0.5)*4*speedMult,
+            s: type === 'e' ? 14 : 12, type, angle: 0,
+            isTracker: type === 'e' && score > 15 && Math.random() > 0.6
+        };
+    }
+
+    function resetGame() {
+        if (!gameActive || shieldTime > 0) return;
+        flashRed = 80; shake = 20; score = 0; boss.active = false;
+        enemies = []; items = []; bullets = []; bossProjectiles = []; weaponTime = 0; superWeaponTime = 0;
+        superWeaponDropped = false;
+        bossAttackTimer = 0;
+        bossSupplyTimer = 0;
+        bossBeam = null;
+        bossFailTimer = 0;
+        crashTimer = 150;
+        buffsEl.innerHTML = ""; 
+    }
+
+    function triggerBossFail() {
+        if (!gameActive || !boss.active) {
+            resetGame();
+            return;
+        }
+        gameActive = false;
+        bossFailTimer = 280;
+        shieldTime = 0;
+        weaponTime = 0;
+        superWeaponTime = 0;
+        bossProjectiles = [];
+        bullets = [];
+        items = [];
+        bossBeam = null;
+        buffsEl.innerHTML = "";
+        msgEl.innerText = txt.bossFail;
+        endSubtextEl.innerText = txt.bossFailSub;
+        shake = 16;
+        flashRed = 40;
+    }
+
+    function triggerWin() {
+        gameActive = false;
+        shieldTime = 0;
+        weaponTime = 0;
+        superWeaponTime = 0;
+        enemies = [];
+        items = [];
+        bullets = [];
+        bossProjectiles = [];
+        bossBeam = null;
+        buffsEl.innerHTML = "";
+        msgEl.innerText = txt.finalHud;
+        mileEl.style.display = "flex";
+        winTextEl.innerText = txt.final;
+        endSubtextEl.innerText = txt.finalSub;
+        endJokeEl.innerText = txt.finalJoke;
+        finalEventTimer = 240;
+        winMessageTicker = 0;
+        endOverlayPhase = 0;
+        countEl.innerText = "";
+        restartHintEl.innerHTML = isTouchDevice
+            ? `<span class="key">${isEn ? "TAP" : "KOPPINTS"}</span><span class="rest">${isEn ? "to open the 100 MB package" : "a 100 MB csomag megnyitásához"}</span>`
+            : `<span class="key">${txt.finalRestartKey}</span><span class="rest">${txt.finalRestartRest}</span>`;
+        restartHintEl.style.display = "block";
+    }
+
+    function draw() {
+        resize();
+        if (gameActive && restartHintEl.style.display !== "none") restartHintEl.style.display = "none";
+        let sx = (Math.random()-0.5)*shake;
+        let sy = (Math.random()-0.5)*shake;
+        
+        ctx.fillStyle = flashRed > 0 ? `rgba(255, 0, 0, ${flashRed/100})` : "rgba(5, 5, 10, 1)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        if(flashRed > 0) flashRed -= 2;
+        if(shake > 0) shake -= 1;
+
+        if (!gameActive && bossFailTimer > 0) {
+            bossFailTimer--;
+            const progress = 1 - (bossFailTimer / 280);
+            const failTitleLines = isEn
+                ? ["TRACE LOST", "MAINFRAME SEALED THE EXIT"]
+                : ["A NYOM ELVESZETT", "A MAINFRAME LEZÁRTA A KIJÁRATOT"];
+            ctx.save();
+            ctx.globalAlpha = 0.18 + progress * 0.25;
+            ctx.fillStyle = "#ff2a6d";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.restore();
+
+            for (let i = 0; i < 10; i++) {
+                ctx.fillStyle = `rgba(255, ${40 + Math.floor(Math.random() * 80)}, ${120 + Math.floor(Math.random() * 80)}, 0.45)`;
+                ctx.fillRect(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    40 + Math.random() * 160,
+                    2 + Math.random() * 8
+                );
+            }
+
+            drawCenteredLines(
+                failTitleLines,
+                canvas.height * (isTouchDevice ? 0.33 : 0.37),
+                isTouchDevice ? "700 15px Orbitron, monospace" : "700 22px Orbitron, monospace",
+                "#ffffff",
+                isTouchDevice ? 22 : 30,
+                "#ff2a6d"
+            );
+            drawCenteredLines(
+                [txt.bossFailSub],
+                canvas.height * (isTouchDevice ? 0.46 : 0.49),
+                isTouchDevice ? "500 10px Orbitron, monospace" : "500 13px Orbitron, monospace",
+                "rgba(255,255,255,0.78)",
+                18,
+                "#ff2a6d"
+            );
+
+            if (bossFailTimer <= 0) {
+                gameActive = true;
+                resetGame();
+            }
+            requestAnimationFrame(draw);
+            return;
+        }
+
+        if (gameActive) {
+            player.x += (player.targetX - player.x) * playerFollow;
+            player.y += (player.targetY - player.y) * playerFollow;
+            
+            if(shieldTime > 0) shieldTime--;
+            if(weaponTime > 0) {
+                weaponTime--;
+                if(weaponTime % 10 === 0) {
+                    let baseAngle = Math.atan2(player.targetY - player.y, player.targetX - player.x);
+                    [baseAngle, baseAngle - 0.2, baseAngle + 0.2].forEach(a => {
+                        bullets.push({x: player.x, y: player.y, vx: Math.cos(a)*14, vy: Math.sin(a)*14});
+                    });
+                }
+            }
+            if(superWeaponTime > 0) {
+                superWeaponTime--;
+                if(superWeaponTime % 4 === 0) {
+                    for(let i = 0; i < 6; i++) {
+                        const angle = (Math.PI * 2 * i) / 6 + Date.now() * 0.002;
+                        bullets.push({x: player.x, y: player.y, vx: Math.cos(angle)*16, vy: Math.sin(angle)*16, superShot: true});
+                    }
+                }
+            }
+
+            if(score >= 90 && !boss.active) {
+                boss.active = true; boss.hp = 200; boss.x = canvas.width/2; boss.y = canvas.height/2;
+                enemies = []; items = items.filter(i => i.type === 'w' || i.type === 'x');
+                bossProjectiles = [];
+                bossAttackTimer = 0;
+                bossSupplyTimer = 0;
+                bossBeam = null;
+            }
+
+            if (boss.active && boss.hp <= 120 && !superWeaponDropped) {
+                const drop = spawn('w');
+                drop.type = 'x';
+                drop.x = Math.max(40, Math.min(canvas.width - 40, boss.x));
+                drop.y = Math.max(40, Math.min(canvas.height - 40, boss.y + 120));
+                drop.vx = 0;
+                drop.vy = 0;
+                drop.s = 16;
+                items.push(drop);
+                superWeaponDropped = true;
+                msgEl.innerText = txt.superDrop;
+            }
+
+            if (boss.active) {
+                bossAttackTimer++;
+                bossSupplyTimer++;
+
+                if (bossAttackTimer % bossTraceInterval === 0) {
+                    const angle = Math.atan2(player.y - boss.y, player.x - boss.x);
+                    (isTouchDevice ? [-0.1, 0.1] : [-0.28, 0, 0.28]).forEach(offset => {
+                        bossProjectiles.push({
+                            x: boss.x,
+                            y: boss.y,
+                            vx: Math.cos(angle + offset) * bossProjectileSpeed,
+                            vy: Math.sin(angle + offset) * bossProjectileSpeed,
+                            size: isTouchDevice ? 8 : 7,
+                            pulse: false
+                        });
+                    });
+                    msgEl.innerText = txt.bossTrace;
+                }
+
+                if (bossAttackTimer % bossPulseInterval === 0) {
+                    const pulseCount = isTouchDevice ? 4 : 10;
+                    for (let i = 0; i < pulseCount; i++) {
+                        const angle = (Math.PI * 2 * i) / pulseCount;
+                        bossProjectiles.push({
+                            x: boss.x,
+                            y: boss.y,
+                            vx: Math.cos(angle) * bossPulseSpeed,
+                            vy: Math.sin(angle) * bossPulseSpeed,
+                            size: isTouchDevice ? 8 : 9,
+                            pulse: true
+                        });
+                    }
+                    shake = Math.max(shake, 10);
+                    msgEl.innerText = txt.bossPulse;
+                }
+
+                if (bossAttackTimer % bossBeamInterval === 0 && !bossBeam) {
+                    bossBeam = {
+                        angle: Math.atan2(player.y - boss.y, player.x - boss.x),
+                        charge: isTouchDevice ? 110 : 55,
+                        fire: isTouchDevice ? 18 : 38,
+                        width: isTouchDevice ? 10 : 18
+                    };
+                    msgEl.innerText = txt.bossBeam;
+                }
+
+                if (bossSupplyTimer >= bossSupplyInterval && items.filter(i => i.type === 's' || i.type === 'w' || i.type === 'x').length < (isTouchDevice ? 4 : 2)) {
+                    const supply = spawn(boss.hp < 90 ? 's' : (Math.random() > 0.45 ? 'w' : 's'));
+                    supply.x = Math.random() * (canvas.width - 80) + 40;
+                    supply.y = Math.random() * (canvas.height - 120) + 60;
+                    supply.vx *= 0.4;
+                    supply.vy *= 0.4;
+                    items.push(supply);
+                    bossSupplyTimer = 0;
+                }
+            }
+
+            if (crashTimer > 0) {
+                msgEl.innerText = txt.crash;
+                crashTimer--;
+            } else {
+                msgEl.innerText = boss.active ? txt.boss : `${txt.data}: ${score} MB/100 MB`;
+            }
+
+            let buffsHTML = "";
+            if (shieldTime > 0) buffsHTML += `<div class="buff buff-s">${txt.shield}: ${(shieldTime/60).toFixed(1)}s</div>`;
+            if (weaponTime > 0) buffsHTML += `<div class="buff buff-w">${txt.weapon}: ${(weaponTime/60).toFixed(1)}s</div>`;
+            if (superWeaponTime > 0) buffsHTML += `<div class="buff buff-x">${txt.superWeapon}: ${(superWeaponTime/60).toFixed(1)}s</div>`;
+            buffsEl.innerHTML = buffsHTML;
+        }
+
+        ctx.save();
+        ctx.translate(sx, sy);
+
+        if (!gameActive && mileEl.style.display === "flex" && bossFailTimer <= 0) {
+            const gradient = ctx.createRadialGradient(
+                canvas.width * 0.5,
+                canvas.height * 0.42,
+                30,
+                canvas.width * 0.5,
+                canvas.height * 0.42,
+                Math.max(canvas.width, canvas.height) * 0.7
+            );
+            gradient.addColorStop(0, "rgba(255, 0, 127, 0.16)");
+            gradient.addColorStop(0.55, "rgba(0, 229, 255, 0.08)");
+            gradient.addColorStop(1, "rgba(5, 5, 10, 0)");
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < 8; i++) {
+                const y = canvas.height * 0.16 + i * (canvas.height * 0.08);
+                ctx.fillStyle = `rgba(255,255,255,${0.025 + (i % 2) * 0.02})`;
+                ctx.fillRect(canvas.width * 0.14, y, canvas.width * 0.72, 1);
+            }
+
+            ctx.save();
+            ctx.globalAlpha = 0.16;
+            ctx.strokeStyle = "#00e5ff";
+            ctx.lineWidth = 1;
+            ctx.strokeRect(canvas.width * 0.14, canvas.height * 0.14, canvas.width * 0.72, canvas.height * 0.56);
+            ctx.restore();
+        }
+
+        if (gameActive) {
+            if (shieldTime > 0) {
+                ctx.beginPath();
+                ctx.arc(player.x, player.y, 35 + Math.sin(Date.now()*0.01)*5, 0, Math.PI*2);
+                ctx.strokeStyle = "#00e5ff";
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = "#00e5ff";
+                ctx.stroke();
+            }
+            if (weaponTime > 0) {
+                ctx.save();
+                ctx.translate(player.x, player.y);
+                ctx.rotate(Date.now() * 0.008);
+                ctx.strokeStyle = "white";
+                ctx.lineWidth = 2;
+                for(let i=0; i<4; i++) {
+                    ctx.rotate(Math.PI/2);
+                    ctx.beginPath(); ctx.moveTo(25, 0); ctx.lineTo(35, 0); ctx.stroke();
+                }
+                ctx.restore();
+            }
+        }
+
+        if(boss.active) {
+            boss.angle += 0.02;
+            const bossRadius = isTouchDevice ? 58 : 75;
+            ctx.save();
+            ctx.translate(boss.x, boss.y);
+            ctx.rotate(boss.angle);
+            ctx.strokeStyle = "red"; ctx.lineWidth = 5; ctx.shadowBlur = 20; ctx.shadowColor = "red";
+            ctx.beginPath();
+            for(let i=0; i<6; i++) { ctx.lineTo(bossRadius * Math.cos(i * Math.PI/3), bossRadius * Math.sin(i * Math.PI/3)); }
+            ctx.closePath(); ctx.stroke();
+            ctx.restore();
+            
+            ctx.fillStyle = "#330000"; ctx.fillRect(boss.x - 50, boss.y - 110, 100, 8);
+            ctx.fillStyle = "red"; ctx.fillRect(boss.x - 50, boss.y - 110, boss.hp, 8);
+            
+            if(gameActive && Math.random() < 0.1) {
+                let a = Math.random() * Math.PI * 2;
+                enemies.push({x: boss.x, y: boss.y, vx: Math.cos(a)*6, vy: Math.sin(a)*6, s: 8, type: 'e', isTracker: false});
+            }
+        }
+
+        if (bossBeam) {
+            const beamLength = Math.max(canvas.width, canvas.height) * 1.4;
+            const beamEndX = boss.x + Math.cos(bossBeam.angle) * beamLength;
+            const beamEndY = boss.y + Math.sin(bossBeam.angle) * beamLength;
+            const chargeMax = isTouchDevice ? 110 : 55;
+            const progress = bossBeam.charge > 0 ? 1 - (bossBeam.charge / chargeMax) : 1;
+
+            ctx.save();
+            ctx.lineCap = "round";
+            if (bossBeam.charge > 0) {
+                ctx.strokeStyle = `rgba(255, 230, 0, ${0.25 + progress * 0.55})`;
+                ctx.lineWidth = 6 + progress * 10;
+                ctx.shadowBlur = 18;
+                ctx.shadowColor = "#ffee58";
+            } else {
+                ctx.strokeStyle = "rgba(255, 70, 70, 0.92)";
+                ctx.lineWidth = bossBeam.width;
+                ctx.shadowBlur = 28;
+                ctx.shadowColor = "#ff4040";
+            }
+            ctx.beginPath();
+            ctx.moveTo(boss.x, boss.y);
+            ctx.lineTo(beamEndX, beamEndY);
+            ctx.stroke();
+            ctx.restore();
+
+            if (bossBeam.charge > 0) {
+                bossBeam.charge--;
+            } else {
+                if (isPlayerInBeam(bossBeam)) {
+                    if (shieldTime > 0) {
+                        shieldTime = Math.max(0, shieldTime - (isTouchDevice ? 34 : 45));
+                        shake = Math.max(shake, 12);
+                    } else {
+                        triggerBossFail();
+                    }
+                }
+                bossBeam.fire--;
+                if (bossBeam.fire <= 0) bossBeam = null;
+            }
+        }
+
+        bossProjectiles.forEach((shot, si) => {
+            shot.x += shot.vx;
+            shot.y += shot.vy;
+            ctx.save();
+            ctx.translate(shot.x, shot.y);
+            ctx.shadowBlur = shot.pulse ? 20 : 12;
+            ctx.shadowColor = shot.pulse ? "#ff007f" : "#ff7a00";
+
+            if (shot.pulse) {
+                ctx.rotate(Date.now() * 0.004);
+                ctx.strokeStyle = "#ff007f";
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.arc(0, 0, shot.size + 2, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = (Math.PI * 2 * i) / 6;
+                    const radius = i === 0 ? shot.size + 6 : shot.size + 3;
+                    const x = Math.cos(angle) * radius;
+                    const y = Math.sin(angle) * radius;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.stroke();
+            } else {
+                ctx.rotate(Math.atan2(shot.vy, shot.vx) + Math.PI / 2);
+                ctx.fillStyle = "#ff7a00";
+                ctx.beginPath();
+                ctx.moveTo(0, -shot.size - 4);
+                ctx.lineTo(shot.size * 0.8, shot.size + 3);
+                ctx.lineTo(-shot.size * 0.8, shot.size + 3);
+                ctx.closePath();
+                ctx.fill();
+                ctx.fillStyle = "#ffd166";
+                ctx.fillRect(-1.5, -shot.size, 3, shot.size + 5);
+            }
+            ctx.restore();
+
+            if (Math.hypot(player.x - shot.x, player.y - shot.y) < 24 + shot.size) {
+                if (shieldTime > 0) {
+                    bossProjectiles.splice(si, 1);
+                    shake = 8;
+                } else {
+                    triggerBossFail();
+                }
+            } else if (shot.x < -40 || shot.x > canvas.width + 40 || shot.y < -40 || shot.y > canvas.height + 40) {
+                bossProjectiles.splice(si, 1);
+            }
+        });
+
+        if (!gameActive && mileEl.style.display === "flex" && bossFailTimer <= 0) {
+            winMessageTicker++;
+            const rotatingSubtexts = isEn
+                ? [
+                    "TRACE ROUTE SPOOFED // BLAME REDIRECTED",
+                    "HR FILES EXFILTRATED // THIS GOT PERSONAL",
+                    "THE INCIDENT REPORT IS WRITING ITSELF"
+                ]
+                : [
+                    "NYOMVONAL HAMISÍTVA // A HIBA ÁTHÁRÍTVA",
+                    "A HR AKTÁKAT IS ELVITTÉK // EZ MÁR SZEMÉLYES",
+                    "AZ INCIDENSJELENTÉS GYAKORLATILAG MAGÁT ÍRJA"
+                ];
+            const rotatingJokes = isEn
+                ? [
+                    "Great work. We definitely should not have left that port open.",
+                    "internal memo: maybe don't let random visitors steal 100 MB next time.",
+                    "Someone in security is about to schedule a very uncomfortable meeting."
+                ]
+                : [
+                    "Szép munka. Ezt a portot valószínűleg nem kellett volna nyitva hagynunk.",
+                    "belső memo: lehet, hogy legközelebb ne engedjünk bárkinek 100 MB-ot ellopni.",
+                    "Valaki a biztonsági csapatból most éppen egy nagyon kellemetlen meetinget szervez."
+                ];
+            const messageIndex = Math.floor(winMessageTicker / 150) % rotatingSubtexts.length;
+            endSubtextEl.innerText = rotatingSubtexts[messageIndex];
+            endJokeEl.innerText = rotatingJokes[messageIndex];
+        }
+
+        if (!gameActive && finalEventTimer > 0) {
+            finalEventTimer--;
+            const elapsed = 240 - finalEventTimer;
+            const burst = 1 + Math.floor(elapsed / 18);
+            for(let i = 0; i < burst; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * (90 + elapsed * 0.35);
+                ctx.fillStyle = `rgba(${255}, ${Math.floor(Math.random() * 140)}, ${Math.floor(180 + Math.random() * 75)}, ${0.35 + Math.random() * 0.5})`;
+                ctx.beginPath();
+                ctx.arc(
+                    canvas.width / 2 + Math.cos(angle) * distance,
+                    canvas.height / 2 + Math.sin(angle) * distance,
+                    2 + Math.random() * 6,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
+            endOverlayPhase += 0.035;
+            ctx.save();
+            ctx.globalAlpha = 0.14 + Math.sin(endOverlayPhase) * 0.06;
+            ctx.fillStyle = "#ff007f";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.restore();
+            flashRed = Math.max(flashRed, 16);
+            shake = Math.max(shake, 6);
+        }
+
+        if (gameActive) bullets.forEach((b, bi) => {
+            b.x += b.vx; b.y += b.vy;
+            ctx.shadowBlur = b.superShot ? 16 : 10; ctx.shadowColor = b.superShot ? "#ff4df0" : "#ff00ff";
+            ctx.fillStyle = b.superShot ? "#ff4df0" : "#ff00ff";
+            ctx.beginPath(); ctx.arc(b.x, b.y, 4, 0, Math.PI*2); ctx.fill();
+            
+            if(boss.active && Math.hypot(b.x - boss.x, b.y - boss.y) < (isTouchDevice ? 58 : 75)) {
+                boss.hp -= b.superShot ? 3.2 : 1.2; bullets.splice(bi, 1); shake = 4;
+                if(boss.hp <= 0) { boss.active = false; score = 100; triggerWin(); }
+            }
+            if(b.x < 0 || b.x > canvas.width || b.y < 0 || b.y > canvas.height) bullets.splice(bi, 1);
+        });
+
+        if (gameActive) {
+            ctx.shadowBlur = 15; ctx.shadowColor = "#ff00ff";
+            ctx.fillStyle = "#ff00ff"; ctx.font = "bold 28px sans-serif";
+            ctx.fillText("R", player.x - 10, player.y + 10);
+        }
+
+        if (gameActive) {
+            while(items.filter(i=>i.type==='i').length < (boss.active ? 0 : 5)) items.push(spawn('i'));
+            if(Math.random() < 0.001 && items.filter(i=>i.type==='s').length < 1) items.push(spawn('s'));
+            if(Math.random() < 0.0015 && items.filter(i=>i.type==='w').length < 1) items.push(spawn('w'));
+        }
+
+        if (gameActive) items.forEach((it, i) => {
+            it.x += it.vx; it.y += it.vy;
+            if(it.x < 0 || it.x > canvas.width) it.vx *= -1;
+            if(it.y < 0 || it.y > canvas.height) it.vy *= -1;
+
+            ctx.beginPath();
+            ctx.arc(it.x + 6, it.y + 6, 15 + Math.sin(Date.now()*0.01)*5, 0, Math.PI*2);
+            ctx.fillStyle = "rgba(255,255,255,0.1)";
+            ctx.fill();
+
+            if(it.type === 'w' || it.type === 'x') {
+                it.angle += 0.1;
+                ctx.save();
+                ctx.translate(it.x + 6, it.y + 6);
+                ctx.rotate(it.angle);
+                ctx.fillStyle = it.type === 'x' ? "#ff4df0" : "white"; ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 15;
+                ctx.fillRect(-8, -2, 16, 4); ctx.fillRect(-2, -8, 4, 16);
+                if (it.type === 'x') {
+                    ctx.fillRect(-12, -1, 24, 2); ctx.fillRect(-1, -12, 2, 24);
+                }
+                ctx.restore();
+            } else {
+                ctx.fillStyle = it.type === 's' ? "#00e5ff" : "#ccff00";
+                ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 10;
+                ctx.fillRect(it.x, it.y, it.s, it.s);
+            }
+
+            if(gameActive && Math.hypot(player.x - (it.x+6), player.y - (it.y+6)) < pickupRadius) {
+                if(it.type === 's') shieldTime = shieldDuration;
+                else if(it.type === 'w') weaponTime = weaponDuration;
+                else if(it.type === 'x') superWeaponTime = superWeaponDuration;
+                else score++;
+                items.splice(i, 1);
+            }
+        });
+
+        if (gameActive) enemies.forEach((en, i) => {
+            if(en.isTracker) {
+                en.vx += (player.x - en.x) * 0.0006; en.vy += (player.y - en.y) * 0.0006;
+                let speed = Math.hypot(en.vx, en.vy);
+                if(speed > 5) { en.vx *= 5/speed; en.vy *= 5/speed; }
+            }
+            en.x += en.vx; en.y += en.vy;
+
+            ctx.save();
+            ctx.translate(en.x, en.y);
+            ctx.fillStyle = en.isTracker ? "#ff6600" : "red";
+            ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 10;
+            if(en.isTracker) {
+                ctx.rotate(Date.now()*0.01);
+                ctx.beginPath(); 
+                ctx.moveTo(0,-14); ctx.lineTo(12,10); ctx.lineTo(-12,10); 
+                ctx.closePath(); ctx.fill();
+                ctx.fillStyle = "black";
+                ctx.beginPath(); ctx.arc(0,2,4,0,Math.PI*2); ctx.fill();
+            } else {
+                ctx.beginPath(); ctx.arc(0,0,en.s,0,Math.PI*2); ctx.fill();
+            }
+            ctx.restore();
+
+            bullets.forEach((b, bi) => {
+                if(Math.hypot(b.x - en.x, b.y - en.y) < 22) {
+                    enemies.splice(i, 1); bullets.splice(bi, 1); shake = 5;
+                }
+            });
+
+            if(gameActive && Math.hypot(player.x - en.x, player.y - en.y) < 25) {
+                if(shieldTime > 0) { enemies.splice(i, 1); shake = 10; }
+                else if (boss.active) triggerBossFail();
+                else resetGame();
+            }
+            if(en.x < -150 || en.x > canvas.width+150 || en.y < -150 || en.y > canvas.height+150) enemies.splice(i, 1);
+        });
+
+        if(gameActive && !boss.active && Math.random() < 0.057 && enemies.length < (3 + score/10)) enemies.push(spawn('e'));
+
+        ctx.restore();
+        requestAnimationFrame(draw);
+    }
+    draw();
+    </script>
+</body>
+</html>
