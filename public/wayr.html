@@ -49,12 +49,14 @@
         }
         .topbar {
             position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
-            width: min(1120px, calc(100% - 24px)); display: flex; align-items: center; justify-content: space-between;
+            width: min(1120px, calc(100% - 24px)); display: flex; align-items: center; justify-content: center;
             gap: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 18px;
             background: rgba(10, 11, 17, 0.92); z-index: 1000;
         }
         .topbar-group { display: flex; align-items: center; gap: 10px; }
+        .topbar-nav { display: flex; align-items: center; justify-content: center; gap: 10px; }
         .lang-switcher { display: flex; align-items: center; gap: 8px; }
+        .topbar .lang-switcher { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
         .nav-chip {
             display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 40px;
             padding: 0 16px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.03);
@@ -135,19 +137,61 @@
         }
         .status-badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 10px currentColor; }
         .project-text { margin: 0; font-size: 1.04rem; line-height: 1.86; color: rgba(255,255,255,0.8); max-width: 56ch; }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 32px 0 36px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 32px 0 36px; }
         .stat-card {
+            display: grid;
+            grid-template-columns: minmax(90px, 118px) minmax(0, 1fr);
+            align-items: center;
+            gap: 14px;
             min-width: 0;
-            padding: 18px 16px;
-            border-radius: 22px;
-            border: 1px solid rgba(255,255,255,0.09);
+            padding: 12px 14px;
+            border-radius: 16px;
+            border: 1px solid color-mix(in srgb, #8b5cf6 28%, rgba(255,255,255,0.08));
             background:
-                linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)),
-                radial-gradient(circle at top left, rgba(139, 92, 246, 0.14), transparent 58%);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+                linear-gradient(180deg, color-mix(in srgb, #8b5cf6 8%, transparent), rgba(255,255,255,0.02)),
+                rgba(255,255,255,0.02);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+            transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
         }
-        .stat-label { display: block; margin-bottom: 8px; color: rgba(255,255,255,0.46); font-size: 0.64rem; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 700; }
-        .stat-value { display: block; color: white; font-size: 0.94rem; line-height: 1.4; overflow-wrap: anywhere; }
+        .content-panel:hover .stat-card {
+            border-color: color-mix(in srgb, #8b5cf6 42%, rgba(255,255,255,0.08));
+            background:
+                linear-gradient(180deg, color-mix(in srgb, #8b5cf6 11%, transparent), rgba(255,255,255,0.03)),
+                rgba(255,255,255,0.025);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.04),
+                inset 4px 0 0 color-mix(in srgb, #8b5cf6 82%, transparent);
+        }
+        .stat-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: color-mix(in srgb, #8b5cf6 78%, white 22%);
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .stat-label::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #8b5cf6;
+            box-shadow: 0 0 12px #8b5cf6;
+            flex-shrink: 0;
+        }
+        .stat-value {
+            display: block;
+            color: white;
+            font-family: 'Orbitron', 'Inter', sans-serif;
+            font-size: 0.82rem;
+            line-height: 1.34;
+            letter-spacing: 0.01em;
+            font-weight: 500;
+            overflow-wrap: anywhere;
+        }
         .section-block + .section-block { margin-top: 34px; }
         .section-block {
             padding: 24px 24px 22px;
@@ -188,14 +232,52 @@
             * { cursor: auto !important; }
             #cursor { display: none; }
             .topbar { top: 12px; width: calc(100% - 16px); padding: 8px; }
-            .topbar-group { gap: 8px; }
+            .topbar-group, .topbar-nav { gap: 8px; }
             .nav-chip { min-height: 38px; padding: 0 12px; font-size: 0.62rem; letter-spacing: 0.16em; }
-            .nav-chip.compact { width: 38px; }
             .project-shell { width: calc(100% - 18px); margin-top: 86px; gap: 18px; }
             .content-panel { padding: 24px 18px 26px; }
-            .stats-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; gap: 8px; }
+            .stat-card { grid-template-columns: 1fr; gap: 6px; padding: 10px 11px; }
+            .stat-label { font-size: 0.58rem; }
+            .stat-value { font-size: 0.74rem; }
             .section-block { padding: 20px 18px 18px; }
             .timeline-row { grid-template-columns: 1fr; gap: 8px; }
+        }
+        body.preview-mode #cursor,
+        body.preview-mode #particles { display: none !important; }
+        body.preview-mode .media-panel,
+        body.preview-mode .content-panel,
+        body.preview-mode .section-block {
+            box-shadow: none;
+        }
+        body.preview-mode .media-panel,
+        body.preview-mode .content-panel {
+            background: rgba(8, 9, 14, 0.96);
+        }
+        body.preview-mode .media-stage,
+        body.preview-mode .content-panel,
+        body.preview-mode .section-block {
+            background-image: none;
+        }
+        body.preview-mode .media-panel:hover .project-image,
+        body.preview-mode .feature-item:hover,
+        body.preview-mode .nav-chip:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        body.preview-mode .topbar {
+            position: static;
+            transform: none;
+            width: calc(100% - 24px);
+            margin: 12px auto 0;
+        }
+        body.preview-mode .project-shell {
+            margin-top: 18px;
+            gap: 22px;
+        }
+        body.preview-mode .media-panel {
+            position: relative;
+            top: auto;
         }
     </style>
 </head>
@@ -203,16 +285,14 @@
     <div id="cursor"></div>
     <canvas id="particles"></canvas>
     <nav class="topbar">
-        <div class="topbar-group">
-            <a href="gossipr.html" class="nav-chip compact" aria-label="Previous project">‹</a>
-            <a href="index.html#projects" class="nav-chip" id="btn-home">Főoldal</a>
+        <div class="topbar-nav">
+            <a href="gossipr.html" class="nav-chip" id="label-prev">Előző</a>
+            <a href="index.html#projects" class="nav-chip" id="btn-home">Vissza főoldalra</a>
+            <a href="projectx.html" class="nav-chip" id="label-next">Következő</a>
         </div>
-        <div class="topbar-group">
-            <a href="projectx.html" class="nav-chip" id="label-next">Következő: Project X</a>
-            <div class="lang-switcher">
-                <button class="lang-btn" id="btn-hu" type="button">HU</button>
-                <button class="lang-btn" id="btn-en" type="button">EN</button>
-            </div>
+        <div class="lang-switcher">
+            <button class="lang-btn" id="btn-hu" type="button">HU</button>
+            <button class="lang-btn" id="btn-en" type="button">EN</button>
         </div>
     </nav>
     <main class="project-shell">
@@ -241,8 +321,9 @@
     <script>
         const translations = {
             hu: {
-                btnHome: "Főoldal",
-                nextLabel: "Következő: Project X",
+                prevLabel: "Előző",
+                btnHome: "Vissza főoldalra",
+                nextLabel: "Következő",
                 eyebrow: "Studio System / 02",
                 mediaBadge: "Route Layer",
                 status: "Koncepció / build",
@@ -250,8 +331,8 @@
                 featuresTitle: "Fő elemek",
                 timelineTitle: "Miért érdekes",
                 stats: [
-                    { label: "Tér", value: "Urban mobility" },
-                    { label: "Irány", value: "Routing + delivery" },
+                    { label: "Műfaj", value: "Routing / delivery" },
+                    { label: "Hangulat", value: "Urban / efficient" },
                     { label: "Státusz", value: "Concept build" }
                 ],
                 features: [
@@ -267,8 +348,9 @@
                 ]
             },
             en: {
-                btnHome: "Home",
-                nextLabel: "Next: Project X",
+                prevLabel: "Previous",
+                btnHome: "Back to Home",
+                nextLabel: "Next",
                 eyebrow: "Studio System / 02",
                 mediaBadge: "Route Layer",
                 status: "Concept / build",
@@ -276,8 +358,8 @@
                 featuresTitle: "Core elements",
                 timelineTitle: "Why it matters",
                 stats: [
-                    { label: "Space", value: "Urban mobility" },
-                    { label: "Direction", value: "Routing + delivery" },
+                    { label: "Genre", value: "Routing / delivery" },
+                    { label: "Mood", value: "Urban / efficient" },
                     { label: "Status", value: "Concept build" }
                 ],
                 features: [
@@ -309,6 +391,7 @@
             document.getElementById('meta-og-description').setAttribute('content', data.metaOgDescription);
             document.getElementById('meta-twitter-title').setAttribute('content', data.metaTitle);
             document.getElementById('meta-twitter-description').setAttribute('content', data.metaOgDescription);
+            document.getElementById('label-prev').textContent = data.prevLabel;
             document.getElementById('btn-home').textContent = data.btnHome;
             document.getElementById('label-next').textContent = data.nextLabel;
             document.getElementById('eyebrow').textContent = data.eyebrow;
@@ -324,6 +407,8 @@
             document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
             document.documentElement.lang = currentLang;
         }
+        const isPreview = new URLSearchParams(window.location.search).get('preview') === '1';
+        if (isPreview) document.body.classList.add('preview-mode');
         renderPage();
         document.getElementById('btn-hu').addEventListener('click', () => {
             currentLang = 'hu';
@@ -335,52 +420,54 @@
             localStorage.setItem('selectedLang', 'en');
             renderPage();
         });
-        const cursor = document.getElementById('cursor');
-        let mouseX = -100;
-        let mouseY = -100;
-        let hasMoved = false;
-        document.addEventListener('mousemove', event => {
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-            if (!hasMoved) {
-                hasMoved = true;
-                cursor.style.opacity = '1';
-            }
-        });
-        function renderCursor() {
-            if (hasMoved && window.innerWidth > 720) {
-                cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-            }
-            requestAnimationFrame(renderCursor);
-        }
-        renderCursor();
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function initParticles() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            particles = Array.from({ length: 18 }, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.8 + 0.6, speedX: (Math.random() - 0.5) * 0.16, speedY: (Math.random() - 0.5) * 0.16, opacity: Math.random() }));
-        }
-        function drawParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(particle => {
-                particle.x += particle.speedX;
-                particle.y += particle.speedY;
-                if (particle.x > canvas.width) particle.x = 0;
-                if (particle.x < 0) particle.x = canvas.width;
-                if (particle.y > canvas.height) particle.y = 0;
-                if (particle.y < 0) particle.y = canvas.height;
-                ctx.fillStyle = `rgba(0, 229, 255, ${particle.opacity * 0.3})`;
-                ctx.beginPath();
-                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                ctx.fill();
+        if (!isPreview) {
+            const cursor = document.getElementById('cursor');
+            let mouseX = -100;
+            let mouseY = -100;
+            let hasMoved = false;
+            document.addEventListener('mousemove', event => {
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+                if (!hasMoved) {
+                    hasMoved = true;
+                    cursor.style.opacity = '1';
+                }
             });
-            requestAnimationFrame(drawParticles);
+            function renderCursor() {
+                if (hasMoved && window.innerWidth > 720) {
+                    cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+                }
+                requestAnimationFrame(renderCursor);
+            }
+            renderCursor();
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            function initParticles() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                particles = Array.from({ length: 18 }, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.8 + 0.6, speedX: (Math.random() - 0.5) * 0.16, speedY: (Math.random() - 0.5) * 0.16, opacity: Math.random() }));
+            }
+            function drawParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(particle => {
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+                    if (particle.x > canvas.width) particle.x = 0;
+                    if (particle.x < 0) particle.x = canvas.width;
+                    if (particle.y > canvas.height) particle.y = 0;
+                    if (particle.y < 0) particle.y = canvas.height;
+                    ctx.fillStyle = `rgba(0, 229, 255, ${particle.opacity * 0.3})`;
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                requestAnimationFrame(drawParticles);
+            }
+            window.addEventListener('resize', initParticles);
+            initParticles();
+            drawParticles();
         }
-        window.addEventListener('resize', initParticles);
-        initParticles();
-        drawParticles();
     </script>
 </body>
 </html>

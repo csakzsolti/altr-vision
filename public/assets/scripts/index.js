@@ -23,7 +23,7 @@
                 content.innerHTML = `
                     <div class="card-head">
                         <div>
-                            <div>${tagsHtml}</div>
+                            <div class="card-tags">${tagsHtml}</div>
                             <h2 style="color: ${config.color};">${config.title}</h2>
                         </div>
                         <span class="card-index">${config.index}</span>
@@ -51,34 +51,224 @@
             if (twitterDescription) twitterDescription.setAttribute('content', copy["meta-og-description"]);
         }
 
+        let activeLabConsoleIndex = 0;
+
+        function renderLabConsole(lang) {
+            const items = labConsoleContent[lang] || [];
+            if (!items.length) return;
+
+            const active = items[Math.min(activeLabConsoleIndex, items.length - 1)];
+            const kickerEl = document.getElementById('lab-console-kicker');
+            const indexEl = document.getElementById('lab-console-index');
+            const titleEl = document.getElementById('lab-console-title');
+            const descEl = document.getElementById('lab-console-desc');
+            const meta1El = document.getElementById('lab-console-meta-1');
+            const meta2El = document.getElementById('lab-console-meta-2');
+
+            if (kickerEl) kickerEl.textContent = active.kicker;
+            if (indexEl) indexEl.textContent = active.index;
+            if (titleEl) titleEl.textContent = active.title;
+            if (descEl) descEl.textContent = active.desc;
+            if (meta1El) meta1El.textContent = active.meta[0] || '';
+            if (meta2El) meta2El.textContent = active.meta[1] || '';
+
+            document.querySelectorAll('.lab-console-tab').forEach((button, index) => {
+                const item = items[index];
+                if (item) button.textContent = item.tab;
+                button.classList.toggle('is-active', index === activeLabConsoleIndex);
+                button.setAttribute('aria-pressed', index === activeLabConsoleIndex ? 'true' : 'false');
+            });
+        }
+
         function updateNavStatus() {
+            const timeEl = document.getElementById('nav-status-time');
             const valueEl = document.getElementById('nav-status-value');
-            const statusEl = document.getElementById('nav-status');
-            if (!valueEl || !statusEl) return;
+            if (!timeEl || !valueEl) return;
 
             const now = new Date();
+            const hour = now.getHours();
             const time = now.toLocaleTimeString(currentLang === 'en' ? 'en-GB' : 'hu-HU', {
                 hour: '2-digit',
                 minute: '2-digit'
             });
 
             const huModes = [
-                "STÚDIÓ ÜZEM",
-                "KÁVÉFÁZIS",
-                "ÉJFÉLI BUILD",
-                "NEON JEL"
+                { start: 0, end: 1, label: "ÉJFÉLI MŰSZAK" },
+                { start: 1, end: 3, label: "MÁR MEGINT TÚL SOKÁIG VAGYOK ÉBREN" },
+                { start: 3, end: 5, label: "MA SEM ALSZOM" },
+                { start: 5, end: 6, label: "NÉZZ VISSZA MÁSKOR IS!" },
+                { start: 6, end: 8, label: "KÁVÉSZÜNET" },
+                { start: 8, end: 9, label: "NA JÓ, INDULJUNK EL" },
+                { start: 9, end: 12, label: "KEZDŐDIK A NAP?" },
+                { start: 12, end: 13, label: "EBÉDELTÉL MÁR?" },
+                { start: 13, end: 15, label: "POSZTEBÉD KÓMA" },
+                { start: 15, end: 17, label: "MÉG EGY KIS KREATÍV HALOGATÁS" },
+                { start: 17, end: 20, label: "MUNKA UTÁNI BÖNGÉSZGETÉS?" },
+                { start: 20, end: 22, label: "NÉZZ VISSZA MÁSKOR IS!" },
+                { start: 22, end: 24, label: "ILYENKOR JOBBAK AZ ÖTLETEK" }
             ];
             const enModes = [
-                "STUDIO MODE",
-                "COFFEE PHASE",
-                "MIDNIGHT BUILD",
-                "NEON SIGNAL"
+                { start: 0, end: 1, label: "MIDNIGHT SHIFT" },
+                { start: 1, end: 3, label: "UP WAY TOO LATE AGAIN" },
+                { start: 3, end: 5, label: "NOT SLEEPING TONIGHT EITHER" },
+                { start: 5, end: 6, label: "CHECK BACK LATER TOO!" },
+                { start: 6, end: 8, label: "COFFEE BREAK" },
+                { start: 8, end: 9, label: "ALRIGHT, LET'S START THIS" },
+                { start: 9, end: 12, label: "IS THE DAY STARTING YET?" },
+                { start: 12, end: 13, label: "HAVE YOU EATEN YET?" },
+                { start: 13, end: 15, label: "POST-LUNCH BRAIN FOG" },
+                { start: 15, end: 17, label: "A LITTLE CREATIVE PROCRASTINATION" },
+                { start: 17, end: 20, label: "AFTER-WORK BROWSING?" },
+                { start: 20, end: 22, label: "CHECK BACK LATER TOO!" },
+                { start: 22, end: 24, label: "IDEAS HIT DIFFERENT THIS LATE" }
             ];
 
             const modes = currentLang === 'en' ? enModes : huModes;
-            const mode = modes[Math.floor(now.getMinutes() / 15) % modes.length];
-            statusEl.firstChild.textContent = currentLang === 'en' ? "LIVE // " : "LIVE // ";
-            valueEl.textContent = `${mode} ${time}`;
+            const mode = modes.find((entry) => hour >= entry.start && hour < entry.end) || modes[0];
+            timeEl.textContent = time;
+            valueEl.textContent = mode.label;
+        }
+
+        let footerHintIndex = 0;
+
+        function syncFooterInteractiveCopy() {
+            const inputEl = document.getElementById('note-input');
+            const subjectEl = document.getElementById('note-subject');
+            const statusEl = document.getElementById('note-status');
+            const signalTextEl = document.getElementById('footer-signal-text');
+            if (inputEl) inputEl.setAttribute('placeholder', translations[currentLang]["note-placeholder"]);
+            if (subjectEl) subjectEl.setAttribute('placeholder', translations[currentLang]["note-subject-placeholder"]);
+            if (statusEl) statusEl.textContent = '';
+
+            const hintMessages = footerHintMessages[currentLang] || [];
+            if (signalTextEl && hintMessages.length) {
+                signalTextEl.textContent = hintMessages[Math.min(footerHintIndex, hintMessages.length - 1)];
+            }
+        }
+
+        function initFooterInteractive() {
+            const formEl = document.getElementById('note-form');
+            const inputEl = document.getElementById('note-input');
+            const subjectEl = document.getElementById('note-subject');
+            const statusEl = document.getElementById('note-status');
+            const signalTriggerEl = document.getElementById('footer-signal-trigger');
+            const signalTextEl = document.getElementById('footer-signal-text');
+            const anomalyEl = document.getElementById('footer-anomaly');
+
+            if (formEl && inputEl && subjectEl && statusEl) {
+                formEl.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    const subject = subjectEl.value.trim().replace(/\s+/g, ' ');
+                    const body = inputEl.value.trim();
+                    if (!subject && !body) {
+                        statusEl.textContent = translations[currentLang]["note-error"];
+                        return;
+                    }
+
+                    const mailto = `mailto:varadizsolt3@gmail.com?subject=${encodeURIComponent(subject || 'AltR Vision note')}&body=${encodeURIComponent(body)}`;
+                    window.location.href = mailto;
+                    statusEl.textContent = translations[currentLang]["note-sent"];
+                });
+            }
+
+            if (signalTriggerEl && signalTextEl) {
+                signalTriggerEl.addEventListener('click', () => {
+                    const hintMessages = footerHintMessages[currentLang] || [];
+                    if (!hintMessages.length) return;
+                    footerHintIndex = (footerHintIndex + 1) % hintMessages.length;
+                    signalTextEl.textContent = hintMessages[footerHintIndex];
+                });
+            }
+
+            if (anomalyEl) {
+                anomalyEl.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.setTimeout(() => {
+                        triggerLogoGlitch();
+                    }, 360);
+                });
+            }
+
+            syncFooterInteractiveCopy();
+        }
+
+        function initExpandablePanels(selector, activeClass) {
+            const items = Array.from(document.querySelectorAll(selector));
+            if (!items.length) return;
+
+            const setActive = (target) => {
+                items.forEach((item, index) => {
+                    const isActive = item === target;
+                    item.classList.toggle(activeClass, isActive);
+                    item.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+                    if (!target && index === 0) {
+                        item.classList.add(activeClass);
+                        item.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            };
+
+            setActive(items[0]);
+
+            items.forEach((item) => {
+                item.addEventListener('click', () => setActive(item));
+                item.addEventListener('keydown', (event) => {
+                    if (event.key !== 'Enter' && event.key !== ' ') return;
+                    event.preventDefault();
+                    setActive(item);
+                });
+            });
+        }
+
+        function initLabConsole() {
+            const buttons = Array.from(document.querySelectorAll('.lab-console-tab'));
+            if (!buttons.length) return;
+
+            buttons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    activeLabConsoleIndex = index;
+                    renderLabConsole(currentLang);
+                });
+            });
+        }
+
+        function initMobileNav() {
+            const navBar = document.querySelector('.nav-bar');
+            const toggle = document.getElementById('nav-toggle');
+            const links = Array.from(document.querySelectorAll('.nav-links a'));
+            if (!navBar || !toggle) return;
+
+            const closeNav = () => {
+                navBar.classList.remove('is-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            };
+
+            const toggleNav = () => {
+                const isOpen = navBar.classList.toggle('is-open');
+                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            };
+
+            toggle.addEventListener('click', toggleNav);
+
+            links.forEach((link) => {
+                link.addEventListener('click', closeNav);
+            });
+
+            document.querySelectorAll('.lang-btn').forEach((button) => {
+                button.addEventListener('click', closeNav);
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!navBar.classList.contains('is-open')) return;
+                if (navBar.contains(event.target)) return;
+                closeNav();
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    closeNav();
+                }
+            });
         }
 
         let currentLang = localStorage.getItem('selectedLang') || 'hu';
@@ -109,8 +299,10 @@
                 document.documentElement.lang = lang;
                 updateSectionKickers(lang);
                 renderProjectCards(lang);
+                renderLabConsole(lang);
                 updatePageMeta(lang);
                 updateNavStatus();
+                syncFooterInteractiveCopy();
 
                 // EZT ADD HOZZÁ: Küldjük át a nyelvet a játéknak (iframe)
                 const gameFrame = document.getElementById('game-frame');
@@ -123,6 +315,10 @@
         setLang(currentLang);
         updateNavStatus();
         window.setInterval(updateNavStatus, 15000);
+        initFooterInteractive();
+        initExpandablePanels('.signal-section-next .signal-card', 'is-active');
+        initLabConsole();
+        initMobileNav();
         document.querySelectorAll('#signal[hidden] [id]').forEach((el) => el.removeAttribute('id'));
         const embeddedGameFrame = document.getElementById('game-frame');
         if (embeddedGameFrame && !embeddedGameFrame.src.endsWith('game.html')) {
@@ -133,18 +329,21 @@
         let mouseX = -100, mouseY = -100;
         let hasMoved = false;
 
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            if(!hasMoved) { hasMoved = true; cursor.style.opacity = "1"; }
-        });
-
-        function renderCursor() {
-            if (hasMoved && window.innerWidth > 768) {
+        function moveCursorTo(x, y) {
+            mouseX = x;
+            mouseY = y;
+            if (!hasMoved) {
+                hasMoved = true;
+                cursor.style.opacity = "1";
+            }
+            if (window.innerWidth > 768) {
                 cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
             }
-            requestAnimationFrame(renderCursor);
         }
+
+        document.addEventListener('mousemove', (e) => {
+            moveCursorTo(e.clientX, e.clientY);
+        });
 
         const logo = document.getElementById('main-logo');
         let particleSpeedBoost = 1;
@@ -353,5 +552,4 @@
         updateScrollIndicator();
         initDockTracking();
         syncDockWithScrollTop();
-        renderCursor();
         animate();

@@ -67,31 +67,52 @@
             line-height: 1.6;
         }
 
-        /* Home gomb */
-        .home-nav {
+        .topbar {
             position: fixed;
-            top: 30px;
+            top: 18px;
             left: 50%;
             transform: translateX(-50%);
-        }
-
-        .home-btn {
-            background: var(--glass);
+            width: min(1120px, calc(100% - 24px));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 12px;
             border: 1px solid var(--glass-border);
-            color: white;
-            padding: 10px 25px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            backdrop-filter: blur(15px);
-            transition: 0.4s;
+            border-radius: 18px;
+            background: rgba(10, 11, 17, 0.92);
+            z-index: 1000;
         }
 
-        .home-btn:hover {
+        .topbar-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .nav-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 16px;
+            border-radius: 999px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass);
+            color: white;
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .nav-chip:hover {
+            transform: translateY(-2px);
             border-color: var(--neon-purple);
             box-shadow: 0 0 20px rgba(156, 39, 176, 0.2);
+            color: #f0d7ff;
         }
 
         @keyframes pulse {
@@ -107,8 +128,12 @@
     <div id="cursor"></div>
     <canvas id="particles"></canvas>
 
-    <nav class="home-nav">
-        <a href="index.html" class="home-btn">Vissza a kezdőlapra</a>
+    <nav class="topbar">
+        <div class="topbar-nav">
+            <a href="wayr.html" class="nav-chip" id="label-prev">Előző</a>
+            <a href="index.html#projects" class="nav-chip" id="btn-home">Vissza főoldalra</a>
+            <a href="gossipr.html" class="nav-chip" id="label-next">Következő</a>
+        </div>
     </nav>
 
     <div class="coming-soon-container">
@@ -124,57 +149,72 @@
             hu: {
                 "status-text": "Hamarosan",
                 "desc-text": "Valami radikális készül a háttérben. Az AltR Vision következő nagy dobása még titkosítás alatt áll.",
-                "home": "Vissza a kezdőlapra"
+                "prev": "Előző",
+                "home": "Vissza főoldalra",
+                "next": "Következő"
             },
             en: {
                 "status-text": "Coming Soon",
                 "desc-text": "Something radical is brewing in the background. AltR Vision's next big move is currently under encryption.",
-                "home": "Back to Home"
+                "prev": "Previous",
+                "home": "Back to Home",
+                "next": "Next"
             }
         };
+
+        const isPreview = new URLSearchParams(window.location.search).get('preview') === '1';
+        if (isPreview) {
+            document.body.style.cursor = 'none';
+            document.getElementById('cursor').style.display = 'none';
+            document.getElementById('particles').style.display = 'none';
+        }
 
         let currentLang = localStorage.getItem('selectedLang') || 'hu';
         document.getElementById('status-text').innerText = translations[currentLang]["status-text"];
         document.getElementById('desc-text').innerText = translations[currentLang]["desc-text"];
-        document.querySelector('.home-btn').innerText = translations[currentLang]["home"];
+        document.getElementById('label-prev').innerText = translations[currentLang]["prev"];
+        document.getElementById('btn-home').innerText = translations[currentLang]["home"];
+        document.getElementById('label-next').innerText = translations[currentLang]["next"];
 
-        // Egyszerűsített kurzor követés
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // Minimál részecskék
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let dots = [];
-        for(let i=0; i<50; i++) {
-            dots.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vX: (Math.random() - 0.5) * 0.5,
-                vY: (Math.random() - 0.5) * 0.5
+        if (!isPreview) {
+            // Egyszerűsített kurzor követés
+            const cursor = document.getElementById('cursor');
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
             });
-        }
 
-        function draw() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = "rgba(156, 39, 176, 0.3)";
-            dots.forEach(d => {
-                d.x += d.vX; d.y += d.vY;
-                if(d.x < 0 || d.x > canvas.width) d.vX *= -1;
-                if(d.y < 0 || d.y > canvas.height) d.vY *= -1;
-                ctx.beginPath();
-                ctx.arc(d.x, d.y, 1, 0, Math.PI*2);
-                ctx.fill();
-            });
-            requestAnimationFrame(draw);
+            // Minimál részecskék
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let dots = [];
+            for(let i=0; i<50; i++) {
+                dots.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vX: (Math.random() - 0.5) * 0.5,
+                    vY: (Math.random() - 0.5) * 0.5
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0,0,canvas.width, canvas.height);
+                ctx.fillStyle = "rgba(156, 39, 176, 0.3)";
+                dots.forEach(d => {
+                    d.x += d.vX; d.y += d.vY;
+                    if(d.x < 0 || d.x > canvas.width) d.vX *= -1;
+                    if(d.y < 0 || d.y > canvas.height) d.vY *= -1;
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, 1, 0, Math.PI*2);
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
         }
-        draw();
     </script>
 </body>
 </html>

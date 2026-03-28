@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100 MB Adat</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #050507;
@@ -25,8 +25,38 @@
                 radial-gradient(circle at bottom right, rgba(255,0,127,0.14), transparent 35%),
                 var(--bg);
             color: white;
-            font-family: 'Orbitron', monospace;
+            font-family: 'Exo 2', sans-serif;
             overflow-y: auto;
+        }
+
+        .lang-switcher {
+            width: min(760px, 100%);
+            margin: 0 auto 14px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            min-width: 44px;
+            height: 38px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.72);
+            font: inherit;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+
+        .lang-btn.active {
+            color: white;
+            border-color: var(--cyan);
+            background: rgba(0,229,255,0.08);
+            box-shadow: 0 0 16px rgba(0,229,255,0.18);
         }
 
         .panel {
@@ -94,6 +124,11 @@
                 padding: 14px;
             }
 
+            .lang-switcher {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
             .panel {
                 width: 100%;
                 padding: 20px 16px;
@@ -135,6 +170,10 @@
     </style>
 </head>
 <body>
+    <div class="lang-switcher">
+        <button class="lang-btn" id="btn-hu" type="button">HU</button>
+        <button class="lang-btn" id="btn-en" type="button">EN</button>
+    </div>
     <main class="panel">
         <div class="label" id="label">100 MB DATA PACKAGE</div>
         <h1 id="title">Sikeres adatlopás</h1>
@@ -147,10 +186,11 @@
             <p id="file-3">3. “fozokonyv_kavegephez_v2.pdf”</p>
             <p id="file-4">4. “motivacios_mondatok_de_inkabb_nem.docx”</p>
             <p id="file-5">5. “miert_nyitottuk_ki_ezt_a_portot_megint.md”</p>
+            <p id="file-6">6. “azkomoly.jpg”</p>
         </section>
 
         <p id="outro">A biztonsági csapat jelenleg úgy tesz, mintha ez szándékos lett volna.</p>
-        <div class="tiny" id="tiny">Az AltR Vision felelősséget nem vállal a megszerzett digitális hülyeségekért.</div>
+        <div class="tiny" id="tiny">Az AltR Vision reméli, hogy büszke vagy magadra.</div>
     </main>
     <script>
         const translations = {
@@ -163,6 +203,7 @@
                 "file-3": "3. “fozokonyv_kavegephez_v2.pdf”",
                 "file-4": "4. “motivacios_mondatok_de_inkabb_nem.docx”",
                 "file-5": "5. “miert_nyitottuk_ki_ezt_a_portot_megint.md”",
+                "file-6": "6. “azkomoly.jpg”",
                 outro: "A biztonsági csapat jelenleg úgy tesz, mintha ez szándékos lett volna.",
                 tiny: "Az AltR Vision felelősséget nem vállal a megszerzett digitális hülyeségekért."
             },
@@ -175,17 +216,27 @@
                 "file-3": "3. “coffee_machine_manual_v2.pdf”",
                 "file-4": "4. “motivational_quotes_but_probably_not.docx”",
                 "file-5": "5. “why_did_we_leave_that_port_open_again.md”",
+                "file-6": "6. “well_thats_something.jpg”",
                 outro: "The security team is currently pretending this was all part of the plan.",
                 tiny: "AltR Vision accepts no responsibility for the digital nonsense you may have acquired."
             }
         };
 
+        function setLang(lang) {
+            document.documentElement.lang = lang;
+            localStorage.setItem('selectedLang', lang);
+            document.getElementById('btn-hu').classList.toggle('active', lang === 'hu');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            Object.entries(translations[lang]).forEach(([id, text]) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = text;
+            });
+        }
+
         const lang = localStorage.getItem('selectedLang') === 'en' ? 'en' : 'hu';
-        document.documentElement.lang = lang;
-        Object.entries(translations[lang]).forEach(([id, text]) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = text;
-        });
+        document.getElementById('btn-hu').addEventListener('click', () => setLang('hu'));
+        document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
+        setLang(lang);
     </script>
 </body>
 </html>

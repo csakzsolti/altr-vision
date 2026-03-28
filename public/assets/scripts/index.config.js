@@ -6,22 +6,16 @@
                 "hero-cta-contact": "Kapcsolat",
                 "scroll-indicator": "Görgess tovább",
                 "signal-label-1": "Creative Systems",
-                "signal-title-1": "Appok, amiknek saját ritmusa van",
-                "signal-desc-1": "Nem csak funkciót építünk, hanem világot is köré. Letisztult használhatóság, karakteres vizuális nyelvvel.",
+                "signal-title-1": "Nem steril appok, hanem kis digitális személyiségek",
+                "signal-desc-1": "Szeretjük, ha egy felület nem csak hasznos, hanem az első pár másodpercben már meg is jegyzed.",
                 "signal-label-2": "Experimental Games",
-                "signal-title-2": "Kísérleti játékok kiszámított káosszal",
-                "signal-desc-2": "Prototípusok, rendszerek és hangulatok találkoznak olyan játékötletekben, amik inkább emlékezetesek, mint biztonsági játékosak.",
+                "signal-title-2": "Játékötletek, amik néha direkt rossz irányba kanyarodnak",
+                "signal-desc-2": "A kedvenc prototípusainkban mindig van valami enyhén gyanús: rejtett szabály, fura ritmus vagy egy félmosolyra húzott mechanika.",
                 "signal-label-3": "Studio Mode",
-                "signal-title-3": "Gyors iteráció, erős identitás",
-                "signal-desc-3": "Szeretünk gyorsan kísérletezni, de közben végig őrizzük a projekt saját hangját és rendszerlogikáját.",
+                "signal-title-3": "Gyors build, lassan kikopó rossz ötletek",
+                "signal-desc-3": "A működő irányokat meghagyjuk furcsának, a rosszakat pedig elengedjük még azelőtt, hogy túl kényelmesek lennének.",
                 "lab-title": "Studio Signal // jelenlegi fókusz",
                 "lab-copy": "Az AltR Vision jelenleg különböző app- és játékirányokat tesztel párhuzamosan. A cél nem a mennyiség, hanem az, hogy minden ötletből egy felismerhető, saját atmoszférájú digitális élmény szülessen.",
-                "lab-feed-title-1": "Feed 01",
-                "lab-feed-desc-1": "Anonim közösségi élmények újragondolása gyors, letisztult felületekkel.",
-                "lab-feed-title-2": "Feed 02",
-                "lab-feed-desc-2": "Mozgás, útvonal és szállítás témák újrakeretezése termékoldali szemlélettel.",
-                "lab-feed-title-3": "Feed 03",
-                "lab-feed-desc-3": "Interaktív, rejtett rendszerek és világépítő game-mechanikák prototipizálása.",
                 "projects": "Projektek",
                 "nav-projects": "Projektek", "nav-vision": "Vízió",
                 "tag-app": "App", "tag-progress": "Fejlesztés alatt",
@@ -41,22 +35,16 @@
                 "hero-cta-contact": "Contact",
                 "scroll-indicator": "Scroll to Explore",
                 "signal-label-1": "Creative Systems",
-                "signal-title-1": "Apps with their own pulse",
-                "signal-desc-1": "We build more than features. Each product gets a distinct atmosphere, visual language, and feel.",
+                "signal-title-1": "Not sterile apps, but small digital personalities",
+                "signal-desc-1": "We like interfaces that do more than work. The good ones leave an impression in the first few seconds.",
                 "signal-label-2": "Experimental Games",
-                "signal-title-2": "Playable experiments with controlled chaos",
-                "signal-desc-2": "Prototypes, systems, and moods collide in game ideas designed to leave an impression instead of playing it safe.",
+                "signal-title-2": "Game ideas that sometimes turn the wrong way on purpose",
+                "signal-desc-2": "Our favorite prototypes usually carry something slightly suspicious: a hidden rule, an odd rhythm, or a mechanic with a smirk.",
                 "signal-label-3": "Studio Mode",
-                "signal-title-3": "Fast iteration, strong identity",
-                "signal-desc-3": "We like moving quickly, but never at the cost of a project's voice, internal logic, or vibe.",
+                "signal-title-3": "Fast builds, slowly disappearing bad ideas",
+                "signal-desc-3": "We keep the good directions strange, and let the weak ones go before they become too comfortable.",
                 "lab-title": "Studio Signal // current focus",
                 "lab-copy": "AltR Vision is currently testing multiple app and game directions in parallel. The goal is not volume, but turning each idea into a recognizable digital experience with its own atmosphere.",
-                "lab-feed-title-1": "Feed 01",
-                "lab-feed-desc-1": "Rethinking anonymous social experiences with fast, stripped-back interfaces.",
-                "lab-feed-title-2": "Feed 02",
-                "lab-feed-desc-2": "Reframing movement, routing, and delivery through a product-first lens.",
-                "lab-feed-title-3": "Feed 03",
-                "lab-feed-desc-3": "Prototyping interactive hidden systems and worldbuilding-driven game mechanics.",
                 "projects": "Projects",
                 "nav-projects": "Projects", "nav-vision": "Vision",
                 "tag-app": "App", "tag-progress": "In Progress",
@@ -94,6 +82,22 @@
         translations.hu["about-title"] = "Kód, zene és vizuális világépítés ugyanabban a rendszerben.";
         translations.hu["about-copy-1"] = "A stúdió alapja a tesztelésből induló gondolkodás, ami idővel kreatív irányokkal rétegződött tovább: zenei produceri munkákkal, festéssel és vizuális kísérletekkel. Ezek a hatások ma ugyanabban a fejlesztői szemléletben találkoznak.";
         translations.hu["about-copy-2"] = "A WayR ötlete abból a hétköznapi kérdésből indult, hogy ha az emberek úgyis ingáznak munkából haza, miért ne mozoghatnának csomagok is ezekkel az útvonalakkal együtt? A GossipR később érkezett, amikor Egerben való sétálás közben egy falon hagyott sok üzenet, firka és spontán nyom kezdett el egy másfajta közösségi tér gondolatává összeállni.";
+        translations.hu["contact-kicker"] = "OPEN CHANNEL";
+        translations.hu["contact-title"] = "Érdekes app, játékötlet vagy furcsa digitális rendszer jár a fejedben?";
+        translations.hu["contact-text"] = "Nyitottak vagyunk új együttműködésekre, prototípusokra és különös ötletekre, amiknek saját hangjuk van.";
+        translations.hu["note-kicker"] = "SEND A NOTE";
+        translations.hu["note-title"] = "Küldj egy emailt.";
+        translations.hu["note-copy"] = "Írj tárgyat és üzenetet, mi pedig a saját leveleződben nyitjuk meg elküldésre kész állapotban.";
+        translations.hu["note-submit"] = "Elküldöm";
+        translations.hu["note-subject-placeholder"] = "Tárgy";
+        translations.hu["note-placeholder"] = "Üzenet";
+        translations.hu["note-sent"] = "Email előkészítve";
+        translations.hu["note-error"] = "Adj meg tárgyat vagy üzenetet";
+        translations.hu["footer-policy-1"] = "Adatkezelés";
+        translations.hu["footer-policy-2"] = "Felhasználás";
+        translations.hu["footer-policy-3"] = "Forrás";
+        translations.hu["footer-signal-trigger"] = "Jel dekódolása";
+        translations.hu["footer-signal-text"] = "Néhány rendszer nem a menükre figyel.";
 
         translations.en["meta-title"] = "AltR Vision | Game & App Studio";
         translations.en["meta-description"] = "AltR Vision builds experimental apps, indie games, and distinctive digital experiences shaped by technical precision and artistic chaos.";
@@ -118,6 +122,22 @@
         translations.en["about-title"] = "Code, music, and visual worldbuilding in the same system.";
         translations.en["about-copy-1"] = "The studio is grounded in a testing-first mindset that gradually layered itself with more creative disciplines: music production, painting, and visual experimentation. Those influences now meet inside the same development approach.";
         translations.en["about-copy-2"] = "WayR began with a simple everyday question: if people already commute home from work, why couldn't packages move along those routes too? GossipR arrived later, after a walk in Eger where a wall covered in messages, sketches, and spontaneous marks started to feel like the seed of a different kind of social space.";
+        translations.en["contact-kicker"] = "OPEN CHANNEL";
+        translations.en["contact-title"] = "Got an interesting app, game concept, or strange digital system in mind?";
+        translations.en["contact-text"] = "We are open to new collaborations, prototypes, and odd ideas with a distinct voice of their own.";
+        translations.en["note-kicker"] = "SEND A NOTE";
+        translations.en["note-title"] = "Send an email.";
+        translations.en["note-copy"] = "Write a subject and message, and we will open it in your default mail app ready to send.";
+        translations.en["note-submit"] = "Send it";
+        translations.en["note-subject-placeholder"] = "Subject";
+        translations.en["note-placeholder"] = "Message";
+        translations.en["note-sent"] = "Email draft prepared";
+        translations.en["note-error"] = "Add a subject or message";
+        translations.en["footer-policy-1"] = "Privacy Policy";
+        translations.en["footer-policy-2"] = "Terms of Use";
+        translations.en["footer-policy-3"] = "Source";
+        translations.en["footer-signal-trigger"] = "Decode signal";
+        translations.en["footer-signal-text"] = "Some systems do not care about menus.";
 
         const sectionKickers = {
             hu: {
@@ -140,6 +160,61 @@
         sectionKickers.hu["inside"] = "INSIDE THE STUDIO";
         sectionKickers.en["inside"] = "INSIDE THE STUDIO";
 
+        const labConsoleContent = {
+            hu: [
+                {
+                    tab: "APP",
+                    kicker: "SIGNAL / APP",
+                    index: "01",
+                    title: "Névtelenebb, gyorsabb, kicsit pimaszabb.",
+                    desc: "Olyan felületeket keresünk, amik azonnal érthetők, de közben hagynak helyet a furcsaságnak is.",
+                    meta: ["fast UI", "social pulse"]
+                },
+                {
+                    tab: "MOVE",
+                    kicker: "SIGNAL / ROUTE",
+                    index: "02",
+                    title: "Mozgás, útvonal, csomag és egy enyhén gyanús logika.",
+                    desc: "Szeretjük azokat az ötleteket, amik hétköznapi szokásokból indulnak, aztán termékké állnak össze.",
+                    meta: ["urban flow", "route logic"]
+                },
+                {
+                    tab: "PLAY",
+                    kicker: "SIGNAL / PLAY",
+                    index: "03",
+                    title: "Rejtett szabályok, kis glitch-ek, túl sok kíváncsiság.",
+                    desc: "A játékosabb irányoknál mindig az izgat, mikor kezd el a rendszer visszanézni rád.",
+                    meta: ["hidden systems", "playtest loop"]
+                }
+            ],
+            en: [
+                {
+                    tab: "APP",
+                    kicker: "SIGNAL / APP",
+                    index: "01",
+                    title: "More anonymous, faster, slightly cheekier.",
+                    desc: "We like interfaces that read instantly but still leave room for something odd beneath the surface.",
+                    meta: ["fast UI", "social pulse"]
+                },
+                {
+                    tab: "MOVE",
+                    kicker: "SIGNAL / ROUTE",
+                    index: "02",
+                    title: "Movement, routing, delivery, and a mildly suspicious logic.",
+                    desc: "Our favorite product ideas often start with a daily habit and slowly harden into a system.",
+                    meta: ["urban flow", "route logic"]
+                },
+                {
+                    tab: "PLAY",
+                    kicker: "SIGNAL / PLAY",
+                    index: "03",
+                    title: "Hidden rules, tiny glitches, and too much curiosity.",
+                    desc: "In the more playful directions, the fun starts when the system feels like it is looking back.",
+                    meta: ["hidden systems", "playtest loop"]
+                }
+            ]
+        };
+
         const projectCardContent = {
             hu: {
                 "gossipr.html": {
@@ -150,8 +225,8 @@
                     metaAccent: "#00e5ff",
                     desc: "Az anonim közösségi élmény újradefiniálása. Biztonságos, gyors és valódi.",
                     meta: [
-                        { label: "Platform", value: "iOS / Android" },
-                        { label: "Fókusz", value: "Anonim social" },
+                        { label: "Műfaj", value: "Social / anonymous" },
+                        { label: "Hangulat", value: "Direct / clean" },
                         { label: "Státusz", value: "Closed alpha" }
                     ],
                     cta: "Projekt megnyitása"
@@ -164,8 +239,8 @@
                     metaAccent: "#9c27b0",
                     desc: "A csomagszállítás új formája. Gyors, és környezetbarát!",
                     meta: [
-                        { label: "Tér", value: "Urban mobility" },
-                        { label: "Irány", value: "Routing + delivery" },
+                        { label: "Műfaj", value: "Routing / delivery" },
+                        { label: "Hangulat", value: "Urban / efficient" },
                         { label: "Státusz", value: "Concept build" }
                     ],
                     cta: "Projekt megnyitása"
@@ -180,7 +255,7 @@
                     meta: [
                         { label: "Műfaj", value: "Atmospheric action" },
                         { label: "Hangulat", value: "Dark / synthetic" },
-                        { label: "Állapot", value: "Pre-production" }
+                        { label: "Státusz", value: "Pre-production" }
                     ],
                     cta: "Projekt megnyitása"
                 }
@@ -194,8 +269,8 @@
                     metaAccent: "#00e5ff",
                     desc: "Redefining the anonymous social experience. Secure, fast, and authentic.",
                     meta: [
-                        { label: "Platform", value: "iOS / Android" },
-                        { label: "Focus", value: "Anonymous social" },
+                        { label: "Genre", value: "Social / anonymous" },
+                        { label: "Mood", value: "Direct / clean" },
                         { label: "Status", value: "Closed alpha" }
                     ],
                     cta: "Open project"
@@ -208,8 +283,8 @@
                     metaAccent: "#9c27b0",
                     desc: "A new form of package delivery. Fast, flexible, and greener by default.",
                     meta: [
-                        { label: "Space", value: "Urban mobility" },
-                        { label: "Direction", value: "Routing + delivery" },
+                        { label: "Genre", value: "Routing / delivery" },
+                        { label: "Mood", value: "Urban / efficient" },
                         { label: "Status", value: "Concept build" }
                     ],
                     cta: "Open project"
@@ -229,6 +304,19 @@
                     cta: "Open project"
                 }
             }
+        };
+
+        const footerHintMessages = {
+            hu: [
+                "Néhány rendszer nem a menükre figyel.",
+                "Van, amelyik inkább a felső jelre reagál.",
+                "A vizuális anomáliák néha interaktívabbak, mint látszanak."
+            ],
+            en: [
+                "Some systems do not care about menus.",
+                "A few respond better to the signal above.",
+                "Visual anomalies can be more interactive than they look."
+            ]
         };
 
         

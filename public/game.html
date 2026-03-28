@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; overflow: hidden; background: #050507; font-family: 'Orbitron', monospace; cursor: none; }
+        body { margin: 0; overflow: hidden; background: #050507; font-family: 'Exo 2', sans-serif; cursor: none; }
         canvas { width: 100vw; height: 100vh; display: block; }
         
         #msg {
@@ -187,6 +187,7 @@
             weapon: isEn ? "WEAPON" : "FEGYVER",
             superWeapon: isEn ? "OVERDRIVE" : "TURBÓ",
             data: isEn ? "DATA" : "ADAT",
+            dataBurst: isEn ? "BONUS CACHE +5 MB" : "BÓNUSZ CSOMAG +5 MB",
             superDrop: isEn ? "OVERDRIVE WEAPON ONLINE!" : "TURBÓ FEGYVER ONLINE!",
             final: isEn ? "SYSTEM BREACH COMPLETE" : "RENDSZERFELTÖRÉS KÉSZ",
             finalSub: isEn ? "CORE DESTABILIZED // LEGAL TEAM PANICKING" : "MAG INSTABIL // A JOGI OSZTALY PANIKOL",
@@ -232,12 +233,16 @@
     const bossTraceInterval = isTouchDevice ? 145 : 90;
     const bossPulseInterval = isTouchDevice ? 315 : 210;
     const bossBeamInterval = isTouchDevice ? 455 : 300;
-    const bossSupplyInterval = isTouchDevice ? 145 : 240;
+    const bossSupplyInterval = isTouchDevice ? 145 : 200;
     const bossProjectileSpeed = isTouchDevice ? 4 : 5.5;
     const bossPulseSpeed = isTouchDevice ? 3.2 : 4.2;
     const shieldDuration = isTouchDevice ? 620 : 420;
     const weaponDuration = isTouchDevice ? 600 : 420;
     const superWeaponDuration = isTouchDevice ? 500 : 360;
+    const activeDataTarget = isTouchDevice ? 6 : 7;
+    const bigDataSpawnChance = isTouchDevice ? 0.00075 : 0.001;
+    const shieldSpawnChance = isTouchDevice ? 0.0014 : 0.0022;
+    const weaponSpawnChance = isTouchDevice ? 0.0017 : 0.0019;
     const bossSkipHoldMs = 3000;
     let player = { x: window.innerWidth/2, y: window.innerHeight/2, targetX: window.innerWidth/2, targetY: window.innerHeight/2 };
     let items = [], enemies = [], bullets = [], bossProjectiles = [];
@@ -253,6 +258,9 @@
     let bossFailTimer = 0;
     let holdBossSkipTimer = null;
     let pointerLocked = false;
+    let bonusPickupTimer = 0;
+    let bonusPickupX = 0;
+    let bonusPickupY = 0;
 
     function resize() {
         const width = Math.max(1, Math.round(canvas.clientWidth || window.innerWidth));
@@ -422,7 +430,7 @@
     function spawn(type) {
         let x, y;
         let speedMult = 1 + (Math.min(score, 60) / 42) + (Math.max(0, score - 60) / 84); 
-        if (['i', 's', 'w'].includes(type)) {
+        if (['i', 'd', 's', 'w'].includes(type)) {
             x = Math.random() * (canvas.width - 60) + 30;
             y = Math.random() * (canvas.height - 60) + 30;
         } else {
@@ -434,7 +442,7 @@
         }
         return {
             x, y, vx: (Math.random()-0.5)*4*speedMult, vy: (Math.random()-0.5)*4*speedMult,
-            s: type === 'e' ? 14 : 12, type, angle: 0,
+            s: type === 'e' ? 14 : (type === 'd' ? 18 : 12), type, angle: 0,
             isTracker: type === 'e' && score > 15 && Math.random() > 0.6
         };
     }
@@ -448,6 +456,7 @@
         bossSupplyTimer = 0;
         bossBeam = null;
         bossFailTimer = 0;
+        bonusPickupTimer = 0;
         crashTimer = 150;
         buffsEl.innerHTML = ""; 
     }
@@ -467,6 +476,7 @@
         items = [];
         bossBeam = null;
         buffsEl.innerHTML = "";
+        bonusPickupTimer = 0;
         msgEl.innerText = txt.bossFail;
         endSubtextEl.innerText = txt.bossFailSub;
         shake = 16;
@@ -484,6 +494,7 @@
         bossProjectiles = [];
         bossBeam = null;
         buffsEl.innerHTML = "";
+        bonusPickupTimer = 0;
         msgEl.innerText = txt.finalHud;
         mileEl.style.display = "flex";
         winTextEl.innerText = txt.final;
@@ -582,7 +593,7 @@
             drawCenteredLines(
                 failTitleLines,
                 canvas.height * (isTouchDevice ? 0.33 : 0.37),
-                isTouchDevice ? "700 15px Orbitron, monospace" : "700 22px Orbitron, monospace",
+                isTouchDevice ? "700 15px 'Exo 2', sans-serif" : "700 22px 'Exo 2', sans-serif",
                 "#ffffff",
                 isTouchDevice ? 22 : 30,
                 "#ff2a6d"
@@ -590,7 +601,7 @@
             drawCenteredLines(
                 [txt.bossFailSub],
                 canvas.height * (isTouchDevice ? 0.46 : 0.49),
-                isTouchDevice ? "500 10px Orbitron, monospace" : "500 13px Orbitron, monospace",
+                isTouchDevice ? "500 10px 'Exo 2', sans-serif" : "500 13px 'Exo 2', sans-serif",
                 "rgba(255,255,255,0.78)",
                 18,
                 "#ff2a6d"
@@ -637,7 +648,7 @@
                 bossBeam = null;
             }
 
-            if (boss.active && boss.hp <= 120 && !superWeaponDropped) {
+            if (boss.active && boss.hp <= 85 && !superWeaponDropped) {
                 const drop = spawn('w');
                 drop.type = 'x';
                 drop.x = Math.max(40, Math.min(canvas.width - 40, boss.x));
@@ -696,8 +707,12 @@
                     msgEl.innerText = txt.bossBeam;
                 }
 
-                if (bossSupplyTimer >= bossSupplyInterval && items.filter(i => i.type === 's' || i.type === 'w' || i.type === 'x').length < (isTouchDevice ? 4 : 2)) {
-                    const supply = spawn(boss.hp < 90 ? 's' : (Math.random() > 0.45 ? 'w' : 's'));
+                if (bossSupplyTimer >= bossSupplyInterval && items.filter(i => i.type === 's' || i.type === 'w' || i.type === 'x').length < (isTouchDevice ? 4 : 3)) {
+                    const supply = spawn(
+                        boss.hp < 90
+                            ? (Math.random() > 0.3 ? 's' : 'w')
+                            : (Math.random() > 0.58 ? 's' : 'w')
+                    );
                     supply.x = Math.random() * (canvas.width - 80) + 40;
                     supply.y = Math.random() * (canvas.height - 120) + 60;
                     supply.vx *= 0.4;
@@ -967,9 +982,10 @@
         }
 
         if (gameActive) {
-            while(items.filter(i=>i.type==='i').length < (boss.active ? 0 : 5)) items.push(spawn('i'));
-            if(Math.random() < 0.001 && items.filter(i=>i.type==='s').length < 1) items.push(spawn('s'));
-            if(Math.random() < 0.0015 && items.filter(i=>i.type==='w').length < 1) items.push(spawn('w'));
+            while(items.filter(i=>i.type==='i').length < (boss.active ? 0 : activeDataTarget)) items.push(spawn('i'));
+            if(!boss.active && Math.random() < bigDataSpawnChance && items.filter(i=>i.type==='d').length < 1) items.push(spawn('d'));
+            if(Math.random() < shieldSpawnChance && items.filter(i=>i.type==='s').length < 1) items.push(spawn('s'));
+            if(Math.random() < weaponSpawnChance && items.filter(i=>i.type==='w').length < 1) items.push(spawn('w'));
         }
 
         if (gameActive) items.forEach((it, i) => {
@@ -994,16 +1010,53 @@
                 }
                 ctx.restore();
             } else {
-                ctx.fillStyle = it.type === 's' ? "#00e5ff" : "#ccff00";
-                ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 10;
-                ctx.fillRect(it.x, it.y, it.s, it.s);
+                if (it.type === 's') {
+                    ctx.save();
+                    ctx.translate(it.x + 6, it.y + 6);
+                    ctx.strokeStyle = "#00e5ff";
+                    ctx.lineWidth = 2.5;
+                    ctx.shadowColor = "#00e5ff";
+                    ctx.shadowBlur = 12;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 7, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                } else if (it.type === 'd') {
+                    it.angle += 0.04;
+                    ctx.save();
+                    ctx.translate(it.x + 6, it.y + 6);
+                    ctx.rotate(it.angle);
+                    ctx.strokeStyle = "#ccff00";
+                    ctx.lineWidth = 2.5;
+                    ctx.shadowColor = "#ccff00";
+                    ctx.shadowBlur = 14;
+                    ctx.beginPath();
+                    ctx.moveTo(0, -11);
+                    ctx.lineTo(11, 0);
+                    ctx.lineTo(0, 11);
+                    ctx.lineTo(-11, 0);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.restore();
+                } else {
+                    ctx.fillStyle = "#ccff00";
+                    ctx.shadowColor = ctx.fillStyle;
+                    ctx.shadowBlur = 10;
+                    ctx.fillRect(it.x, it.y, it.s, it.s);
+                }
             }
 
             if(gameActive && Math.hypot(player.x - (it.x+6), player.y - (it.y+6)) < pickupRadius) {
                 if(it.type === 's') shieldTime = shieldDuration;
                 else if(it.type === 'w') weaponTime = weaponDuration;
                 else if(it.type === 'x') superWeaponTime = superWeaponDuration;
-                else score++;
+                else if(it.type === 'd') {
+                    score += 5;
+                    bonusPickupTimer = 50;
+                    bonusPickupX = player.x;
+                    bonusPickupY = player.y - 18;
+                    shake = Math.max(shake, 5);
+                } else score++;
                 items.splice(i, 1);
             }
         });
@@ -1047,6 +1100,20 @@
         });
 
         if(gameActive && !boss.active && Math.random() < 0.057 && enemies.length < (3 + score/10)) enemies.push(spawn('e'));
+
+        if (bonusPickupTimer > 0) {
+            const alpha = bonusPickupTimer / 50;
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = "#ccff00";
+            ctx.shadowColor = "#ccff00";
+            ctx.shadowBlur = 14;
+            ctx.font = isTouchDevice ? "700 12px 'Exo 2', sans-serif" : "700 14px 'Exo 2', sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(txt.dataBurst, bonusPickupX, bonusPickupY - (50 - bonusPickupTimer) * 0.45);
+            ctx.restore();
+            bonusPickupTimer--;
+        }
 
         ctx.restore();
         requestAnimationFrame(draw);

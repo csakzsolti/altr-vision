@@ -24,9 +24,14 @@
     <canvas id="particles"></canvas>
 
     <nav class="nav-bar">
-        <div class="nav-status" id="nav-status">LIVE // <strong id="nav-status-value">STUDIO 00:00</strong></div>
+        <div class="nav-status" id="nav-status">LIVE // <span id="nav-status-time">00:00</span> <strong id="nav-status-value">STUDIO MODE</strong></div>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-nav-links">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         
-        <div class="nav-links">
+        <div class="nav-links" id="site-nav-links">
             <a href="#inside" id="nav-signal">Inside</a>
             <a href="#projects" id="nav-projects">Projektek</a>
             <a href="#vision" id="nav-vision">Vízió</a>
@@ -68,24 +73,25 @@
                 </div>
             </div>
             <div class="signal-grid">
-                <article class="signal-card" data-index="01">
+                <article class="signal-card" data-index="01" tabindex="0" role="button" aria-expanded="true">
                     <span class="signal-label" id="signal-label-1">Creative Systems</span>
-                    <h3 id="signal-title-1">Appok, amiknek saját ritmusa van</h3>
-                    <p id="signal-desc-1">Nem csak funkciót építünk, hanem teljes digitális jelenlétet: hangot, ritmust és felismerhető karaktert.</p>
+                    <h3 id="signal-title-1">Nem steril appok, hanem kis digitális személyiségek</h3>
+                    <p id="signal-desc-1">Szeretjük, ha egy felület nem csak hasznos, hanem az első pár másodpercben már meg is jegyzed.</p>
                 </article>
-                <article class="signal-card" data-index="02">
+                <article class="signal-card" data-index="02" tabindex="0" role="button" aria-expanded="false">
                     <span class="signal-label" id="signal-label-2">Experimental Games</span>
-                    <h3 id="signal-title-2">Játszható ötletek kontrollált káosszal</h3>
-                    <p id="signal-desc-2">Kísérleti mechanikák, rejtett rendszerek és világépítő rétegek találkoznak olyan prototípusokban, amik szeretnek meglepni.</p>
+                    <h3 id="signal-title-2">Játékötletek, amik néha direkt rossz irányba kanyarodnak</h3>
+                    <p id="signal-desc-2">A kedvenc prototípusainkban mindig van valami enyhén gyanús: rejtett szabály, fura ritmus vagy egy félmosolyra húzott mechanika.</p>
                 </article>
-                <article class="signal-card" data-index="03">
+                <article class="signal-card" data-index="03" tabindex="0" role="button" aria-expanded="false">
                     <span class="signal-label" id="signal-label-3">Studio Mode</span>
-                    <h3 id="signal-title-3">Gyors iteráció, erős saját hang</h3>
-                    <p id="signal-desc-3">A cél nem a zajos mennyiség, hanem hogy minden projekt mögött legyen egy világos belső logika és egy emlékezetes atmoszféra.</p>
+                    <h3 id="signal-title-3">Gyors build, lassan kikopó rossz ötletek</h3>
+                    <p id="signal-desc-3">A működő irányokat meghagyjuk furcsának, a rosszakat pedig elengedjük még azelőtt, hogy túl kényelmesek lennének.</p>
                 </article>
             </div>
         </div>
     </section>
+    <div class="section-divider" aria-hidden="true"></div>
 
     <section class="signal-section" id="signal" hidden>
         <div class="signal-grid">
@@ -113,22 +119,28 @@
                 <h3 id="lab-title">Studio Signal // jelenlegi fókusz</h3>
                 <p id="lab-copy">Az AltR Vision jelenleg különböző app- és játékirányokat tesztel párhuzamosan. A cél nem a mennyiség, hanem az, hogy minden ötletből egy felismerhető, saját atmoszférájú digitális élmény szülessen.</p>
             </div>
-            <div class="lab-feed">
-                <div class="lab-feed-item">
-                    <strong id="lab-feed-title-1">Feed 01</strong>
-                    <span id="lab-feed-desc-1">Anonim közösségi élmények újragondolása gyors, letisztult felületekkel.</span>
+            <div class="lab-console">
+                <div class="lab-console-tabs" aria-label="Studio modes">
+                    <button type="button" class="lab-console-tab is-active" data-console-index="0" id="lab-console-tab-1">APP</button>
+                    <button type="button" class="lab-console-tab" data-console-index="1" id="lab-console-tab-2">MOVE</button>
+                    <button type="button" class="lab-console-tab" data-console-index="2" id="lab-console-tab-3">PLAY</button>
                 </div>
-                <div class="lab-feed-item">
-                    <strong id="lab-feed-title-2">Feed 02</strong>
-                    <span id="lab-feed-desc-2">Mozgás, útvonal és szállítás témák újrakeretezése termékoldali szemlélettel.</span>
-                </div>
-                <div class="lab-feed-item">
-                    <strong id="lab-feed-title-3">Feed 03</strong>
-                    <span id="lab-feed-desc-3">Interaktív, rejtett rendszerek és világépítő game-mechanikák prototipizálása.</span>
-                </div>
+                <article class="lab-console-panel" id="lab-console-panel">
+                    <div class="lab-console-panel-top">
+                        <span class="lab-console-kicker" id="lab-console-kicker">SIGNAL / APP</span>
+                        <span class="lab-console-index" id="lab-console-index">01</span>
+                    </div>
+                    <h4 class="lab-console-title" id="lab-console-title">Névtelenebb, gyorsabb, kicsit pimaszabb.</h4>
+                    <p class="lab-console-desc" id="lab-console-desc">Olyan felületeket keresünk, amik azonnal érthetők, de közben hagynak helyet a furcsaságnak is.</p>
+                    <div class="lab-console-meta">
+                        <span class="lab-console-chip" id="lab-console-meta-1">fast UI</span>
+                        <span class="lab-console-chip" id="lab-console-meta-2">social pulse</span>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
+    <div class="section-divider" aria-hidden="true"></div>
 
     <div class="section-title" id="projects">PROJEKTEK</div>
     
@@ -160,6 +172,7 @@
             </div>
         </a>
     </main>
+    <div class="section-divider" aria-hidden="true"></div>
 
     <div class="section-title" id="vision">A víziónk</div>
     <section class="info-section">
@@ -175,14 +188,45 @@
         </div>
     </section>
 
-    <footer id="contact">
-        <div class="social-links">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-icon">GH</a>
+    <section class="contact-section" id="contact">
+        <div class="contact-shell">
+            <div class="contact-copy">
+                <div class="contact-kicker" id="contact-kicker">OPEN CHANNEL</div>
+                <h3 class="contact-title" id="contact-title">Érdekes app, játékötlet vagy furcsa digitális rendszer jár a fejedben?</h3>
+                <p class="contact-text" id="contact-text">Nyitottak vagyunk új együttműködésekre, prototípusokra és különös ötletekre, amiknek saját hangjuk van.</p>
+            </div>
+            <aside class="note-board">
+                <div class="note-board-kicker" id="note-kicker">SEND A NOTE</div>
+                <h4 class="note-board-title" id="note-title">Küldj egy rövid üzenetet.</h4>
+                <p class="note-board-copy" id="note-copy">Itt közvetlenül összeállíthatsz egy emailt, ami a saját leveleződben nyílik meg elküldésre.</p>
+                <form class="note-form" id="note-form">
+                    <input id="note-subject" class="note-input note-input-line" maxlength="80" placeholder="Tárgy" />
+                    <textarea id="note-input" class="note-input" maxlength="320" placeholder="Írj egy rövid üzenetet..."></textarea>
+                    <div class="note-form-row">
+                        <span class="note-status" id="note-status"></span>
+                        <button type="submit" class="note-submit" id="note-submit">Email megnyitása</button>
+                    </div>
+                </form>
+            </aside>
+        </div>
+    </section>
+
+    <footer class="footer-strip">
+        <div class="footer-policy-links">
+            <a href="#" id="footer-policy-1">Privacy Policy</a>
+            <a href="#" id="footer-policy-2">Terms of Use</a>
+            <a href="https://github.com/csakzsolti/altr-vision" target="_blank" rel="noopener noreferrer" id="footer-policy-3">Source</a>
+        </div>
+        <div class="social-links footer-social-links">
+            <a href="https://github.com/csakzsolti/altr-vision" target="_blank" rel="noopener noreferrer" class="social-icon">GH</a>
             <a href="#" class="social-icon">IT</a>
             <a href="#" class="social-icon">DC</a>
         </div>
-        <a href="mailto:varadizsolt3@gmail.com" class="contact-btn" id="contact-link">Üzenet küldése</a>
-        <p style="color: #222; margin-top: 40px; font-size: 0.75rem; letter-spacing: 1px;">© 2026 ALTR VISION STUDIO • CRAFTED IN KÁOSZ</p>
+            <div class="footer-tail">
+                <div class="footer-brand">ALTR VISION</div>
+                <button type="button" class="footer-stamp" id="footer-anomaly">ANOMALY / OPEN</button>
+            </div>
+        <p class="footer-copyright">© 2026 ALTR VISION STUDIO • CRAFTED IN KÁOSZ</p>
     </footer>
 
     <nav class="floating-dock" aria-label="Section navigation">
