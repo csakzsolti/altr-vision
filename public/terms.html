@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felhasználási feltételek | AltR Vision</title>
+    <meta name="description" content="AltR Vision felhasználási feltételek.">
+    <link rel="icon" type="image/png" href="assets/altr1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Exo+2:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050507;
+            --cyan: #00e5ff;
+            --pink: #ff007f;
+            --glass: rgba(255,255,255,0.05);
+            --border: rgba(255,255,255,0.12);
+            --soft: rgba(255,255,255,0.72);
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 20px;
+            background:
+                radial-gradient(circle at top left, rgba(255,0,127,0.12), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(0,229,255,0.14), transparent 35%),
+                var(--bg);
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        .shell { width: min(980px, 100%); margin: 0 auto; }
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(10, 11, 17, 0.88);
+        }
+        .back-link {
+            color: white;
+            text-decoration: none;
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.03);
+        }
+        .lang-switcher { display: flex; gap: 8px; }
+        .lang-btn {
+            min-width: 44px;
+            height: 38px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.72);
+            font: inherit;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+        .lang-btn.active {
+            color: white;
+            border-color: var(--cyan);
+            background: rgba(0,229,255,0.08);
+            box-shadow: 0 0 16px rgba(0,229,255,0.18);
+        }
+        .lang-flag { font-size: 0.9rem; line-height: 1; display: inline-flex; border-radius: 4px; overflow: hidden; }
+        .panel {
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            background:
+                linear-gradient(180deg, rgba(20, 24, 31, 0.82), rgba(12, 12, 18, 0.9)),
+                var(--glass);
+            box-shadow: 0 18px 44px rgba(0,0,0,0.3);
+        }
+        .kicker {
+            color: var(--cyan);
+            font-size: 0.72rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+        h1 {
+            margin: 14px 0 12px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+        .lead {
+            margin: 0 0 24px;
+            color: var(--soft);
+            line-height: 1.7;
+            font-size: 1rem;
+            max-width: 64ch;
+        }
+        .grid { display: grid; gap: 14px; }
+        .block {
+            padding: 18px 18px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+        }
+        .block h2 {
+            margin: 0 0 8px;
+            font-size: 0.88rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #d6f8ff;
+        }
+        .block p, .block li {
+            color: var(--soft);
+            line-height: 1.7;
+            font-size: 0.96rem;
+        }
+        .block ul { margin: 10px 0 0 18px; padding: 0; }
+        .footer-note {
+            margin-top: 20px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.84rem;
+            letter-spacing: 0.04em;
+        }
+        @media (max-width: 720px) {
+            body { padding: 12px; }
+            .topbar { flex-direction: column; align-items: stretch; }
+            .lang-switcher { justify-content: flex-start; flex-wrap: wrap; }
+            .panel { padding: 20px 16px; }
+            .block { padding: 16px 14px 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <div class="topbar">
+            <a href="index.html#contact" class="back-link" id="back-link">Vissza a főoldalra</a>
+            <div class="lang-switcher">
+                <button class="lang-btn active" id="btn-hu" type="button"><span class="lang-flag">🇭🇺</span><span>HU</span></button>
+                <button class="lang-btn" id="btn-en" type="button"><span class="lang-flag">🇬🇧</span><span>EN</span></button>
+                <button class="lang-btn" id="btn-ja" type="button"><span class="lang-flag">🇯🇵</span><span>JP</span></button>
+                <button class="lang-btn" id="btn-xr" type="button"><span class="lang-flag">👽</span><span>XR</span></button>
+            </div>
+        </div>
+
+        <main class="panel">
+            <div class="kicker" id="kicker">TERMS</div>
+            <h1 id="title">Felhasználási feltételek</h1>
+            <p class="lead" id="lead">Ez az oldal egy kreatív stúdió és projektjei bemutatására szolgál. A tartalom tájékoztató jellegű, és a koncepciók idővel változhatnak.</p>
+
+            <section class="grid">
+                <div class="block">
+                    <h2 id="section-1-title">Tartalom jellege</h2>
+                    <p id="section-1-copy">Az itt látható projektek, leírások, vizuális elemek és interaktív részek bemutató, prototípus vagy koncepciós célokat is szolgálhatnak. Nem minden rész tekinthető végleges terméknek.</p>
+                </div>
+
+                <div class="block">
+                    <h2 id="section-2-title">Használat</h2>
+                    <p id="section-2-copy">Az oldalt saját felelősségre lehet böngészni és használni. Az interaktív részek, minijátékok és oldalközti linkek élménycélokat szolgálnak, és idővel változhatnak.</p>
+                </div>
+
+                <div class="block">
+                    <h2 id="section-3-title">Szellemi tartalom</h2>
+                    <p id="section-3-copy">A vizuális elemek, szövegek, koncepciók és egyéb egyedi tartalmak az AltR Visionhez kapcsolódnak, kivéve ahol külön forrás vagy külső hivatkozás szerepel.</p>
+                </div>
+
+                <div class="block">
+                    <h2 id="section-4-title">Külső hivatkozások</h2>
+                    <p id="section-4-copy">Az oldalon lehetnek külső linkek vagy harmadik félhez tartozó szolgáltatások. Ezek tartalmáért és működéséért saját szabályaik szerint azok felelnek.</p>
+                </div>
+
+                <div class="block">
+                    <h2 id="section-5-title">Változások</h2>
+                    <ul id="section-5-list">
+                        <li>A projektek állapota és leírása változhat.</li>
+                        <li>Az oldal dizájnja, szerkezete és funkciói idővel módosulhatnak.</li>
+                        <li>Ezek a feltételek is frissülhetnek a jövőben.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <p class="footer-note" id="footer-note">Ha valami nem egyértelmű, érdemes a főoldali kapcsolat részen keresztül írni.</p>
+        </main>
+    </div>
+
+    <script>
+        const translations = {
+            hu: {
+                title: "Felhasználási feltételek",
+                kicker: "TERMS",
+                back: "Vissza a főoldalra",
+                lead: "Ez az oldal egy kreatív stúdió és projektjei bemutatására szolgál. A tartalom tájékoztató jellegű, és a koncepciók idővel változhatnak.",
+                s1t: "Tartalom jellege",
+                s1c: "Az itt látható projektek, leírások, vizuális elemek és interaktív részek bemutató, prototípus vagy koncepciós célokat is szolgálhatnak. Nem minden rész tekinthető végleges terméknek.",
+                s2t: "Használat",
+                s2c: "Az oldalt saját felelősségre lehet böngészni és használni. Az interaktív részek, minijátékok és oldalközti linkek élménycélokat szolgálnak, és idővel változhatnak.",
+                s3t: "Szellemi tartalom",
+                s3c: "A vizuális elemek, szövegek, koncepciók és egyéb egyedi tartalmak az AltR Visionhez kapcsolódnak, kivéve ahol külön forrás vagy külső hivatkozás szerepel.",
+                s4t: "Külső hivatkozások",
+                s4c: "Az oldalon lehetnek külső linkek vagy harmadik félhez tartozó szolgáltatások. Ezek tartalmáért és működéséért saját szabályaik szerint azok felelnek.",
+                s5t: "Változások",
+                s5l: [
+                    "A projektek állapota és leírása változhat.",
+                    "Az oldal dizájnja, szerkezete és funkciói idővel módosulhatnak.",
+                    "Ezek a feltételek is frissülhetnek a jövőben."
+                ],
+                foot: "Ha valami nem egyértelmű, érdemes a főoldali kapcsolat részen keresztül írni."
+            },
+            en: {
+                title: "Terms of Use",
+                kicker: "TERMS",
+                back: "Back to home",
+                lead: "This site exists to present a creative studio and its projects. The content is informational, and concepts may change over time.",
+                s1t: "Nature of the content",
+                s1c: "Projects, descriptions, visual elements, and interactive parts shown here may also serve showcase, prototype, or concept purposes. Not every element should be treated as a final product.",
+                s2t: "Use of the site",
+                s2c: "You may browse and use the site at your own discretion. Interactive parts, mini-games, and cross-page links are built for experience and may evolve over time.",
+                s3t: "Intellectual content",
+                s3c: "Visuals, text, concepts, and other original elements belong to AltR Vision unless a separate source or external reference is explicitly shown.",
+                s4t: "External links",
+                s4c: "The site may include external links or third-party services. Those destinations remain subject to their own rules and responsibilities.",
+                s5t: "Changes",
+                s5l: [
+                    "Project status and descriptions may change.",
+                    "The site's design, structure, and features may be updated over time.",
+                    "These terms may also be revised in the future."
+                ],
+                foot: "If something is unclear, the best route is still the contact section on the main page."
+            },
+            ja: {
+                title: "利用規約",
+                kicker: "TERMS",
+                back: "トップへ戻る",
+                lead: "このサイトはクリエイティブスタジオとそのプロジェクトを紹介するためのものです。内容は案内用であり、コンセプトは今後変わる可能性があります。",
+                s1t: "掲載内容について",
+                s1c: "ここに掲載されているプロジェクト、説明、ビジュアル要素、インタラクティブ要素は、ショーケース、試作、またはコンセプト目的を兼ねる場合があります。すべてが完成版の製品を意味するものではありません。",
+                s2t: "利用について",
+                s2c: "このサイトは利用者自身の判断で閲覧・利用できます。インタラクティブ要素、ミニゲーム、ページ間リンクは体験の一部として提供され、今後変更される場合があります。",
+                s3t: "知的コンテンツ",
+                s3c: "ビジュアル、文章、コンセプト、その他の独自要素は、別途ソースや外部参照が明記されていない限り、AltR Visionに関連します。",
+                s4t: "外部リンク",
+                s4c: "このサイトには外部リンクや第三者サービスが含まれる場合があります。それらの内容や運用は、それぞれのルールと責任のもとにあります。",
+                s5t: "変更について",
+                s5l: [
+                    "プロジェクトの状態や説明は変更される場合があります。",
+                    "サイトのデザイン、構造、機能は今後更新される場合があります。",
+                    "この利用条件も将来的に改訂される場合があります。"
+                ],
+                foot: "不明点がある場合は、メインページの連絡セクションからお問い合わせください。"
+            }
+        };
+
+        const alienGlyphMap = {
+            a: "∆", A: "∆", b: "β", B: "β", c: "Ↄ", C: "Ↄ", d: "◧", D: "◧", e: "Ξ", E: "Ξ",
+            f: "Ϝ", F: "Ϝ", g: "Ǥ", G: "Ǥ", h: "Ħ", H: "Ħ", i: "ı", I: "ı", j: "ʝ", J: "ʝ",
+            k: "Ҡ", K: "Ҡ", l: "⟂", L: "⟂", m: "Ɱ", M: "Ɱ", n: "Ŋ", N: "Ŋ", o: "⊘", O: "⊘",
+            p: "Ҏ", P: "Ҏ", q: "Ҩ", Q: "Ҩ", r: "Ɽ", R: "Ɽ", s: "Ϟ", S: "Ϟ", t: "Ŧ", T: "Ŧ",
+            u: "⋃", U: "⋃", v: "⋎", V: "⋎", w: "Ψ", W: "Ψ", x: "Ӿ", X: "Ӿ", y: "Ұ", Y: "Ұ", z: "Ȥ", Z: "Ȥ",
+            0: "◌", 1: "⟊", 2: "ᒿ", 3: "Ӡ", 4: "ϟ", 5: "Ϭ", 6: "Ⳓ", 7: "⌁", 8: "∞", 9: "ϴ"
+        };
+        function alienizeString(value) {
+            return value.split(/(<[^>]+>)/g).map((chunk) => {
+                if (chunk.startsWith("<") && chunk.endsWith(">")) return chunk;
+                return chunk.replace(/[A-Za-z0-9]/g, (char) => alienGlyphMap[char] || char);
+            }).join("");
+        }
+        function alienizeDeep(value) {
+            if (Array.isArray(value)) return value.map(alienizeDeep);
+            if (value && typeof value === "object") return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, alienizeDeep(item)]));
+            if (typeof value === "string") return alienizeString(value);
+            return value;
+        }
+        translations.xr = alienizeDeep(translations.en);
+
+        const supported = ["hu", "en", "ja", "xr"];
+        let currentLang = supported.includes(localStorage.getItem("selectedLang")) ? localStorage.getItem("selectedLang") : "hu";
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem("selectedLang", lang);
+            document.documentElement.lang = lang;
+            document.title = `${translations[lang].title} | AltR Vision`;
+            document.getElementById("kicker").textContent = translations[lang].kicker;
+            document.getElementById("title").textContent = translations[lang].title;
+            document.getElementById("back-link").textContent = translations[lang].back;
+            document.getElementById("lead").textContent = translations[lang].lead;
+            document.getElementById("section-1-title").textContent = translations[lang].s1t;
+            document.getElementById("section-1-copy").textContent = translations[lang].s1c;
+            document.getElementById("section-2-title").textContent = translations[lang].s2t;
+            document.getElementById("section-2-copy").textContent = translations[lang].s2c;
+            document.getElementById("section-3-title").textContent = translations[lang].s3t;
+            document.getElementById("section-3-copy").textContent = translations[lang].s3c;
+            document.getElementById("section-4-title").textContent = translations[lang].s4t;
+            document.getElementById("section-4-copy").textContent = translations[lang].s4c;
+            document.getElementById("section-5-title").textContent = translations[lang].s5t;
+            document.getElementById("section-5-list").innerHTML = translations[lang].s5l.map(item => `<li>${item}</li>`).join("");
+            document.getElementById("footer-note").textContent = translations[lang].foot;
+            document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.remove("active"));
+            document.getElementById(`btn-${lang}`).classList.add("active");
+        }
+
+        document.getElementById("btn-hu").addEventListener("click", () => setLang("hu"));
+        document.getElementById("btn-en").addEventListener("click", () => setLang("en"));
+        document.getElementById("btn-ja").addEventListener("click", () => setLang("ja"));
+        document.getElementById("btn-xr").addEventListener("click", () => setLang("xr"));
+        setLang(currentLang);
+    </script>
+</body>
+</html>

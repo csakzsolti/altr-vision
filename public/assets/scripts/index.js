@@ -30,6 +30,7 @@
                     </div>
                     <p class="card-copy">${config.desc}</p>
                     <div class="card-meta">${metaHtml}</div>
+                    <div class="card-open-hint">${translations[lang]["project-open-hint"]}<span aria-hidden="true">↗</span></div>
                 `;
             });
         }
@@ -87,7 +88,7 @@
 
             const now = new Date();
             const hour = now.getHours();
-            const time = now.toLocaleTimeString(currentLang === 'en' ? 'en-GB' : 'hu-HU', {
+            const time = now.toLocaleTimeString(currentLang === 'en' || currentLang === 'xr' ? 'en-GB' : currentLang === 'ja' ? 'ja-JP' : 'hu-HU', {
                 hour: '2-digit',
                 minute: '2-digit'
             });
@@ -123,7 +124,24 @@
                 { start: 22, end: 24, label: "IDEAS HIT DIFFERENT THIS LATE" }
             ];
 
-            const modes = currentLang === 'en' ? enModes : huModes;
+            const jaModes = [
+                { start: 0, end: 1, label: "深夜シフト中" },
+                { start: 1, end: 3, label: "また夜更かししてる" },
+                { start: 3, end: 5, label: "今夜も寝ない気がする" },
+                { start: 5, end: 6, label: "またのぞきに来てね" },
+                { start: 6, end: 8, label: "コーヒーブレイク" },
+                { start: 8, end: 9, label: "さて、始めようか" },
+                { start: 9, end: 12, label: "一日が始まる？" },
+                { start: 12, end: 13, label: "もうお昼食べた？" },
+                { start: 13, end: 15, label: "昼食後のぼんやりタイム" },
+                { start: 15, end: 17, label: "ちょっと創造的に先延ばし" },
+                { start: 17, end: 20, label: "仕事帰りに見てる？" },
+                { start: 20, end: 22, label: "またのぞきに来てね" },
+                { start: 22, end: 24, label: "この時間のほうがアイデアが冴える" }
+            ];
+
+            const xrModes = alienizeDeep(enModes);
+            const modes = currentLang === 'en' ? enModes : currentLang === 'ja' ? jaModes : currentLang === 'xr' ? xrModes : huModes;
             const mode = modes.find((entry) => hour >= entry.start && hour < entry.end) || modes[0];
             timeEl.textContent = time;
             valueEl.textContent = mode.label;
@@ -182,10 +200,10 @@
 
             if (anomalyEl) {
                 anomalyEl.addEventListener('click', () => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    scrollToSectionWithOffset('home');
                     window.setTimeout(() => {
                         triggerLogoGlitch();
-                    }, 360);
+                    }, 760);
                 });
             }
 
@@ -271,7 +289,8 @@
             });
         }
 
-        let currentLang = localStorage.getItem('selectedLang') || 'hu';
+        const supportedLangs = ['hu', 'en', 'ja', 'xr'];
+        let currentLang = supportedLangs.includes(localStorage.getItem('selectedLang')) ? localStorage.getItem('selectedLang') : 'hu';
         let isOverdrive = false;
         function animateI18nSwap(el, html) {
             if (!el) return;
@@ -285,6 +304,7 @@
 
         function setLang(lang) {
                 currentLang = lang;
+                document.body.classList.toggle('xr-mode', lang === 'xr');
                 Object.keys(translations[lang]).forEach(id => {
                     const el = document.getElementById(id);
                     if (el) {
@@ -294,7 +314,8 @@
                     }
                 });
                 document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-                document.getElementById('btn-' + lang).classList.add('active');
+                const activeButton = document.getElementById('btn-' + lang);
+                if (activeButton) activeButton.classList.add('active');
                 localStorage.setItem('selectedLang', lang);
                 document.documentElement.lang = lang;
                 updateSectionKickers(lang);
@@ -319,6 +340,7 @@
         initExpandablePanels('.signal-section-next .signal-card', 'is-active');
         initLabConsole();
         initMobileNav();
+        initAnchorNavigation();
         document.querySelectorAll('#signal[hidden] [id]').forEach((el) => el.removeAttribute('id'));
         const embeddedGameFrame = document.getElementById('game-frame');
         if (embeddedGameFrame && !embeddedGameFrame.src.endsWith('game.html')) {
@@ -484,6 +506,76 @@
 
             const initialHash = window.location.hash ? window.location.hash.slice(1) : 'home';
             updateActiveDockLink(sectionIds.includes(initialHash) ? initialHash : 'home');
+        }
+
+        function scrollToSectionWithOffset(targetId) {
+            const target = document.getElementById(targetId);
+            if (!target) return;
+
+            const navBar = document.querySelector('.nav-bar');
+            const navHeight = navBar ? navBar.getBoundingClientRect().height : 0;
+            const extraOffset = window.innerWidth <= 560 ? 24 : window.innerWidth <= 768 ? 18 : 20;
+            const scroller = document.scrollingElement || document.documentElement;
+            const startTop = scroller.scrollTop;
+
+            const animateScrollTo = (endTop) => {
+                if (window.__scrollAnimationFrame) {
+                    cancelAnimationFrame(window.__scrollAnimationFrame);
+                }
+
+                const start = scroller.scrollTop;
+                const distance = endTop - start;
+                const duration = Math.min(720, Math.max(380, Math.abs(distance) * 0.55));
+                const startTime = performance.now();
+                const easeInOutCubic = (t) => (
+                    t < 0.5
+                        ? 4 * t * t * t
+                        : 1 - Math.pow(-2 * t + 2, 3) / 2
+                );
+
+                const step = (now) => {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = easeInOutCubic(progress);
+                    scroller.scrollTop = start + distance * eased;
+
+                    if (progress < 1) {
+                        window.__scrollAnimationFrame = requestAnimationFrame(step);
+                    }
+                };
+
+                window.__scrollAnimationFrame = requestAnimationFrame(step);
+            };
+
+            if (targetId === 'home') {
+                if (Math.abs(startTop) < 2) return;
+                animateScrollTo(0);
+                updateActiveDockLink('home');
+                return;
+            }
+
+            const targetTop = target.getBoundingClientRect().top + window.scrollY;
+            const finalTop = Math.max(targetTop - navHeight - extraOffset, 0);
+            if (Math.abs(finalTop - startTop) < 2) return;
+            animateScrollTo(finalTop);
+            updateActiveDockLink(targetId);
+        }
+
+        function initAnchorNavigation() {
+            document.addEventListener('click', (event) => {
+                const link = event.target.closest('a[href^="#"]');
+                if (!link) return;
+
+                const href = link.getAttribute('href');
+                if (!href || href === '#') return;
+
+                const targetId = href.slice(1);
+                const target = document.getElementById(targetId);
+                if (!target) return;
+
+                event.preventDefault();
+                scrollToSectionWithOffset(targetId);
+            }, true);
         }
 
         function syncDockWithScrollTop() {

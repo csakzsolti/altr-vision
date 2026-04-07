@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
@@ -49,8 +49,14 @@
             font-weight: 800;
             letter-spacing: 0.14em;
             text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
             transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
         }
+
+        .lang-flag { font-size: 0.9rem; line-height: 1; display: inline-flex; border-radius: 4px; overflow: hidden; }
 
         .lang-btn.active {
             color: white;
@@ -171,8 +177,10 @@
 </head>
 <body>
     <div class="lang-switcher">
-        <button class="lang-btn" id="btn-hu" type="button">HU</button>
-        <button class="lang-btn" id="btn-en" type="button">EN</button>
+        <button class="lang-btn" id="btn-hu" type="button"><span class="lang-flag">🇭🇺</span><span>HU</span></button>
+        <button class="lang-btn" id="btn-en" type="button"><span class="lang-flag">🇬🇧</span><span>EN</span></button>
+        <button class="lang-btn" id="btn-ja" type="button"><span class="lang-flag">🇯🇵</span><span>JP</span></button>
+        <button class="lang-btn" id="btn-xr" type="button"><span class="lang-flag">👽</span><span>XR</span></button>
     </div>
     <main class="panel">
         <div class="label" id="label">100 MB DATA PACKAGE</div>
@@ -181,61 +189,104 @@
 
         <section class="fake-file">
             <strong id="contents-title">Titkos tartalom</strong>
-            <p id="file-1">1. “vegso_vegleges3_tenyleg_final.psd”</p>
-            <p id="file-2">2. “meeting_jegyzetek_amirol_senkinek_sem_szolunk.txt”</p>
-            <p id="file-3">3. “fozokonyv_kavegephez_v2.pdf”</p>
-            <p id="file-4">4. “motivacios_mondatok_de_inkabb_nem.docx”</p>
-            <p id="file-5">5. “miert_nyitottuk_ki_ezt_a_portot_megint.md”</p>
-            <p id="file-6">6. “azkomoly.jpg”</p>
+            <p id="file-1">1. „vegso_vegleges3_tenyleg_final.psd”</p>
+            <p id="file-2">2. „meeting_jegyzetek_amirol_senkinek_sem_szolunk.txt”</p>
+            <p id="file-3">3. „fozokonyv_kavegephez_v2.pdf”</p>
+            <p id="file-4">4. „motivacios_mondatok_de_inkabb_nem.docx”</p>
+            <p id="file-5">5. „miert_nyitottuk_ki_ezt_a_portot_megint.md”</p>
+            <p id="file-6">6. „azkomoly.jpg”</p>
         </section>
 
         <p id="outro">A biztonsági csapat jelenleg úgy tesz, mintha ez szándékos lett volna.</p>
-        <div class="tiny" id="tiny">Az AltR Vision reméli, hogy büszke vagy magadra.</div>
+        <div class="tiny" id="tiny">Az AltR Vision felelősséget nem vállal a megszerzett digitális hülyeségekért.</div>
     </main>
     <script>
         const translations = {
             hu: {
-                title: "Sikeres adatlopás",
-                intro: "Gratulálunk. Megnyitottad a teljes 100 MB-nyi titkos állományt, ami valójában egy rendkívül érzékeny, vállalati fontosságú dokumentumcsomag.",
-                "contents-title": "Titkos tartalom",
-                "file-1": "1. “vegso_vegleges3_tenyleg_final.psd”",
-                "file-2": "2. “meeting_jegyzetek_amirol_senkinek_sem_szolunk.txt”",
-                "file-3": "3. “fozokonyv_kavegephez_v2.pdf”",
-                "file-4": "4. “motivacios_mondatok_de_inkabb_nem.docx”",
-                "file-5": "5. “miert_nyitottuk_ki_ezt_a_portot_megint.md”",
-                "file-6": "6. “azkomoly.jpg”",
-                outro: "A biztonsági csapat jelenleg úgy tesz, mintha ez szándékos lett volna.",
-                tiny: "Az AltR Vision felelősséget nem vállal a megszerzett digitális hülyeségekért."
+                label: '100 MB DATA PACKAGE',
+                title: 'Sikeres adatlopás',
+                intro: 'Gratulálunk. Megnyitottad a teljes 100 MB-nyi titkos állományt, ami valójában egy rendkívül érzékeny, vállalati fontosságú dokumentumcsomag.',
+                'contents-title': 'Titkos tartalom',
+                'file-1': '1. „vegso_vegleges3_tenyleg_final.psd”',
+                'file-2': '2. „meeting_jegyzetek_amirol_senkinek_sem_szolunk.txt”',
+                'file-3': '3. „fozokonyv_kavegephez_v2.pdf”',
+                'file-4': '4. „motivacios_mondatok_de_inkabb_nem.docx”',
+                'file-5': '5. „miert_nyitottuk_ki_ezt_a_portot_megint.md”',
+                'file-6': '6. „azkomoly.jpg”',
+                outro: 'A biztonsági csapat jelenleg úgy tesz, mintha ez szándékos lett volna.',
+                tiny: 'Az AltR Vision felelősséget nem vállal a megszerzett digitális hülyeségekért.'
             },
             en: {
-                title: "Successful Data Theft",
-                intro: "Congratulations. You have opened the full 100 MB classified package, which turns out to be an extremely sensitive collection of deeply important corporate documents.",
-                "contents-title": "Classified Contents",
-                "file-1": "1. “final_final3_for_real.psd”",
-                "file-2": "2. “meeting_notes_we_do_not_discuss.txt”",
-                "file-3": "3. “coffee_machine_manual_v2.pdf”",
-                "file-4": "4. “motivational_quotes_but_probably_not.docx”",
-                "file-5": "5. “why_did_we_leave_that_port_open_again.md”",
-                "file-6": "6. “well_thats_something.jpg”",
-                outro: "The security team is currently pretending this was all part of the plan.",
-                tiny: "AltR Vision accepts no responsibility for the digital nonsense you may have acquired."
+                label: '100 MB DATA PACKAGE',
+                title: 'Successful Data Theft',
+                intro: 'Congratulations. You have opened the full 100 MB classified package, which turns out to be an extremely sensitive collection of deeply important corporate documents.',
+                'contents-title': 'Classified Contents',
+                'file-1': '1. “final_final3_for_real.psd”',
+                'file-2': '2. “meeting_notes_we_do_not_discuss.txt”',
+                'file-3': '3. “coffee_machine_manual_v2.pdf”',
+                'file-4': '4. “motivational_quotes_but_probably_not.docx”',
+                'file-5': '5. “why_did_we_leave_that_port_open_again.md”',
+                'file-6': '6. “well_thats_something.jpg”',
+                outro: 'The security team is currently pretending this was all part of the plan.',
+                tiny: 'AltR Vision accepts no responsibility for the digital nonsense you may have acquired.'
+            },
+            ja: {
+                label: '100 MB DATA PACKAGE',
+                title: 'データ奪取成功',
+                intro: 'おめでとうございます。100MB分の機密パッケージを開封しました。中身は、非常に重要そうで実はかなり妙な社内文書の束です。',
+                'contents-title': '機密内容',
+                'file-1': '1. “final_final3_for_real.psd”',
+                'file-2': '2. “notes_we_never_talk_about.txt”',
+                'file-3': '3. “coffee_machine_manual_v2.pdf”',
+                'file-4': '4. “motivational_quotes_maybe_not.docx”',
+                'file-5': '5. “why_did_we_open_that_port_again.md”',
+                'file-6': '6. “well_thats_something.jpg”',
+                outro: 'セキュリティチームは現在、これも計画通りだったことにしようとしています。',
+                tiny: 'AltR Visionは、手に入れたデジタルなくだらなさについて責任を負いません。'
             }
         };
+
+        const alienGlyphMap = {
+            a: "∆", A: "∆", b: "β", B: "β", c: "Ↄ", C: "Ↄ", d: "◧", D: "◧", e: "Ξ", E: "Ξ",
+            f: "Ϝ", F: "Ϝ", g: "Ǥ", G: "Ǥ", h: "Ħ", H: "Ħ", i: "ı", I: "ı", j: "ʝ", J: "ʝ",
+            k: "Ҡ", K: "Ҡ", l: "⟂", L: "⟂", m: "Ɱ", M: "Ɱ", n: "Ŋ", N: "Ŋ", o: "⊘", O: "⊘",
+            p: "Ҏ", P: "Ҏ", q: "Ҩ", Q: "Ҩ", r: "Ɽ", R: "Ɽ", s: "Ϟ", S: "Ϟ", t: "Ŧ", T: "Ŧ",
+            u: "⋃", U: "⋃", v: "⋎", V: "⋎", w: "Ψ", W: "Ψ", x: "Ӿ", X: "Ӿ", y: "Ұ", Y: "Ұ", z: "Ȥ", Z: "Ȥ",
+            0: "◌", 1: "⟊", 2: "ᒿ", 3: "Ӡ", 4: "ϟ", 5: "Ϭ", 6: "Ⳓ", 7: "⌁", 8: "∞", 9: "ϴ"
+        };
+        function alienizeString(value) {
+            return value.split(/(<[^>]+>)/g).map((chunk) => {
+                if (chunk.startsWith("<") && chunk.endsWith(">")) return chunk;
+                return chunk.replace(/[A-Za-z0-9]/g, (char) => alienGlyphMap[char] || char);
+            }).join("");
+        }
+        function alienizeDeep(value) {
+            if (Array.isArray(value)) return value.map(alienizeDeep);
+            if (value && typeof value === "object") return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, alienizeDeep(item)]));
+            if (typeof value === "string") return alienizeString(value);
+            return value;
+        }
+        translations.xr = alienizeDeep(translations.en);
 
         function setLang(lang) {
             document.documentElement.lang = lang;
             localStorage.setItem('selectedLang', lang);
             document.getElementById('btn-hu').classList.toggle('active', lang === 'hu');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+            document.getElementById('btn-xr').classList.toggle('active', lang === 'xr');
             Object.entries(translations[lang]).forEach(([id, text]) => {
                 const el = document.getElementById(id);
                 if (el) el.textContent = text;
             });
         }
 
-        const lang = localStorage.getItem('selectedLang') === 'en' ? 'en' : 'hu';
+        const savedLang = localStorage.getItem('selectedLang');
+        const lang = ['hu', 'en', 'ja', 'xr'].includes(savedLang) ? savedLang : 'hu';
         document.getElementById('btn-hu').addEventListener('click', () => setLang('hu'));
         document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
+        document.getElementById('btn-ja').addEventListener('click', () => setLang('ja'));
+        document.getElementById('btn-xr').addEventListener('click', () => setLang('xr'));
         setLang(lang);
     </script>
 </body>

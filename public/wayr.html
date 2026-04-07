@@ -76,8 +76,13 @@
             font-weight: 800;
             letter-spacing: 0.16em;
             text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
             transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
         }
+        .lang-flag { font-size: 0.9rem; line-height: 1; display: inline-flex; border-radius: 4px; overflow: hidden; }
         .lang-btn.active {
             color: white;
             border-color: #00e5ff;
@@ -231,10 +236,36 @@
         @media (max-width: 720px) {
             * { cursor: auto !important; }
             #cursor { display: none; }
-            .topbar { top: 12px; width: calc(100% - 16px); padding: 8px; }
-            .topbar-group, .topbar-nav { gap: 8px; }
-            .nav-chip { min-height: 38px; padding: 0 12px; font-size: 0.62rem; letter-spacing: 0.16em; }
-            .project-shell { width: calc(100% - 18px); margin-top: 86px; gap: 18px; }
+            .topbar {
+                top: 12px;
+                width: calc(100% - 16px);
+                padding: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+            .topbar-group,
+            .topbar-nav {
+                gap: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .topbar-nav {
+                width: 100%;
+            }
+            .topbar .lang-switcher {
+                position: static;
+                transform: none;
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-chip {
+                min-height: 38px;
+                padding: 0 12px;
+                font-size: 0.58rem;
+                letter-spacing: 0.12em;
+            }
+            .project-shell { width: calc(100% - 18px); margin-top: 126px; gap: 18px; }
             .content-panel { padding: 24px 18px 26px; }
             .stats-grid { grid-template-columns: 1fr; gap: 8px; }
             .stat-card { grid-template-columns: 1fr; gap: 6px; padding: 10px 11px; }
@@ -291,8 +322,10 @@
             <a href="projectx.html" class="nav-chip" id="label-next">Következő</a>
         </div>
         <div class="lang-switcher">
-            <button class="lang-btn" id="btn-hu" type="button">HU</button>
-            <button class="lang-btn" id="btn-en" type="button">EN</button>
+            <button class="lang-btn" id="btn-hu" type="button"><span class="lang-flag">🇭🇺</span><span>HU</span></button>
+            <button class="lang-btn" id="btn-en" type="button"><span class="lang-flag">🇬🇧</span><span>EN</span></button>
+            <button class="lang-btn" id="btn-ja" type="button"><span class="lang-flag">🇯🇵</span><span>JP</span></button>
+            <button class="lang-btn" id="btn-xr" type="button"><span class="lang-flag">👽</span><span>XR</span></button>
         </div>
     </nav>
     <main class="project-shell">
@@ -373,6 +406,33 @@
                     { key: "Mood", value: "Clean, productive and system-led, with a slightly futuristic tone." },
                     { key: "Goal", value: "To merge movement, routing and delivery into one intelligent layer." }
                 ]
+            },
+            ja: {
+                prevLabel: "前へ",
+                btnHome: "ホームへ戻る",
+                nextLabel: "次へ",
+                eyebrow: "Studio System / 02",
+                mediaBadge: "Route Layer",
+                status: "コンセプト / build",
+                desc: "WayRは、既存の都市の移動をスマートな物流レイヤーへ変換するシステム構想です。新しい配達網を増やすのではなく、すでにあるルートをもっと賢く使うことを目指しています。",
+                featuresTitle: "主な要素",
+                timelineTitle: "なぜ面白いのか",
+                stats: [
+                    { label: "ジャンル", value: "Routing / delivery" },
+                    { label: "ムード", value: "Urban / efficient" },
+                    { label: "状態", value: "Concept build" }
+                ],
+                features: [
+                    { title: "カーボンニュートラルな方向性", desc: "新しい騒がしい配送レイヤーを足すのではなく、既存の移動を使います。" },
+                    { title: "スマートなマッチング", desc: "配達を既存ルートに沿わせることで、寄り道を最小限に抑えます。" },
+                    { title: "WooCommerce連携", desc: "Webショップ側の注文フローと自然に接続できる構成です。" },
+                    { title: "安全な受け渡し", desc: "QRやOTPベースの受け渡しロジックで現実の受取ポイントを管理できます。" }
+                ],
+                timeline: [
+                    { key: "方向性", value: "都市の感度を保ちながら、物流をもっと少ない無駄で組み直すこと。" },
+                    { key: "ムード", value: "クリーンで生産的、システム主導で、少しだけ未来的なトーン。" },
+                    { key: "目的", value: "移動、ルート、配送をひとつの知的なレイヤーにまとめること。" }
+                ]
             }
         };
         translations.hu.metaTitle = "WayR | AltR Vision";
@@ -381,7 +441,31 @@
         translations.en.metaTitle = "WayR | AltR Vision";
         translations.en.metaDescription = "WayR is AltR Vision's logistics concept turning existing commutes and routes into a smarter, greener delivery layer.";
         translations.en.metaOgDescription = "A mobility-driven delivery concept shaped around existing routes, lower waste, and a cleaner system layer.";
-        let currentLang = localStorage.getItem('selectedLang') === 'en' ? 'en' : 'hu';
+        translations.ja.metaTitle = "WayR | AltR Vision";
+        translations.ja.metaDescription = "WayRは、通勤や既存ルートをより賢く、より環境にやさしい配送レイヤーへ変換するAltR Visionの物流構想です。";
+        translations.ja.metaOgDescription = "既存ルート、少ない無駄、よりクリーンなシステム設計を軸にしたモビリティ発想の配送コンセプト。";
+        const alienGlyphMap = {
+            a: "∆", A: "∆", b: "β", B: "β", c: "Ↄ", C: "Ↄ", d: "◧", D: "◧", e: "Ξ", E: "Ξ",
+            f: "Ϝ", F: "Ϝ", g: "Ǥ", G: "Ǥ", h: "Ħ", H: "Ħ", i: "ı", I: "ı", j: "ʝ", J: "ʝ",
+            k: "Ҡ", K: "Ҡ", l: "⟂", L: "⟂", m: "Ɱ", M: "Ɱ", n: "Ŋ", N: "Ŋ", o: "⊘", O: "⊘",
+            p: "Ҏ", P: "Ҏ", q: "Ҩ", Q: "Ҩ", r: "Ɽ", R: "Ɽ", s: "Ϟ", S: "Ϟ", t: "Ŧ", T: "Ŧ",
+            u: "⋃", U: "⋃", v: "⋎", V: "⋎", w: "Ψ", W: "Ψ", x: "Ӿ", X: "Ӿ", y: "Ұ", Y: "Ұ", z: "Ȥ", Z: "Ȥ",
+            0: "◌", 1: "⟊", 2: "ᒿ", 3: "Ӡ", 4: "ϟ", 5: "Ϭ", 6: "Ⳓ", 7: "⌁", 8: "∞", 9: "ϴ"
+        };
+        function alienizeString(value) {
+            return value.split(/(<[^>]+>)/g).map((chunk) => {
+                if (chunk.startsWith("<") && chunk.endsWith(">")) return chunk;
+                return chunk.replace(/[A-Za-z0-9]/g, (char) => alienGlyphMap[char] || char);
+            }).join("");
+        }
+        function alienizeDeep(value) {
+            if (Array.isArray(value)) return value.map(alienizeDeep);
+            if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, alienizeDeep(item)]));
+            if (typeof value === 'string') return alienizeString(value);
+            return value;
+        }
+        translations.xr = alienizeDeep(translations.en);
+        let currentLang = ['hu', 'en', 'ja', 'xr'].includes(localStorage.getItem('selectedLang')) ? localStorage.getItem('selectedLang') : 'hu';
         document.documentElement.lang = currentLang;
         function renderPage() {
             const data = translations[currentLang];
@@ -405,6 +489,8 @@
             document.getElementById('timeline').innerHTML = data.timeline.map(item => `<div class="timeline-row"><div class="timeline-key">${item.key}</div><div class="timeline-value">${item.value}</div></div>`).join('');
             document.getElementById('btn-hu').classList.toggle('active', currentLang === 'hu');
             document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+            document.getElementById('btn-ja').classList.toggle('active', currentLang === 'ja');
+            document.getElementById('btn-xr').classList.toggle('active', currentLang === 'xr');
             document.documentElement.lang = currentLang;
         }
         const isPreview = new URLSearchParams(window.location.search).get('preview') === '1';
@@ -418,6 +504,16 @@
         document.getElementById('btn-en').addEventListener('click', () => {
             currentLang = 'en';
             localStorage.setItem('selectedLang', 'en');
+            renderPage();
+        });
+        document.getElementById('btn-ja').addEventListener('click', () => {
+            currentLang = 'ja';
+            localStorage.setItem('selectedLang', 'ja');
+            renderPage();
+        });
+        document.getElementById('btn-xr').addEventListener('click', () => {
+            currentLang = 'xr';
+            localStorage.setItem('selectedLang', 'xr');
             renderPage();
         });
         if (!isPreview) {

@@ -76,8 +76,13 @@
             font-weight: 800;
             letter-spacing: 0.16em;
             text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
             transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
         }
+        .lang-flag { font-size: 0.9rem; line-height: 1; display: inline-flex; border-radius: 4px; overflow: hidden; }
         .lang-btn.active {
             color: white;
             border-color: var(--accent);
@@ -231,10 +236,36 @@
         @media (max-width: 720px) {
             * { cursor: auto !important; }
             #cursor { display: none; }
-            .topbar { top: 12px; width: calc(100% - 16px); padding: 8px; }
-            .topbar-group, .topbar-nav { gap: 8px; }
-            .nav-chip { min-height: 38px; padding: 0 12px; font-size: 0.62rem; letter-spacing: 0.16em; }
-            .project-shell { width: calc(100% - 18px); margin-top: 86px; gap: 18px; }
+            .topbar {
+                top: 12px;
+                width: calc(100% - 16px);
+                padding: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+            .topbar-group,
+            .topbar-nav {
+                gap: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .topbar-nav {
+                width: 100%;
+            }
+            .topbar .lang-switcher {
+                position: static;
+                transform: none;
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-chip {
+                min-height: 38px;
+                padding: 0 12px;
+                font-size: 0.58rem;
+                letter-spacing: 0.12em;
+            }
+            .project-shell { width: calc(100% - 18px); margin-top: 126px; gap: 18px; }
             .content-panel { padding: 24px 18px 26px; }
             .stats-grid { grid-template-columns: 1fr; gap: 8px; }
             .stat-card { grid-template-columns: 1fr; gap: 6px; padding: 10px 11px; }
@@ -291,8 +322,10 @@
             <a href="wayr.html" class="nav-chip" id="label-next">Következő</a>
         </div>
         <div class="lang-switcher">
-            <button class="lang-btn" id="btn-hu" type="button">HU</button>
-            <button class="lang-btn" id="btn-en" type="button">EN</button>
+            <button class="lang-btn" id="btn-hu" type="button"><span class="lang-flag">🇭🇺</span><span>HU</span></button>
+            <button class="lang-btn" id="btn-en" type="button"><span class="lang-flag">🇬🇧</span><span>EN</span></button>
+            <button class="lang-btn" id="btn-ja" type="button"><span class="lang-flag">🇯🇵</span><span>JP</span></button>
+            <button class="lang-btn" id="btn-xr" type="button"><span class="lang-flag">👽</span><span>XR</span></button>
         </div>
     </nav>
     <main class="project-shell">
@@ -371,6 +404,32 @@
                     { key: "Mood", value: "Fast, clean and slightly playful UI inside a darker neon atmosphere." },
                     { key: "Goal", value: "Anonymity that does more than hide you. It gives you room to speak." }
                 ]
+            },
+            ja: {
+                prevLabel: "前へ",
+                btnHome: "ホームへ戻る",
+                nextLabel: "次へ",
+                eyebrow: "Studio App / 01",
+                mediaBadge: "Anonymous Signal",
+                progress: "開発中 / v0.1a",
+                desc: "GossipRは、匿名コミュニティを再解釈したソーシャルプラットフォームです。自分の存在をコントロールしながら、意見を自由に流せるデジタル空間を目指しています。",
+                featuresTitle: "主な要素",
+                timelineTitle: "なぜ面白いのか",
+                stats: [
+                    { label: "ジャンル", value: "Social / anonymous" },
+                    { label: "ムード", value: "Direct / clean" },
+                    { label: "状態", value: "Closed alpha" }
+                ],
+                features: [
+                    { title: "エンドツーエンド暗号化", desc: "会話やリアクションが裏でそのまま生データ化されない設計です。" },
+                    { title: "時間で閉じる投稿", desc: "コンテンツは永遠に残る前提ではなく、消えることでリズムと重みを持ちます。" },
+                    { title: "ビジュアル gossip map", desc: "周囲の空気や話題を、匿名性を保ったまま感じ取れるようにします。" }
+                ],
+                timeline: [
+                    { key: "方向性", value: "いつもの有害なノイズを減らしながら、ソーシャル体験を組み直すこと。" },
+                    { key: "ムード", value: "速く、クリーンで、少し遊び心のあるUIを暗めのネオン空間で。" },
+                    { key: "目的", value: "ただ隠れるだけではなく、発言するための余白を与える匿名性。" }
+                ]
             }
         };
         translations.hu.metaTitle = "GossipR | AltR Vision";
@@ -379,7 +438,31 @@
         translations.en.metaTitle = "GossipR | AltR Vision";
         translations.en.metaDescription = "GossipR is AltR Vision's anonymous social app concept built around safer expression, temporary content, and a more distinctive atmosphere.";
         translations.en.metaOgDescription = "An anonymous social experience with stronger visual identity, time-based content, and a darker neon mood.";
-        let currentLang = localStorage.getItem('selectedLang') === 'en' ? 'en' : 'hu';
+        translations.ja.metaTitle = "GossipR | AltR Vision";
+        translations.ja.metaDescription = "GossipRは、より安全な表現、時間で閉じるコンテンツ、そして独自の空気感を軸にしたAltR Visionの匿名ソーシャルアプリ構想です。";
+        translations.ja.metaOgDescription = "より強いビジュアルアイデンティティと時間制コンテンツ、ダークなネオンムードを持つ匿名ソーシャル体験。";
+        const alienGlyphMap = {
+            a: "∆", A: "∆", b: "β", B: "β", c: "Ↄ", C: "Ↄ", d: "◧", D: "◧", e: "Ξ", E: "Ξ",
+            f: "Ϝ", F: "Ϝ", g: "Ǥ", G: "Ǥ", h: "Ħ", H: "Ħ", i: "ı", I: "ı", j: "ʝ", J: "ʝ",
+            k: "Ҡ", K: "Ҡ", l: "⟂", L: "⟂", m: "Ɱ", M: "Ɱ", n: "Ŋ", N: "Ŋ", o: "⊘", O: "⊘",
+            p: "Ҏ", P: "Ҏ", q: "Ҩ", Q: "Ҩ", r: "Ɽ", R: "Ɽ", s: "Ϟ", S: "Ϟ", t: "Ŧ", T: "Ŧ",
+            u: "⋃", U: "⋃", v: "⋎", V: "⋎", w: "Ψ", W: "Ψ", x: "Ӿ", X: "Ӿ", y: "Ұ", Y: "Ұ", z: "Ȥ", Z: "Ȥ",
+            0: "◌", 1: "⟊", 2: "ᒿ", 3: "Ӡ", 4: "ϟ", 5: "Ϭ", 6: "Ⳓ", 7: "⌁", 8: "∞", 9: "ϴ"
+        };
+        function alienizeString(value) {
+            return value.split(/(<[^>]+>)/g).map((chunk) => {
+                if (chunk.startsWith("<") && chunk.endsWith(">")) return chunk;
+                return chunk.replace(/[A-Za-z0-9]/g, (char) => alienGlyphMap[char] || char);
+            }).join("");
+        }
+        function alienizeDeep(value) {
+            if (Array.isArray(value)) return value.map(alienizeDeep);
+            if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, alienizeDeep(item)]));
+            if (typeof value === 'string') return alienizeString(value);
+            return value;
+        }
+        translations.xr = alienizeDeep(translations.en);
+        let currentLang = ['hu', 'en', 'ja', 'xr'].includes(localStorage.getItem('selectedLang')) ? localStorage.getItem('selectedLang') : 'hu';
         document.documentElement.lang = currentLang;
         function renderPage() {
             const data = translations[currentLang];
@@ -403,6 +486,8 @@
             document.getElementById('timeline').innerHTML = data.timeline.map(item => `<div class="timeline-row"><div class="timeline-key">${item.key}</div><div class="timeline-value">${item.value}</div></div>`).join('');
             document.getElementById('btn-hu').classList.toggle('active', currentLang === 'hu');
             document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+            document.getElementById('btn-ja').classList.toggle('active', currentLang === 'ja');
+            document.getElementById('btn-xr').classList.toggle('active', currentLang === 'xr');
             document.documentElement.lang = currentLang;
         }
         const isPreview = new URLSearchParams(window.location.search).get('preview') === '1';
@@ -416,6 +501,16 @@
         document.getElementById('btn-en').addEventListener('click', () => {
             currentLang = 'en';
             localStorage.setItem('selectedLang', 'en');
+            renderPage();
+        });
+        document.getElementById('btn-ja').addEventListener('click', () => {
+            currentLang = 'ja';
+            localStorage.setItem('selectedLang', 'ja');
+            renderPage();
+        });
+        document.getElementById('btn-xr').addEventListener('click', () => {
+            currentLang = 'xr';
+            localStorage.setItem('selectedLang', 'xr');
             renderPage();
         });
         if (!isPreview) {

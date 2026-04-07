@@ -16,6 +16,8 @@
     <link rel="icon" type="image/png" href="assets/altr1.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/styles/index.css">
+    <link rel="stylesheet" href="assets/styles/index.sections.css">
+    <link rel="stylesheet" href="assets/styles/index.responsive.css">
 </head>
 <body>
 
@@ -39,8 +41,10 @@
         </div>
 
         <div class="lang-switcher">
-            <button class="lang-btn active" id="btn-hu" onclick="setLang('hu')">HU</button>
-            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn active" id="btn-hu" onclick="setLang('hu')"><span class="lang-flag">🇭🇺</span><span class="lang-code">HU</span></button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')"><span class="lang-flag">🇬🇧</span><span class="lang-code">EN</span></button>
+            <button class="lang-btn" id="btn-ja" onclick="setLang('ja')"><span class="lang-flag">🇯🇵</span><span class="lang-code">JP</span></button>
+            <button class="lang-btn" id="btn-xr" onclick="setLang('xr')"><span class="lang-flag">👽</span><span class="lang-code">XR</span></button>
         </div>
     </nav>
 
@@ -167,8 +171,8 @@
             <div class="card-image-area"><img src="assets/altr1.jpg" alt="Project X" style="filter: hue-rotate(280deg) brightness(0.8);"></div>
             <div class="card-content">
                 <div><span class="tag" id="tag-gaming">Gaming</span><span class="tag" id="tag-future">Hamarosan</span></div>
-                <h2 style="color: var(--neon-pink);">Project X</h2>
-                <p id="desc-projectx">Egy sötét, atmoszférikus kalandjáték, ami feszegeti a technológia határait.</p>
+                <h2 style="color: var(--neon-pink);">BLACKFILE</h2>
+                <p id="desc-projectx">A név, a rendszer és a részletek jelenleg visszatartva. Csak töredékek szivárognak át.</p>
             </div>
         </a>
     </main>
@@ -213,8 +217,8 @@
 
     <footer class="footer-strip">
         <div class="footer-policy-links">
-            <a href="#" id="footer-policy-1">Privacy Policy</a>
-            <a href="#" id="footer-policy-2">Terms of Use</a>
+            <a href="privacy.html" id="footer-policy-1">Privacy Policy</a>
+            <a href="terms.html" id="footer-policy-2">Terms of Use</a>
             <a href="https://github.com/csakzsolti/altr-vision" target="_blank" rel="noopener noreferrer" id="footer-policy-3">Source</a>
         </div>
         <div class="social-links footer-social-links">

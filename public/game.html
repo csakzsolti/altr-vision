@@ -172,36 +172,60 @@
     const endJokeEl = document.getElementById('end-joke');
     const countEl = document.getElementById('countdown');
 
-    let isEn = localStorage.getItem('selectedLang') === 'en' || 
-               document.documentElement.lang === 'en' || 
-               new URLSearchParams(window.location.search).get('lang') === 'en';
+    const alienGlyphMap = {
+        a: "∆", A: "∆", b: "β", B: "β", c: "Ↄ", C: "Ↄ", d: "◧", D: "◧", e: "Ξ", E: "Ξ",
+        f: "Ϝ", F: "Ϝ", g: "Ǥ", G: "Ǥ", h: "Ħ", H: "Ħ", i: "ı", I: "ı", j: "ʝ", J: "ʝ",
+        k: "Ҡ", K: "Ҡ", l: "⟂", L: "⟂", m: "Ɱ", M: "Ɱ", n: "Ŋ", N: "Ŋ", o: "⊘", O: "⊘",
+        p: "Ҏ", P: "Ҏ", q: "Ҩ", Q: "Ҩ", r: "Ɽ", R: "Ɽ", s: "Ϟ", S: "Ϟ", t: "Ŧ", T: "Ŧ",
+        u: "⋃", U: "⋃", v: "⋎", V: "⋎", w: "Ψ", W: "Ψ", x: "Ӿ", X: "Ӿ", y: "Ұ", Y: "Ұ", z: "Ȥ", Z: "Ȥ",
+        0: "◌", 1: "⟊", 2: "ᒿ", 3: "Ӡ", 4: "ϟ", 5: "Ϭ", 6: "Ⳓ", 7: "⌁", 8: "∞", 9: "ϴ"
+    };
+    function alienizeText(value) {
+        return value
+            .replace(/[A-Za-z0-9]/g, (char) => alienGlyphMap[char] || char)
+            .split(/(\s+)/)
+            .map((part) => /\s+/.test(part) ? " ⟡ " : (part.length > 4 ? `${part[0]}${part.slice(1).split("").reverse().join("")}` : part))
+            .join("");
+    }
+
+    let currentLang = ['hu', 'en', 'ja', 'xr'].includes(localStorage.getItem('selectedLang'))
+        ? localStorage.getItem('selectedLang')
+        : (['hu', 'en', 'ja', 'xr'].includes(document.documentElement.lang) ? document.documentElement.lang : 'hu');
+    const queryLang = new URLSearchParams(window.location.search).get('lang');
+    if (['hu', 'en', 'ja', 'xr'].includes(queryLang)) currentLang = queryLang;
 
     let txt = {};
     function updateTexts() {
         txt = {
-            init: isEn ? "INITIALIZING TERMINAL..." : "TERMINÁL INICIALIZÁLÁSA...",
-            win: isEn ? "Oh no. We lost 100 MB of data. :(" : "Jaj ne. Elvesztettünk 100 MB adatot. :(",
-            crash: isEn ? "SYSTEM CRASHED! REBOOTING..." : "RENDSZER ÖSSZEOMLOTT! ÚJRAINDÍTÁS...",
-            boss: isEn ? "WARNING: MAINFRAME CORE DETECTED!" : "FIGYELEM: MAINFRAME CORE DETEKTÁLVA!",
-            shield: isEn ? "SHIELD" : "PAJZS",
-            weapon: isEn ? "WEAPON" : "FEGYVER",
-            superWeapon: isEn ? "OVERDRIVE" : "TURBÓ",
-            data: isEn ? "DATA" : "ADAT",
-            dataBurst: isEn ? "BONUS CACHE +5 MB" : "BÓNUSZ CSOMAG +5 MB",
-            superDrop: isEn ? "OVERDRIVE WEAPON ONLINE!" : "TURBÓ FEGYVER ONLINE!",
-            final: isEn ? "SYSTEM BREACH COMPLETE" : "RENDSZERFELTÖRÉS KÉSZ",
-            finalSub: isEn ? "CORE DESTABILIZED // LEGAL TEAM PANICKING" : "MAG INSTABIL // A JOGI OSZTALY PANIKOL",
-            finalJoke: isEn ? "Great work. We definitely should not have left that port open." : "Szép munka. Ezt a portot valószínűleg nem kellett volna nyitva hagynunk.",
-            finalRestartKey: isEn ? "PRESS R" : "NYOMJ R-T",
-            finalRestartRest: isEn ? "to open the 100 MB package" : "a 100 MB csomag megnyitásához",
-            finalHud: isEn ? "PACKAGE ACQUIRED" : "CSOMAG MEGSZEREZVE",
-            bossFail: isEn ? "TRACE LOST // MAINFRAME SEALED THE EXIT" : "A NYOM ELVESZETT // A MAINFRAME LEZÁRTA A KIJÁRATOT",
-            bossFailSub: isEn ? "REBOOTING INTRUSION ROUTE..." : "A BESZIVÁRGÁSI ÚTVONAL ÚJRAÉPÜL...",
-            bossPulse: isEn ? "MAINFRAME PULSE INCOMING!" : "ÉRKEZIK A MAINFRAME IMPULZUS!",
-            bossTrace: isEn ? "TRACE SPIKES DEPLOYED!" : "NYOMKÖVETŐ TÜSKÉK AKTIVÁLVA!",
-            bossBeam: isEn ? "CORE BEAM LOCKED // MOVE!" : "A MAGCSÓVA BECÉLZOTT // MOZOGJ!"
+            init: currentLang === 'en' ? "INITIALIZING TERMINAL..." : currentLang === 'ja' ? "ターミナル初期化中..." : "TERMINÁL INICIALIZÁLÁSA...",
+            win: currentLang === 'en' ? "Oh no. We lost 100 MB of data. :(" : currentLang === 'ja' ? "ああ、大変。100 MBのデータを失いました。:(" : "Jaj ne. Elvesztettünk 100 MB adatot. :(",
+            crash: currentLang === 'en' ? "SYSTEM CRASHED! REBOOTING..." : currentLang === 'ja' ? "システムクラッシュ！再起動中..." : "RENDSZER ÖSSZEOMLOTT! ÚJRAINDÍTÁS...",
+            boss: currentLang === 'en' ? "WARNING: MAINFRAME CORE DETECTED!" : currentLang === 'ja' ? "警告: MAINFRAME CORE を検出！" : "FIGYELEM: MAINFRAME CORE DETEKTÁLVA!",
+            bossIncoming: currentLang === 'en' ? "MAINFRAME SIGNAL INCOMING" : currentLang === 'ja' ? "MAINFRAME シグナル接近中" : "ÉRKEZIK A MAINFRAME JEL",
+            bossIncomingSub: currentLang === 'en' ? "STABILIZING BREACH..." : currentLang === 'ja' ? "侵入を安定化中..." : "A FELTÖRÉS STABILIZÁLÁSA...",
+            shield: currentLang === 'en' ? "SHIELD" : currentLang === 'ja' ? "シールド" : "PAJZS",
+            weapon: currentLang === 'en' ? "WEAPON" : currentLang === 'ja' ? "武器" : "FEGYVER",
+            superWeapon: currentLang === 'en' ? "OVERDRIVE" : currentLang === 'ja' ? "オーバードライブ" : "TURBÓ",
+            data: currentLang === 'en' ? "DATA" : currentLang === 'ja' ? "データ" : "ADAT",
+            dataBurst: currentLang === 'en' ? "BONUS CACHE +5 MB" : currentLang === 'ja' ? "ボーナスキャッシュ +5 MB" : "BÓNUSZ CSOMAG +5 MB",
+            superDrop: currentLang === 'en' ? "OVERDRIVE WEAPON ONLINE!" : currentLang === 'ja' ? "オーバードライブ武器オンライン！" : "TURBÓ FEGYVER ONLINE!",
+            final: currentLang === 'en' ? "SYSTEM BREACH COMPLETE" : currentLang === 'ja' ? "システム侵入完了" : "RENDSZERFELTÖRÉS KÉSZ",
+            finalSub: currentLang === 'en' ? "CORE DESTABILIZED // LEGAL TEAM PANICKING" : currentLang === 'ja' ? "コア不安定 // 法務チームがパニック中" : "MAG INSTABIL // A JOGI OSZTALY PANIKOL",
+            finalJoke: currentLang === 'en' ? "Great work. We definitely should not have left that port open." : currentLang === 'ja' ? "お見事。このポートは開けたままにしないほうがよかったですね。" : "Szép munka. Ezt a portot valószínűleg nem kellett volna nyitva hagynunk.",
+            finalRestartKey: currentLang === 'en' ? "PRESS R" : currentLang === 'ja' ? "R を押す" : "NYOMJ R-T",
+            finalRestartRest: currentLang === 'en' ? "to open the 100 MB package" : currentLang === 'ja' ? "100 MB パッケージを開く" : "a 100 MB csomag megnyitásához",
+            finalHud: currentLang === 'en' ? "PACKAGE ACQUIRED" : currentLang === 'ja' ? "パッケージ取得完了" : "CSOMAG MEGSZEREZVE",
+            bossFail: currentLang === 'en' ? "TRACE LOST // MAINFRAME SEALED THE EXIT" : currentLang === 'ja' ? "追跡失敗 // MAINFRAME が出口を封鎖した" : "A NYOM ELVESZETT // A MAINFRAME LEZÁRTA A KIJÁRATOT",
+            bossFailSub: currentLang === 'en' ? "REBOOTING INTRUSION ROUTE..." : currentLang === 'ja' ? "侵入ルートを再構築中..." : "A BESZIVÁRGÁSI ÚTVONAL ÚJRAÉPÜL...",
+            bossPulse: currentLang === 'en' ? "MAINFRAME PULSE INCOMING!" : currentLang === 'ja' ? "MAINFRAME パルス接近！" : "ÉRKEZIK A MAINFRAME IMPULZUS!",
+            bossTrace: currentLang === 'en' ? "TRACE SPIKES DEPLOYED!" : currentLang === 'ja' ? "追跡スパイク展開！" : "NYOMKÖVETŐ TÜSKÉK AKTIVÁLVA!",
+            bossBeam: currentLang === 'en' ? "CORE BEAM LOCKED // MOVE!" : currentLang === 'ja' ? "コアビーム照準 // 動け！" : "A MAGCSÓVA BECÉLZOTT // MOZOGJ!"
         };
         
+        if (currentLang === 'xr') {
+            txt = Object.fromEntries(Object.entries(txt).map(([key, value]) => [key, alienizeText(value)]));
+        }
+
         if (msgEl) msgEl.innerText = txt.init;
         if (winTextEl) winTextEl.innerText = txt.win;
         if (endSubtextEl) endSubtextEl.innerText = txt.finalSub;
@@ -215,7 +239,7 @@
 
     window.addEventListener('message', (event) => {
         if (event.data.type === 'SET_LANG') {
-            isEn = (event.data.lang === 'en');
+            currentLang = ['hu', 'en', 'ja', 'xr'].includes(event.data.lang) ? event.data.lang : 'hu';
             updateTexts();
         }
         else if (gameActive) {
@@ -230,12 +254,16 @@
     const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || ('ontouchstart' in window);
     const playerFollow = isTouchDevice ? 0.29 : 0.15;
     const pickupRadius = isTouchDevice ? 46 : 30;
-    const bossTraceInterval = isTouchDevice ? 145 : 90;
-    const bossPulseInterval = isTouchDevice ? 315 : 210;
-    const bossBeamInterval = isTouchDevice ? 455 : 300;
+    const bossTraceInterval = isTouchDevice ? 235 : 160;
+    const bossPulseInterval = isTouchDevice ? 430 : 310;
+    const bossBeamInterval = isTouchDevice ? 580 : 390;
     const bossSupplyInterval = isTouchDevice ? 145 : 200;
-    const bossProjectileSpeed = isTouchDevice ? 4 : 5.5;
-    const bossPulseSpeed = isTouchDevice ? 3.2 : 4.2;
+    const bossProjectileSpeed = isTouchDevice ? 1.05 : 1.55;
+    const bossPulseSpeed = isTouchDevice ? 1.5 : 2.15;
+    const trackerAcceleration = isTouchDevice ? 0.00028 : 0.00034;
+    const trackerMaxSpeed = isTouchDevice ? 3.2 : 3.8;
+    const bossFailDuration = 70;
+    const pointerLockSensitivity = 1.35;
     const shieldDuration = isTouchDevice ? 620 : 420;
     const weaponDuration = isTouchDevice ? 600 : 420;
     const superWeaponDuration = isTouchDevice ? 500 : 360;
@@ -255,6 +283,7 @@
     let bossAttackTimer = 0;
     let bossSupplyTimer = 0;
     let bossBeam = null;
+    let bossIntroTimer = 0;
     let bossFailTimer = 0;
     let holdBossSkipTimer = null;
     let pointerLocked = false;
@@ -317,16 +346,18 @@
     document.addEventListener('pointerlockchange', () => {
         pointerLocked = document.pointerLockElement === canvas;
         if (pointerLocked) {
-            msgEl.innerText = isEn
+            msgEl.innerText = currentLang === 'en'
                 ? "POINTER LOCK ACTIVE // ESC TO RELEASE"
-                : "POINTER LOCK AKTÍV // ESC A KILÉPÉSHEZ";
+                : currentLang === 'ja'
+                    ? "ポインターロック有効 // ESCで解除"
+                    : "POINTER LOCK AKTÍV // ESC A KILÉPÉSHEZ";
         }
     });
 
     document.addEventListener('mousemove', (e) => {
         if (!pointerLocked || !gameActive) return;
-        player.targetX = Math.max(0, Math.min(canvas.width, player.targetX + e.movementX));
-        player.targetY = Math.max(0, Math.min(canvas.height, player.targetY + e.movementY));
+        player.targetX = Math.max(0, Math.min(canvas.width, player.targetX + e.movementX * pointerLockSensitivity));
+        player.targetY = Math.max(0, Math.min(canvas.height, player.targetY + e.movementY * pointerLockSensitivity));
     });
 
     window.addEventListener('touchend', () => {
@@ -362,25 +393,44 @@
             holdBossSkipTimer = null;
         }
         score = 90;
+        startBossIntro(true);
+        shieldTime = Math.max(shieldTime, isTouchDevice ? 340 : 240);
+        weaponTime = Math.max(weaponTime, isTouchDevice ? 340 : 240);
+        superWeaponTime = 0;
+        crashTimer = 0;
+        msgEl.innerText = isTouchDevice
+            ? (currentLang === 'en' ? "HOLD DETECTED // BOSSFIGHT UNLOCKED" : currentLang === 'ja' ? "長押し検出 // ボス戦アンロック" : "HOSSZÚ NYOMÁS ÉRZÉKELVE // BOSSHARC AKTIVÁLVA")
+            : (currentLang === 'en' ? "CHEAT ACCEPTED // BOSSFIGHT UNLOCKED" : currentLang === 'ja' ? "チート受理 // ボス戦アンロック" : "CSALÁS ELFOGADVA // BOSSHARC AKTIVÁLVA");
+    }
+
+    function startBossIntro(skipMessage = false) {
+        if (boss.active || bossIntroTimer > 0) return;
+        bossIntroTimer = skipMessage ? 55 : 110;
+        enemies = [];
+        items = items.filter(i => i.type === 'w' || i.type === 'x' || i.type === 's');
+        bullets = [];
+        bossProjectiles = [];
+        bossBeam = null;
+        bossAttackTimer = 0;
+        bossSupplyTimer = 0;
+        superWeaponDropped = false;
+        if (!skipMessage) {
+            msgEl.innerText = txt.bossIncoming;
+        }
+    }
+
+    function startBossFight() {
         boss.active = true;
         boss.hp = 200;
         boss.x = canvas.width / 2;
         boss.y = canvas.height / 2;
         enemies = [];
-        items = [];
-        bullets = [];
+        items = items.filter(i => i.type === 'w' || i.type === 'x');
         bossProjectiles = [];
-        bossBeam = null;
-        shieldTime = Math.max(shieldTime, isTouchDevice ? 340 : 240);
-        weaponTime = Math.max(weaponTime, isTouchDevice ? 340 : 240);
-        superWeaponTime = 0;
-        superWeaponDropped = false;
         bossAttackTimer = 0;
         bossSupplyTimer = 0;
-        crashTimer = 0;
-        msgEl.innerText = isTouchDevice
-            ? (isEn ? "HOLD DETECTED // BOSSFIGHT UNLOCKED" : "HOSSZÚ NYOMÁS ÉRZÉKELVE // BOSSHARC AKTIVÁLVA")
-            : (isEn ? "CHEAT ACCEPTED // BOSSFIGHT UNLOCKED" : "CSALÁS ELFOGADVA // BOSSHARC AKTIVÁLVA");
+        bossBeam = null;
+        msgEl.innerText = txt.boss;
     }
 
     window.addEventListener('keydown', (e) => {
@@ -429,7 +479,9 @@
 
     function spawn(type) {
         let x, y;
-        let speedMult = 1 + (Math.min(score, 60) / 42) + (Math.max(0, score - 60) / 84); 
+        let speedMult = 1 + (Math.min(score, 60) / 56) + (Math.max(0, score - 60) / 110);
+        const isCollectible = ['i', 'd', 's', 'w'].includes(type);
+        const baseVelocity = isCollectible ? 2.2 : 3.2;
         if (['i', 'd', 's', 'w'].includes(type)) {
             x = Math.random() * (canvas.width - 60) + 30;
             y = Math.random() * (canvas.height - 60) + 30;
@@ -441,7 +493,7 @@
             else { x = -30; y = Math.random() * canvas.height; }
         }
         return {
-            x, y, vx: (Math.random()-0.5)*4*speedMult, vy: (Math.random()-0.5)*4*speedMult,
+            x, y, vx: (Math.random()-0.5)*baseVelocity*speedMult, vy: (Math.random()-0.5)*baseVelocity*speedMult,
             s: type === 'e' ? 14 : (type === 'd' ? 18 : 12), type, angle: 0,
             isTracker: type === 'e' && score > 15 && Math.random() > 0.6
         };
@@ -455,6 +507,7 @@
         bossAttackTimer = 0;
         bossSupplyTimer = 0;
         bossBeam = null;
+        bossIntroTimer = 0;
         bossFailTimer = 0;
         bonusPickupTimer = 0;
         crashTimer = 150;
@@ -467,7 +520,8 @@
             return;
         }
         gameActive = false;
-        bossFailTimer = 280;
+        boss.active = false;
+        bossFailTimer = bossFailDuration;
         shieldTime = 0;
         weaponTime = 0;
         superWeaponTime = 0;
@@ -475,6 +529,7 @@
         bullets = [];
         items = [];
         bossBeam = null;
+        bossIntroTimer = 0;
         buffsEl.innerHTML = "";
         bonusPickupTimer = 0;
         msgEl.innerText = txt.bossFail;
@@ -493,6 +548,7 @@
         bullets = [];
         bossProjectiles = [];
         bossBeam = null;
+        bossIntroTimer = 0;
         buffsEl.innerHTML = "";
         bonusPickupTimer = 0;
         msgEl.innerText = txt.finalHud;
@@ -505,7 +561,7 @@
         endOverlayPhase = 0;
         countEl.innerText = "";
         restartHintEl.innerHTML = isTouchDevice
-            ? `<span class="key">${isEn ? "TAP" : "KOPPINTS"}</span><span class="rest">${isEn ? "to open the 100 MB package" : "a 100 MB csomag megnyitásához"}</span>`
+            ? `<span class="key">${currentLang === 'en' ? "TAP" : currentLang === 'ja' ? "タップ" : "KOPPINTS"}</span><span class="rest">${currentLang === 'en' ? "to open the 100 MB package" : currentLang === 'ja' ? "100 MB パッケージを開く" : "a 100 MB csomag megnyitásához"}</span>`
             : `<span class="key">${txt.finalRestartKey}</span><span class="rest">${txt.finalRestartRest}</span>`;
         restartHintEl.style.display = "block";
     }
@@ -570,17 +626,19 @@
 
         if (!gameActive && bossFailTimer > 0) {
             bossFailTimer--;
-            const progress = 1 - (bossFailTimer / 280);
-            const failTitleLines = isEn
+            const progress = 1 - (bossFailTimer / bossFailDuration);
+            const failTitleLines = currentLang === 'en'
                 ? ["TRACE LOST", "MAINFRAME SEALED THE EXIT"]
-                : ["A NYOM ELVESZETT", "A MAINFRAME LEZÁRTA A KIJÁRATOT"];
+                : currentLang === 'ja'
+                    ? ["追跡失敗", "MAINFRAME が出口を封鎖した"]
+                    : ["A NYOM ELVESZETT", "A MAINFRAME LEZÁRTA A KIJÁRATOT"];
             ctx.save();
             ctx.globalAlpha = 0.18 + progress * 0.25;
             ctx.fillStyle = "#ff2a6d";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.restore();
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 6; i++) {
                 ctx.fillStyle = `rgba(255, ${40 + Math.floor(Math.random() * 80)}, ${120 + Math.floor(Math.random() * 80)}, 0.45)`;
                 ctx.fillRect(
                     Math.random() * canvas.width,
@@ -615,6 +673,42 @@
             return;
         }
 
+        if (gameActive && bossIntroTimer > 0) {
+            const introProgress = 1 - (bossIntroTimer / 110);
+            ctx.save();
+            ctx.globalAlpha = 0.16 + introProgress * 0.18;
+            ctx.fillStyle = "#00e5ff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.restore();
+
+            for (let i = 0; i < 8; i++) {
+                ctx.fillStyle = `rgba(255, ${90 + Math.floor(Math.random() * 90)}, 210, 0.3)`;
+                ctx.fillRect(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    50 + Math.random() * 180,
+                    2 + Math.random() * 6
+                );
+            }
+
+            drawCenteredLines(
+                [txt.bossIncoming],
+                canvas.height * 0.36,
+                isTouchDevice ? "700 17px 'Exo 2', sans-serif" : "700 28px 'Exo 2', sans-serif",
+                "#ffffff",
+                isTouchDevice ? 24 : 34,
+                "#00e5ff"
+            );
+            drawCenteredLines(
+                [txt.bossIncomingSub],
+                canvas.height * 0.47,
+                isTouchDevice ? "500 10px 'Exo 2', sans-serif" : "500 13px 'Exo 2', sans-serif",
+                "rgba(255,255,255,0.78)",
+                18,
+                "#00e5ff"
+            );
+        }
+
         if (gameActive) {
             player.x += (player.targetX - player.x) * playerFollow;
             player.y += (player.targetY - player.y) * playerFollow;
@@ -639,13 +733,16 @@
                 }
             }
 
-            if(score >= 90 && !boss.active) {
-                boss.active = true; boss.hp = 200; boss.x = canvas.width/2; boss.y = canvas.height/2;
-                enemies = []; items = items.filter(i => i.type === 'w' || i.type === 'x');
-                bossProjectiles = [];
-                bossAttackTimer = 0;
-                bossSupplyTimer = 0;
-                bossBeam = null;
+            if(score >= 90 && !boss.active && bossIntroTimer <= 0) {
+                startBossIntro(false);
+            }
+
+            if (bossIntroTimer > 0) {
+                bossIntroTimer--;
+                msgEl.innerText = txt.bossIncoming;
+                if (bossIntroTimer <= 0) {
+                    startBossFight();
+                }
             }
 
             if (boss.active && boss.hp <= 85 && !superWeaponDropped) {
@@ -667,7 +764,7 @@
 
                 if (bossAttackTimer % bossTraceInterval === 0) {
                     const angle = Math.atan2(player.y - boss.y, player.x - boss.x);
-                    (isTouchDevice ? [-0.1, 0.1] : [-0.28, 0, 0.28]).forEach(offset => {
+                    (isTouchDevice ? [-0.26, 0.26] : [-0.45, 0.45]).forEach(offset => {
                         bossProjectiles.push({
                             x: boss.x,
                             y: boss.y,
@@ -681,7 +778,7 @@
                 }
 
                 if (bossAttackTimer % bossPulseInterval === 0) {
-                    const pulseCount = isTouchDevice ? 4 : 10;
+                    const pulseCount = isTouchDevice ? 3 : 6;
                     for (let i = 0; i < pulseCount; i++) {
                         const angle = (Math.PI * 2 * i) / pulseCount;
                         bossProjectiles.push({
@@ -700,7 +797,7 @@
                 if (bossAttackTimer % bossBeamInterval === 0 && !bossBeam) {
                     bossBeam = {
                         angle: Math.atan2(player.y - boss.y, player.x - boss.x),
-                        charge: isTouchDevice ? 110 : 55,
+                        charge: isTouchDevice ? 78 : 38,
                         fire: isTouchDevice ? 18 : 38,
                         width: isTouchDevice ? 10 : 18
                     };
@@ -817,7 +914,7 @@
             const beamLength = Math.max(canvas.width, canvas.height) * 1.4;
             const beamEndX = boss.x + Math.cos(bossBeam.angle) * beamLength;
             const beamEndY = boss.y + Math.sin(bossBeam.angle) * beamLength;
-            const chargeMax = isTouchDevice ? 110 : 55;
+            const chargeMax = isTouchDevice ? 78 : 38;
             const progress = bossBeam.charge > 0 ? 1 - (bossBeam.charge / chargeMax) : 1;
 
             ctx.save();
@@ -909,28 +1006,40 @@
 
         if (!gameActive && mileEl.style.display === "flex" && bossFailTimer <= 0) {
             winMessageTicker++;
-            const rotatingSubtexts = isEn
+            const rotatingSubtexts = currentLang === 'en'
                 ? [
                     "TRACE ROUTE SPOOFED // BLAME REDIRECTED",
                     "HR FILES EXFILTRATED // THIS GOT PERSONAL",
                     "THE INCIDENT REPORT IS WRITING ITSELF"
                 ]
-                : [
-                    "NYOMVONAL HAMISÍTVA // A HIBA ÁTHÁRÍTVA",
-                    "A HR AKTÁKAT IS ELVITTÉK // EZ MÁR SZEMÉLYES",
-                    "AZ INCIDENSJELENTÉS GYAKORLATILAG MAGÁT ÍRJA"
-                ];
-            const rotatingJokes = isEn
+                : currentLang === 'ja'
+                    ? [
+                        "追跡経路を偽装 // 責任転嫁完了",
+                        "人事ファイルも流出 // これは個人的だ",
+                        "インシデント報告書が勝手に書かれていく"
+                    ]
+                    : [
+                        "NYOMVONAL HAMISÍTVA // A HIBA ÁTHÁRÍTVA",
+                        "A HR AKTÁKAT IS ELVITTÉK // EZ MÁR SZEMÉLYES",
+                        "AZ INCIDENSJELENTÉS GYAKORLATILAG MAGÁT ÍRJA"
+                    ];
+            const rotatingJokes = currentLang === 'en'
                 ? [
                     "Great work. We definitely should not have left that port open.",
                     "internal memo: maybe don't let random visitors steal 100 MB next time.",
                     "Someone in security is about to schedule a very uncomfortable meeting."
                 ]
-                : [
-                    "Szép munka. Ezt a portot valószínűleg nem kellett volna nyitva hagynunk.",
-                    "belső memo: lehet, hogy legközelebb ne engedjünk bárkinek 100 MB-ot ellopni.",
-                    "Valaki a biztonsági csapatból most éppen egy nagyon kellemetlen meetinget szervez."
-                ];
+                : currentLang === 'ja'
+                    ? [
+                        "お見事。このポートは開けっぱなしにしないほうがよかった。",
+                        "内部メモ: 次は誰でも100 MB持ち出せないようにしよう。",
+                        "セキュリティ担当が今ごろ気まずい会議を設定している。"
+                    ]
+                    : [
+                        "Szép munka. Ezt a portot valószínűleg nem kellett volna nyitva hagynunk.",
+                        "belső memo: lehet, hogy legközelebb ne engedjünk bárkinek 100 MB-ot ellopni.",
+                        "Valaki a biztonsági csapatból most éppen egy nagyon kellemetlen meetinget szervez."
+                    ];
             const messageIndex = Math.floor(winMessageTicker / 150) % rotatingSubtexts.length;
             endSubtextEl.innerText = rotatingSubtexts[messageIndex];
             endJokeEl.innerText = rotatingJokes[messageIndex];
@@ -1063,9 +1172,9 @@
 
         if (gameActive) enemies.forEach((en, i) => {
             if(en.isTracker) {
-                en.vx += (player.x - en.x) * 0.0006; en.vy += (player.y - en.y) * 0.0006;
+                en.vx += (player.x - en.x) * trackerAcceleration; en.vy += (player.y - en.y) * trackerAcceleration;
                 let speed = Math.hypot(en.vx, en.vy);
-                if(speed > 5) { en.vx *= 5/speed; en.vy *= 5/speed; }
+                if(speed > trackerMaxSpeed) { en.vx *= trackerMaxSpeed/speed; en.vy *= trackerMaxSpeed/speed; }
             }
             en.x += en.vx; en.y += en.vy;
 
@@ -1099,7 +1208,7 @@
             if(en.x < -150 || en.x > canvas.width+150 || en.y < -150 || en.y > canvas.height+150) enemies.splice(i, 1);
         });
 
-        if(gameActive && !boss.active && Math.random() < 0.057 && enemies.length < (3 + score/10)) enemies.push(spawn('e'));
+        if(gameActive && !boss.active && bossIntroTimer <= 0 && Math.random() < 0.05 && enemies.length < (3 + score/10)) enemies.push(spawn('e'));
 
         if (bonusPickupTimer > 0) {
             const alpha = bonusPickupTimer / 50;

@@ -3,68 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project X | AltR Vision</title>
+    <title>BLACKFILE | AltR Vision</title>
+    <meta name="description" content="Redacted project file from AltR Vision.">
+    <link rel="icon" type="image/png" href="assets/altr1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-purple: #9c27b0;
-            --neon-blue: #00e5ff;
-            --dark-bg: #050507;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent: #ff007f;
+            --accent-soft: rgba(255, 0, 127, 0.16);
+            --border: rgba(255, 255, 255, 0.1);
+            --bg: #050507;
+            --panel: rgba(9, 10, 16, 0.84);
+            --text-soft: rgba(255,255,255,0.72);
         }
 
         * { box-sizing: border-box; cursor: none !important; }
 
-        body { 
-            background: var(--dark-bg);
-            background-image: radial-gradient(circle at center, rgba(156, 39, 176, 0.1) 0%, transparent 70%);
-            color: white; 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
-            display: flex; 
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Kurzor */
-        #cursor { width: 22px; height: 22px; border: 2px solid var(--neon-purple); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate3d(-50%, -50%, 0); box-shadow: 0 0 15px var(--neon-purple); }
-
-        /* Központi tartalom */
-        .coming-soon-container {
-            text-align: center;
-            z-index: 10;
-        }
-
-        .x-logo {
-            font-size: 8rem;
-            font-weight: 900;
-            background: linear-gradient(to bottom, #fff, #333);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        body {
             margin: 0;
-            line-height: 1;
-            filter: drop-shadow(0 0 30px rgba(156, 39, 176, 0.3));
-            animation: pulse 4s infinite ease-in-out;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top right, rgba(255,0,127,0.14), transparent 28%),
+                radial-gradient(circle at bottom left, rgba(0,229,255,0.08), transparent 30%),
+                linear-gradient(180deg, #050507, #0b0d13);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
 
-        .status-text {
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            font-size: 0.9rem;
-            color: var(--neon-blue);
-            margin-top: 20px;
-            opacity: 0.8;
+        #cursor {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate3d(-50%, -50%, 0);
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 16px var(--accent);
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
 
-        .description {
-            color: rgba(255,255,255,0.4);
-            max-width: 400px;
-            margin: 30px auto;
-            font-size: 0.9rem;
-            line-height: 1.6;
+        #particles {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
 
         .topbar {
@@ -77,7 +68,7 @@
             align-items: center;
             justify-content: center;
             padding: 10px 12px;
-            border: 1px solid var(--glass-border);
+            border: 1px solid var(--border);
             border-radius: 18px;
             background: rgba(10, 11, 17, 0.92);
             z-index: 1000;
@@ -90,41 +81,300 @@
             gap: 10px;
         }
 
-        .nav-chip {
+        .lang-switcher {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-chip,
+        .lang-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             min-height: 40px;
             padding: 0 16px;
             border-radius: 999px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass);
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
             color: white;
             text-decoration: none;
             font-size: 0.72rem;
             font-weight: 700;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
             transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .nav-chip:hover {
+        .nav-chip:hover,
+        .lang-btn:hover {
             transform: translateY(-2px);
-            border-color: var(--neon-purple);
-            box-shadow: 0 0 20px rgba(156, 39, 176, 0.2);
-            color: #f0d7ff;
+            border-color: var(--accent);
+            color: #ffd5ec;
+            box-shadow: 0 0 20px var(--accent-soft);
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.7; }
+        .lang-btn {
+            min-width: 42px;
+            gap: 7px;
+            font-size: 0.66rem;
         }
 
-        canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+        .lang-flag {
+            font-size: 0.9rem;
+            line-height: 1;
+            display: inline-flex;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .lang-btn.active {
+            border-color: var(--accent);
+            background: rgba(255,0,127,0.1);
+            box-shadow: 0 0 16px var(--accent-soft);
+        }
+
+        .shell {
+            width: min(1160px, calc(100% - 28px));
+            margin: 118px auto 42px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr);
+            gap: 28px;
+        }
+
+        .vault,
+        .dossier {
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            background: var(--panel);
+            overflow: hidden;
+            box-shadow: 0 18px 42px rgba(0,0,0,0.28);
+        }
+
+        .vault {
+            position: relative;
+            min-height: 620px;
+            padding: 34px;
+            background:
+                radial-gradient(circle at top right, rgba(255,0,127,0.12), transparent 30%),
+                linear-gradient(180deg, rgba(16, 18, 28, 0.96), rgba(10, 11, 17, 0.96));
+        }
+
+        .vault::after {
+            content: "";
+            position: absolute;
+            inset: 18px;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 22px;
+            pointer-events: none;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+            font-size: 0.72rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 32px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        .codename {
+            margin: 22px 0 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3.4rem, 9vw, 7rem);
+            letter-spacing: -0.08em;
+            line-height: 0.92;
+            text-transform: uppercase;
+            text-shadow:
+                0 0 28px rgba(255,255,255,0.08),
+                -10px 0 0 rgba(255,0,127,0.12),
+                10px 0 0 rgba(0,229,255,0.08);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0 18px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,0,127,0.32);
+            background: rgba(255,0,127,0.08);
+            color: #ffb7da;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .status-badge::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--accent);
+        }
+
+        .lead {
+            max-width: 56ch;
+            color: var(--text-soft);
+            font-size: 1rem;
+            line-height: 1.85;
+        }
+
+        .redacted-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .redacted-card {
+            padding: 16px 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+        }
+
+        .redacted-card span {
+            display: block;
+            color: rgba(255,255,255,0.42);
+            font-size: 0.64rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .redacted-card strong {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: white;
+        }
+
+        .dossier {
+            padding: 34px 30px;
+            background:
+                linear-gradient(180deg, rgba(18, 21, 30, 0.94), rgba(11, 12, 18, 0.94)),
+                radial-gradient(circle at top left, rgba(255,0,127,0.08), transparent 36%);
+        }
+
+        .dossier-title {
+            margin: 0 0 18px;
+            font-size: 0.8rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.48);
+        }
+
+        .record {
+            padding: 16px 0;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .record:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .record-label {
+            display: block;
+            color: rgba(255,0,127,0.84);
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .record-value {
+            color: rgba(255,255,255,0.86);
+            line-height: 1.7;
+        }
+
+        .record-value.redacted {
+            color: rgba(255,255,255,0.42);
+            letter-spacing: 0.14em;
+        }
+
+        .fragment-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .fragment {
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            color: rgba(255,255,255,0.78);
+            line-height: 1.65;
+        }
+
+        @media (max-width: 1040px) {
+            .shell {
+                grid-template-columns: 1fr;
+            }
+            .vault {
+                min-height: auto;
+            }
+        }
+
+        @media (max-width: 720px) {
+            * { cursor: auto !important; }
+            #cursor { display: none; }
+            .topbar {
+                top: 12px;
+                width: calc(100% - 16px);
+                padding: 8px;
+                flex-wrap: wrap;
+            }
+            .topbar-nav {
+                width: 100%;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .lang-switcher {
+                position: static;
+                transform: none;
+                width: 100%;
+                justify-content: center;
+                margin-top: 6px;
+            }
+            .shell {
+                width: calc(100% - 16px);
+                margin-top: 132px;
+                gap: 16px;
+            }
+            .vault,
+            .dossier {
+                border-radius: 24px;
+            }
+            .vault,
+            .dossier {
+                padding: 22px 18px;
+            }
+            .redacted-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-
     <div id="cursor"></div>
     <canvas id="particles"></canvas>
 
@@ -134,87 +384,282 @@
             <a href="index.html#projects" class="nav-chip" id="btn-home">Vissza főoldalra</a>
             <a href="gossipr.html" class="nav-chip" id="label-next">Következő</a>
         </div>
+        <div class="lang-switcher">
+            <button class="lang-btn" id="btn-hu" type="button"><span class="lang-flag">🇭🇺</span><span>HU</span></button>
+            <button class="lang-btn" id="btn-en" type="button"><span class="lang-flag">🇬🇧</span><span>EN</span></button>
+            <button class="lang-btn" id="btn-ja" type="button"><span class="lang-flag">🇯🇵</span><span>JP</span></button>
+            <button class="lang-btn" id="btn-xr" type="button"><span class="lang-flag">👽</span><span>XR</span></button>
+        </div>
     </nav>
 
-    <div class="coming-soon-container">
-        <h1 class="x-logo">X</h1>
-        <div class="status-text" id="status-text">Hamarosan</div>
-        <p class="description" id="desc-text">
-            Valami radikális készül a háttérben. Az AltR Vision következő nagy dobása még titkosítás alatt áll.
-        </p>
-    </div>
+    <main class="shell">
+        <section class="vault">
+            <div class="eyebrow" id="eyebrow">Restricted archive / 03</div>
+            <h1 class="codename" id="codename">BLACKFILE</h1>
+            <div class="status-badge" id="status-badge">Access restricted</div>
+            <p class="lead" id="lead">The public title is not ready. The internal title is withheld. What remains visible is a set of mood fragments, system traces, and a file that clearly should not have been indexed yet.</p>
+
+            <div class="redacted-grid">
+                <div class="redacted-card">
+                    <span id="meta-label-1">Signal class</span>
+                    <strong id="meta-value-1">Unknown / locked</strong>
+                </div>
+                <div class="redacted-card">
+                    <span id="meta-label-2">Atmosphere</span>
+                    <strong id="meta-value-2">Encrypted / synthetic</strong>
+                </div>
+                <div class="redacted-card">
+                    <span id="meta-label-3">Build state</span>
+                    <strong id="meta-value-3">Redacted before reveal</strong>
+                </div>
+                <div class="redacted-card">
+                    <span id="meta-label-4">Visibility</span>
+                    <strong id="meta-value-4">Internal fragments only</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="dossier">
+            <h2 class="dossier-title" id="dossier-title">Visible fragments</h2>
+
+            <div class="record">
+                <span class="record-label" id="record-label-1">Working note</span>
+                <div class="record-value" id="record-value-1">Somewhere between game, atmosphere, and interactive fiction, but still too early to call cleanly.</div>
+            </div>
+
+            <div class="record">
+                <span class="record-label" id="record-label-2">Why it is hidden</span>
+                <div class="record-value" id="record-value-2">Because the form is still changing fast, and naming it too early would lock the wrong version in place.</div>
+            </div>
+
+            <div class="record">
+                <span class="record-label" id="record-label-3">Public details</span>
+                <div class="record-value redacted" id="record-value-3">[redacted] [redacted] [redacted] // access pending</div>
+            </div>
+
+            <div class="fragment-list">
+                <div class="fragment" id="fragment-1">A darker branch with more room for tension, glitches, and systems that feel slightly wrong on purpose.</div>
+                <div class="fragment" id="fragment-2">Still somewhere between prototype, mood test, and a file that probably escaped the vault too soon.</div>
+                <div class="fragment" id="fragment-3">For now, this page stays closer to a dossier than a product page.</div>
+            </div>
+        </section>
+    </main>
 
     <script>
         const translations = {
             hu: {
-                "status-text": "Hamarosan",
-                "desc-text": "Valami radikális készül a háttérben. Az AltR Vision következő nagy dobása még titkosítás alatt áll.",
-                "prev": "Előző",
-                "home": "Vissza főoldalra",
-                "next": "Következő"
+                title: "BLACKFILE | AltR Vision",
+                eyebrow: "Korlátozott aktacsomag / 03",
+                prev: "Előző",
+                home: "Vissza főoldalra",
+                next: "Következő",
+                codename: "BLACKFILE",
+                status: "Hozzáférés korlátozva",
+                lead: "A nyilvános cím még nincs kész. A belső cím visszatartva. Ami most látszik, az néhány hangulati töredék, rendszerlenyomat és egy fájl, aminek valószínűleg még nem kellett volna kikerülnie.",
+                metaLabel1: "Jelosztály",
+                metaValue1: "Ismeretlen / zárolt",
+                metaLabel2: "Atmoszféra",
+                metaValue2: "Titkosított / szintetikus",
+                metaLabel3: "Build állapot",
+                metaValue3: "Redacted a felfedés előtt",
+                metaLabel4: "Láthatóság",
+                metaValue4: "Csak belső töredékek",
+                dossierTitle: "Látható töredékek",
+                recordLabel1: "Munkajegyzet",
+                recordValue1: "Valahol játék, atmoszféra és interaktív történet között, de még túl korai lenne tisztán elnevezni.",
+                recordLabel2: "Miért rejtett",
+                recordValue2: "Mert a forma még túl gyorsan változik, és a korai névadás rossz verziót rögzítene.",
+                recordLabel3: "Nyilvános részletek",
+                recordValue3: "[kitakarva] [kitakarva] [kitakarva] // hozzáférés függőben",
+                fragment1: "Egy sötétebb ág, több feszültséggel, glitch-csel és olyan rendszerekkel, amik direkt egy kicsit rossznak érződnek.",
+                fragment2: "Valahol még mindig prototípus, hangulatteszt és egy túl korán kiszivárgott aktacsomag között.",
+                fragment3: "Egyelőre ez az oldal inkább dosszié, mint klasszikus termékoldal."
             },
             en: {
-                "status-text": "Coming Soon",
-                "desc-text": "Something radical is brewing in the background. AltR Vision's next big move is currently under encryption.",
-                "prev": "Previous",
-                "home": "Back to Home",
-                "next": "Next"
+                title: "BLACKFILE | AltR Vision",
+                eyebrow: "Restricted archive / 03",
+                prev: "Previous",
+                home: "Back to Home",
+                next: "Next",
+                codename: "BLACKFILE",
+                status: "Access restricted",
+                lead: "The public title is not ready. The internal title is withheld. What remains visible is a set of mood fragments, system traces, and a file that clearly should not have been indexed yet.",
+                metaLabel1: "Signal class",
+                metaValue1: "Unknown / locked",
+                metaLabel2: "Atmosphere",
+                metaValue2: "Encrypted / synthetic",
+                metaLabel3: "Build state",
+                metaValue3: "Redacted before reveal",
+                metaLabel4: "Visibility",
+                metaValue4: "Internal fragments only",
+                dossierTitle: "Visible fragments",
+                recordLabel1: "Working note",
+                recordValue1: "Somewhere between game, atmosphere, and interactive fiction, but still too early to call cleanly.",
+                recordLabel2: "Why it is hidden",
+                recordValue2: "Because the form is still changing fast, and naming it too early would lock the wrong version in place.",
+                recordLabel3: "Public details",
+                recordValue3: "[redacted] [redacted] [redacted] // access pending",
+                fragment1: "A darker branch with more room for tension, glitches, and systems that feel slightly wrong on purpose.",
+                fragment2: "Still somewhere between prototype, mood test, and a file that probably escaped the vault too soon.",
+                fragment3: "For now, this page stays closer to a dossier than a product page."
+            },
+            ja: {
+                title: "BLACKFILE | AltR Vision",
+                eyebrow: "制限付きアーカイブ / 03",
+                prev: "前へ",
+                home: "ホームへ戻る",
+                next: "次へ",
+                codename: "BLACKFILE",
+                status: "アクセス制限中",
+                lead: "公開名はまだありません。内部名も伏せられています。今見えているのは、雰囲気の断片とシステムの痕跡、そして本来まだ索引に載るべきではなかったファイルだけです。",
+                metaLabel1: "信号分類",
+                metaValue1: "Unknown / locked",
+                metaLabel2: "空気感",
+                metaValue2: "Encrypted / synthetic",
+                metaLabel3: "ビルド状態",
+                metaValue3: "公開前に秘匿",
+                metaLabel4: "可視範囲",
+                metaValue4: "内部断片のみ",
+                dossierTitle: "可視断片",
+                recordLabel1: "作業メモ",
+                recordValue1: "ゲーム、空気感、インタラクティブな物語の中間にあるが、まだ明確に名前を付けるには早すぎる。",
+                recordLabel2: "なぜ隠しているか",
+                recordValue2: "まだ形が速く変わっていて、早すぎる命名が間違った版を固定してしまうから。",
+                recordLabel3: "公開情報",
+                recordValue3: "[redacted] [redacted] [redacted] // access pending",
+                fragment1: "より暗く、緊張感とグリッチが強く、わざと少しおかしく感じるシステムの枝。",
+                fragment2: "まだプロトタイプ、雰囲気テスト、そして早く漏れすぎたファイルの中間にある。",
+                fragment3: "今のところ、このページは製品ページよりもドシエに近い。"
             }
         };
 
-        const isPreview = new URLSearchParams(window.location.search).get('preview') === '1';
-        if (isPreview) {
-            document.body.style.cursor = 'none';
-            document.getElementById('cursor').style.display = 'none';
-            document.getElementById('particles').style.display = 'none';
+        const alienGlyphMap = {
+            a: "∆", A: "∆", b: "β", B: "β", c: "Ↄ", C: "Ↄ", d: "◧", D: "◧", e: "Ξ", E: "Ξ",
+            f: "Ϝ", F: "Ϝ", g: "Ǥ", G: "Ǥ", h: "Ħ", H: "Ħ", i: "ı", I: "ı", j: "ʝ", J: "ʝ",
+            k: "Ҡ", K: "Ҡ", l: "⟂", L: "⟂", m: "Ɱ", M: "Ɱ", n: "Ŋ", N: "Ŋ", o: "⊘", O: "⊘",
+            p: "Ҏ", P: "Ҏ", q: "Ҩ", Q: "Ҩ", r: "Ɽ", R: "Ɽ", s: "Ϟ", S: "Ϟ", t: "Ŧ", T: "Ŧ",
+            u: "⋃", U: "⋃", v: "⋎", V: "⋎", w: "Ψ", W: "Ψ", x: "Ӿ", X: "Ӿ", y: "Ұ", Y: "Ұ", z: "Ȥ", Z: "Ȥ",
+            0: "◌", 1: "⟊", 2: "ᒿ", 3: "Ӡ", 4: "ϟ", 5: "Ϭ", 6: "Ⳓ", 7: "⌁", 8: "∞", 9: "ϴ"
+        };
+
+        function alienizeString(value) {
+            return value.split(/(<[^>]+>)/g).map((chunk) => {
+                if (chunk.startsWith("<") && chunk.endsWith(">")) return chunk;
+                return chunk.replace(/[A-Za-z0-9]/g, (char) => alienGlyphMap[char] || char);
+            }).join("");
         }
 
-        let currentLang = localStorage.getItem('selectedLang') || 'hu';
-        document.getElementById('status-text').innerText = translations[currentLang]["status-text"];
-        document.getElementById('desc-text').innerText = translations[currentLang]["desc-text"];
-        document.getElementById('label-prev').innerText = translations[currentLang]["prev"];
-        document.getElementById('btn-home').innerText = translations[currentLang]["home"];
-        document.getElementById('label-next').innerText = translations[currentLang]["next"];
+        function alienizeDeep(value) {
+            if (Array.isArray(value)) return value.map(alienizeDeep);
+            if (value && typeof value === "object") return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, alienizeDeep(item)]));
+            if (typeof value === "string") return alienizeString(value);
+            return value;
+        }
 
-        if (!isPreview) {
-            // Egyszerűsített kurzor követés
-            const cursor = document.getElementById('cursor');
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
+        translations.xr = alienizeDeep(translations.en);
+
+        const savedLang = localStorage.getItem("selectedLang");
+        let currentLang = ["hu", "en", "ja", "xr"].includes(savedLang) ? savedLang : "hu";
+
+        function renderPage() {
+            const copy = translations[currentLang];
+            document.title = copy.title;
+            document.documentElement.lang = currentLang;
+            document.getElementById("label-prev").textContent = copy.prev;
+            document.getElementById("btn-home").textContent = copy.home;
+            document.getElementById("label-next").textContent = copy.next;
+            document.getElementById("eyebrow").textContent = copy.eyebrow;
+            document.getElementById("codename").textContent = copy.codename;
+            document.getElementById("status-badge").textContent = copy.status;
+            document.getElementById("lead").textContent = copy.lead;
+            document.getElementById("meta-label-1").textContent = copy.metaLabel1;
+            document.getElementById("meta-value-1").textContent = copy.metaValue1;
+            document.getElementById("meta-label-2").textContent = copy.metaLabel2;
+            document.getElementById("meta-value-2").textContent = copy.metaValue2;
+            document.getElementById("meta-label-3").textContent = copy.metaLabel3;
+            document.getElementById("meta-value-3").textContent = copy.metaValue3;
+            document.getElementById("meta-label-4").textContent = copy.metaLabel4;
+            document.getElementById("meta-value-4").textContent = copy.metaValue4;
+            document.getElementById("dossier-title").textContent = copy.dossierTitle;
+            document.getElementById("record-label-1").textContent = copy.recordLabel1;
+            document.getElementById("record-value-1").textContent = copy.recordValue1;
+            document.getElementById("record-label-2").textContent = copy.recordLabel2;
+            document.getElementById("record-value-2").textContent = copy.recordValue2;
+            document.getElementById("record-label-3").textContent = copy.recordLabel3;
+            document.getElementById("record-value-3").textContent = copy.recordValue3;
+            document.getElementById("fragment-1").textContent = copy.fragment1;
+            document.getElementById("fragment-2").textContent = copy.fragment2;
+            document.getElementById("fragment-3").textContent = copy.fragment3;
+            document.getElementById("btn-hu").classList.toggle("active", currentLang === "hu");
+            document.getElementById("btn-en").classList.toggle("active", currentLang === "en");
+            document.getElementById("btn-ja").classList.toggle("active", currentLang === "ja");
+            document.getElementById("btn-xr").classList.toggle("active", currentLang === "xr");
+        }
+
+        ["hu", "en", "ja", "xr"].forEach((lang) => {
+            document.getElementById(`btn-${lang}`).addEventListener("click", () => {
+                currentLang = lang;
+                localStorage.setItem("selectedLang", lang);
+                renderPage();
             });
+        });
 
-            // Minimál részecskék
-            const canvas = document.getElementById('particles');
-            const ctx = canvas.getContext('2d');
+        renderPage();
+
+        const cursor = document.getElementById("cursor");
+        let mouseX = -100;
+        let mouseY = -100;
+        let hasMoved = false;
+
+        document.addEventListener("mousemove", (event) => {
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            if (!hasMoved) {
+                hasMoved = true;
+                cursor.style.opacity = "1";
+            }
+            if (window.innerWidth > 720) {
+                cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+            }
+        });
+
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+        let particles = [];
+
+        function initParticles() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-
-            let dots = [];
-            for(let i=0; i<50; i++) {
-                dots.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    vX: (Math.random() - 0.5) * 0.5,
-                    vY: (Math.random() - 0.5) * 0.5
-                });
-            }
-
-            function draw() {
-                ctx.clearRect(0,0,canvas.width, canvas.height);
-                ctx.fillStyle = "rgba(156, 39, 176, 0.3)";
-                dots.forEach(d => {
-                    d.x += d.vX; d.y += d.vY;
-                    if(d.x < 0 || d.x > canvas.width) d.vX *= -1;
-                    if(d.y < 0 || d.y > canvas.height) d.vY *= -1;
-                    ctx.beginPath();
-                    ctx.arc(d.x, d.y, 1, 0, Math.PI*2);
-                    ctx.fill();
-                });
-                requestAnimationFrame(draw);
-            }
-            draw();
+            particles = Array.from({ length: 24 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 1.6 + 0.6,
+                speedX: (Math.random() - 0.5) * 0.14,
+                speedY: (Math.random() - 0.5) * 0.14,
+                opacity: Math.random()
+            }));
         }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((particle) => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.y > canvas.height) particle.y = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                ctx.fillStyle = `rgba(255, 0, 127, ${particle.opacity * 0.28})`;
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        window.addEventListener("resize", initParticles);
+        initParticles();
+        drawParticles();
     </script>
 </body>
 </html>

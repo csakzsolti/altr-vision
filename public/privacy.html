@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adatkezelés | AltR Vision</title>
+    <meta name="description" content="AltR Vision adatkezelési tájékoztató.">
+    <link rel="icon" type="image/png" href="assets/altr1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Exo+2:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050507;
+            --cyan: #00e5ff;
+            --pink: #ff007f;
+            --glass: rgba(255,255,255,0.05);
+            --border: rgba(255,255,255,0.12);
+            --soft: rgba(255,255,255,0.72);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 20px;
+            background:
+                radial-gradient(circle at top left, rgba(0,229,255,0.12), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(255,0,127,0.14), transparent 35%),
+                var(--bg);
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .shell {
+            width: min(980px, 100%);
+            margin: 0 auto;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(10, 11, 17, 0.88);
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            min-width: 44px;
+            height: 38px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.72);
+            font: inherit;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+
+        .lang-btn.active {
+            color: white;
+            border-color: var(--cyan);
+            background: rgba(0,229,255,0.08);
+            box-shadow: 0 0 16px rgba(0,229,255,0.18);
+        }
+
+        .lang-flag { font-size: 0.9rem; line-height: 1; display: inline-flex; border-radius: 4px; overflow: hidden; }
+
+        .panel {
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            background:
+                linear-gradient(180deg, rgba(20, 24, 31, 0.82), rgba(12, 12, 18, 0.9)),
+                var(--glass);
+            box-shadow: 0 18px 44px rgba(0,0,0,0.3);
+        }
+
+        .kicker {
+            color: var(--cyan);
+            font-size: 0.72rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        h1 {
+            margin: 14px 0 12px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .lead {
+            margin: 0 0 24px;
+            color: var(--soft);
+            line-height: 1.7;
+            font-size: 1rem;
+            max-width: 64ch;
+        }
+
+        .grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .block {
+            padding: 18px 18px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+        }
+
+        .block h2 {
+            margin: 0 0 8px;
+            font-size: 0.88rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #d6f8ff;
+        }
+
+        .block p, .block li {
+            color: var(--soft);
+            line-height: 1.7;
+            font-size: 0.96rem;
+        }
+
+        .block ul {
+            margin: 10px 0 0 18px;
+            padding: 0;
+        }
+
+        .footer-note {
+            margin-top: 20px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.84rem;
+            letter-spacing: 0.04em;
+        }
+
+        @media (max-width: 720px) {
+            body { padding: 12px; }
+            .topbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .lang-switcher {
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+            .panel { padding: 20px 16px; }
+            .block { padding: 16px 14px 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <div class="topbar">
+            <a href="index.html#contact" class="back-link" id="back-link">Vissza a főoldalra</a>
+            <div class="lang-switcher">
+                <button class="lang-btn active" id="btn-hu" type="button"><span class="lang-flag">🇭🇺</span><span>HU</span></button>
+                <button class="lang-btn" id="btn-en" type="button"><span class="lang-flag">🇬🇧</span><span>EN</span></button>
+                <button class="lang-btn" id="btn-ja" type="button"><span class="lang-flag">🇯🇵</span><span>JP</span></button>
+                <button class="lang-btn" id="btn-xr" type="button"><span class="lang-flag">👽</span><span>XR</span></button>
+            </div>
+        </div>
+
+        <main class="panel">
+            <div class="kicker" id="kicker">PRIVACY</div>
+            <h1 id="title">Adatkezelési tájékoztató</h1>
+            <p class="lead" id="lead">Az AltR Vision oldala jelenleg egy bemutató- és portfóliófelület. Itt röviden összefoglaljuk, milyen adatkezelés történik, és mi az, ami nem.</p>
+
+            <section class="grid">
+                <div class="block">
+                    <h2 id="section-1-title">Milyen adatokat kezelünk</h2>
+                    <p id="section-1-copy">Az oldal alapvetően nem kér regisztrációt és nem épít saját felhasználói fiókrendszert. A főoldal a kiválasztott nyelvet a böngésző helyi tárhelyén mentheti el, hogy a következő látogatáskor is ugyanaz a nyelv maradjon.</p>
+                </div>
+
+                <div class="block">
+                    <h2 id="section-2-title">Email kapcsolat</h2>
+                    <p id="section-2-copy">A kapcsolatfelvételi mező jelenleg a saját levelezőalkalmazásodban nyit meg egy előkészített üzenetet. Az AltR Vision oldala önmagában nem tárolja el ezeket a mezőket szerveroldalon.</p>
+                </div>
+
+                <div class="block">
+                    <h2 id="section-3-title">Külső szolgáltatások</h2>
+                    <p id="section-3-copy">Az oldal használhat külső szolgáltatásokat, például betűkészlet-betöltést, hostingot vagy külső linkeket. Ezek saját adatkezelési gyakorlat szerint működnek.</p>
+                </div>
+
+                <div class="block">
+                    <h2 id="section-4-title">Mit nem csinálunk</h2>
+                    <ul id="section-4-list">
+                        <li>Nem működik beépített felhasználói fiók vagy kommentrendszer.</li>
+                        <li>Nem tárolunk itt helyben saját profilt vagy jelszót.</li>
+                        <li>Jelenleg nincs külön, egyedi analitikai rendszer beépítve ebbe a felületbe.</li>
+                    </ul>
+                </div>
+
+                <div class="block">
+                    <h2 id="section-5-title">Kapcsolat</h2>
+                    <p id="section-5-copy">Ha adatkezeléssel kapcsolatban kérdésed van, a főoldali kapcsolatfelvételi részen keresztül lehet írni.</p>
+                </div>
+            </section>
+
+            <p class="footer-note" id="footer-note">Ez az oldal tájékoztató jellegű összefoglaló, és később frissülhet a projekt fejlődésével együtt.</p>
+        </main>
+    </div>
+
+    <script>
+        const translations = {
+            hu: {
+                title: "Adatkezelési tájékoztató",
+                kicker: "PRIVACY",
+                back: "Vissza a főoldalra",
+                lead: "Az AltR Vision oldala jelenleg egy bemutató- és portfóliófelület. Itt röviden összefoglaljuk, milyen adatkezelés történik, és mi az, ami nem.",
+                s1t: "Milyen adatokat kezelünk",
+                s1c: "Az oldal alapvetően nem kér regisztrációt és nem épít saját felhasználói fiókrendszert. A főoldal a kiválasztott nyelvet a böngésző helyi tárhelyén mentheti el, hogy a következő látogatáskor is ugyanaz a nyelv maradjon.",
+                s2t: "Email kapcsolat",
+                s2c: "A kapcsolatfelvételi mező jelenleg a saját levelezőalkalmazásodban nyit meg egy előkészített üzenetet. Az AltR Vision oldala önmagában nem tárolja el ezeket a mezőket szerveroldalon.",
+                s3t: "Külső szolgáltatások",
+                s3c: "Az oldal használhat külső szolgáltatásokat, például betűkészlet-betöltést, hostingot vagy külső linkeket. Ezek saját adatkezelési gyakorlat szerint működnek.",
+                s4t: "Mit nem csinálunk",
+                s4l: [
+                    "Nem működik beépített felhasználói fiók vagy kommentrendszer.",
+                    "Nem tárolunk itt helyben saját profilt vagy jelszót.",
+                    "Jelenleg nincs külön, egyedi analitikai rendszer beépítve ebbe a felületbe."
+                ],
+                s5t: "Kapcsolat",
+                s5c: "Ha adatkezeléssel kapcsolatban kérdésed van, a főoldali kapcsolatfelvételi részen keresztül lehet írni.",
+                foot: "Ez az oldal tájékoztató jellegű összefoglaló, és később frissülhet a projekt fejlődésével együtt."
+            },
+            en: {
+                title: "Privacy Policy",
+                kicker: "PRIVACY",
+                back: "Back to home",
+                lead: "AltR Vision currently works as a portfolio and showcase site. This page briefly explains what data handling happens here, and what does not.",
+                s1t: "What data we handle",
+                s1c: "The site does not require registration and does not run its own account system. The selected language may be stored locally in your browser so the same language remains active on later visits.",
+                s2t: "Email contact",
+                s2c: "The contact form currently opens a prepared draft in your own mail application. AltR Vision does not store those form fields on its own server at this stage.",
+                s3t: "External services",
+                s3c: "The site may rely on external services such as font delivery, hosting, or outbound links. Those services operate under their own privacy practices.",
+                s4t: "What we do not do",
+                s4l: [
+                    "There is no built-in account or comment system.",
+                    "We do not store local user profiles or passwords here.",
+                    "There is currently no custom analytics system embedded into this interface."
+                ],
+                s5t: "Contact",
+                s5c: "If you have a privacy-related question, you can reach out through the contact section on the main page.",
+                foot: "This page is an informational summary and may be updated as the project evolves."
+            },
+            ja: {
+                title: "プライバシーポリシー",
+                kicker: "PRIVACY",
+                back: "トップへ戻る",
+                lead: "AltR Visionのサイトは現在、ポートフォリオ兼ショーケースとして運用されています。このページでは、ここで行われるデータの扱いと、行っていないことを簡潔にまとめています。",
+                s1t: "どのようなデータを扱うか",
+                s1c: "このサイトでは登録制のアカウント機能は提供していません。選択した言語は、次回訪問時にも同じ表示を維持するために、ブラウザのローカル保存領域に記録される場合があります。",
+                s2t: "メール連絡",
+                s2c: "連絡フォームは現在、あなた自身のメールアプリで送信準備済みの下書きを開く仕組みです。AltR Vision側でその内容を独自サーバーに保存することはありません。",
+                s3t: "外部サービス",
+                s3c: "このサイトは、フォント配信、ホスティング、外部リンクなどの外部サービスを利用する場合があります。これらはそれぞれ独自のプライバシーポリシーに従って動作します。",
+                s4t: "行っていないこと",
+                s4l: [
+                    "組み込みのアカウント機能やコメントシステムはありません。",
+                    "このサイト上で独自のプロフィールやパスワードを保存することはありません。",
+                    "現在、この画面には独自の分析システムは組み込まれていません。"
+                ],
+                s5t: "連絡先",
+                s5c: "プライバシーに関する質問がある場合は、メインページの連絡セクションからご連絡ください。",
+                foot: "このページは案内用の要約であり、プロジェクトの進行に合わせて更新される場合があります。"
+            }
+        };
+
+        const alienGlyphMap = {
+            a: "∆", A: "∆", b: "β", B: "β", c: "Ↄ", C: "Ↄ", d: "◧", D: "◧", e: "Ξ", E: "Ξ",
+            f: "Ϝ", F: "Ϝ", g: "Ǥ", G: "Ǥ", h: "Ħ", H: "Ħ", i: "ı", I: "ı", j: "ʝ", J: "ʝ",
+            k: "Ҡ", K: "Ҡ", l: "⟂", L: "⟂", m: "Ɱ", M: "Ɱ", n: "Ŋ", N: "Ŋ", o: "⊘", O: "⊘",
+            p: "Ҏ", P: "Ҏ", q: "Ҩ", Q: "Ҩ", r: "Ɽ", R: "Ɽ", s: "Ϟ", S: "Ϟ", t: "Ŧ", T: "Ŧ",
+            u: "⋃", U: "⋃", v: "⋎", V: "⋎", w: "Ψ", W: "Ψ", x: "Ӿ", X: "Ӿ", y: "Ұ", Y: "Ұ", z: "Ȥ", Z: "Ȥ",
+            0: "◌", 1: "⟊", 2: "ᒿ", 3: "Ӡ", 4: "ϟ", 5: "Ϭ", 6: "Ⳓ", 7: "⌁", 8: "∞", 9: "ϴ"
+        };
+        function alienizeString(value) {
+            return value.split(/(<[^>]+>)/g).map((chunk) => {
+                if (chunk.startsWith("<") && chunk.endsWith(">")) return chunk;
+                return chunk.replace(/[A-Za-z0-9]/g, (char) => alienGlyphMap[char] || char);
+            }).join("");
+        }
+        function alienizeDeep(value) {
+            if (Array.isArray(value)) return value.map(alienizeDeep);
+            if (value && typeof value === "object") return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, alienizeDeep(item)]));
+            if (typeof value === "string") return alienizeString(value);
+            return value;
+        }
+        translations.xr = alienizeDeep(translations.en);
+
+        const supported = ["hu", "en", "ja", "xr"];
+        let currentLang = supported.includes(localStorage.getItem("selectedLang")) ? localStorage.getItem("selectedLang") : "hu";
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem("selectedLang", lang);
+            document.documentElement.lang = lang;
+            document.title = `${translations[lang].title} | AltR Vision`;
+            document.getElementById("kicker").textContent = translations[lang].kicker;
+            document.getElementById("title").textContent = translations[lang].title;
+            document.getElementById("back-link").textContent = translations[lang].back;
+            document.getElementById("lead").textContent = translations[lang].lead;
+            document.getElementById("section-1-title").textContent = translations[lang].s1t;
+            document.getElementById("section-1-copy").textContent = translations[lang].s1c;
+            document.getElementById("section-2-title").textContent = translations[lang].s2t;
+            document.getElementById("section-2-copy").textContent = translations[lang].s2c;
+            document.getElementById("section-3-title").textContent = translations[lang].s3t;
+            document.getElementById("section-3-copy").textContent = translations[lang].s3c;
+            document.getElementById("section-4-title").textContent = translations[lang].s4t;
+            document.getElementById("section-4-list").innerHTML = translations[lang].s4l.map(item => `<li>${item}</li>`).join("");
+            document.getElementById("section-5-title").textContent = translations[lang].s5t;
+            document.getElementById("section-5-copy").textContent = translations[lang].s5c;
+            document.getElementById("footer-note").textContent = translations[lang].foot;
+            document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.remove("active"));
+            document.getElementById(`btn-${lang}`).classList.add("active");
+        }
+
+        document.getElementById("btn-hu").addEventListener("click", () => setLang("hu"));
+        document.getElementById("btn-en").addEventListener("click", () => setLang("en"));
+        document.getElementById("btn-ja").addEventListener("click", () => setLang("ja"));
+        document.getElementById("btn-xr").addEventListener("click", () => setLang("xr"));
+        setLang(currentLang);
+    </script>
+</body>
+</html>
