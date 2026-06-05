@@ -149,32 +149,20 @@
     <div class="section-title" id="projects">PROJEKTEK</div>
     
     <main class="content-grid">
-        <a href="gossipr.html" class="card">
-            <div class="card-image-area"><img src="assets/gossiprbrand.png" alt="GossipR"></div>
-            <div class="card-content">
-                <div><span class="tag" id="tag-app">App</span><span class="tag" id="tag-progress">Fejlesztés alatt</span></div>
-                <h2 style="color: var(--neon-blue);">GossipR</h2>
-                <p id="desc-gossipr">Az anonim közösségi élmény újradefiniálása. Biztonságos, gyors és valódi.</p>
-            </div>
-        </a>
+        <article class="card" data-href="gossipr.html" tabindex="0" role="link" aria-label="Open GossipR details">
+            <div class="card-image-area"><img src="assets/gossiprbrand.png" alt="GossipR brand visual"></div>
+            <div class="card-content"></div>
+        </article>
 
-        <a href="wayr.html" class="card">
+        <article class="card" data-href="wayr.html" tabindex="0" role="link" aria-label="Open WayR details">
             <div class="card-image-area"><img src="assets/wayrbrand.png" alt="WayR"></div>
-            <div class="card-content">
-                <div><span class="tag" id="tag-tool">APP</span><span class="tag" id="tag-concept">Koncepció</span></div>
-                <h2 style="color: var(--neon-purple);">WayR</h2>
-                <p id="desc-wayr">A csomagszállítás új formája. Gyors, és környezetbarát!</p>
-            </div>
-        </a>
+            <div class="card-content"></div>
+        </article>
 
-        <a href="projectx.html" class="card">
+        <article class="card" data-href="projectx.html" tabindex="0" role="link" aria-label="Open BLACKFILE details">
             <div class="card-image-area"><img src="assets/altr1.jpg" alt="Project X" style="filter: hue-rotate(280deg) brightness(0.8);"></div>
-            <div class="card-content">
-                <div><span class="tag" id="tag-gaming">Gaming</span><span class="tag" id="tag-future">Hamarosan</span></div>
-                <h2 style="color: var(--neon-pink);">BLACKFILE</h2>
-                <p id="desc-projectx">A név, a rendszer és a részletek jelenleg visszatartva. Csak töredékek szivárognak át.</p>
-            </div>
-        </a>
+            <div class="card-content"></div>
+        </article>
     </main>
     <div class="section-divider" aria-hidden="true"></div>
 
@@ -198,11 +186,25 @@
                 <div class="contact-kicker" id="contact-kicker">OPEN CHANNEL</div>
                 <h3 class="contact-title" id="contact-title">Érdekes app, játékötlet vagy furcsa digitális rendszer jár a fejedben?</h3>
                 <p class="contact-text" id="contact-text">Nyitottak vagyunk új együttműködésekre, prototípusokra és különös ötletekre, amiknek saját hangjuk van.</p>
+                <div class="contact-direct">
+                    <div class="contact-direct-kicker" id="contact-direct-kicker">DIRECT SIGNAL</div>
+                    <p class="contact-direct-copy" id="contact-route-general-copy">Weboldali contact form, érdeklődés, partneri megkeresés, sajtó és általános ALTR Vision ügyek.</p>
+                    <div class="contact-direct-row">
+                        <a class="contact-direct-mail" id="note-address" href="mailto:takeus@altrvision.com?subject=AltR%20Vision%20inquiry">takeus@altrvision.com</a>
+                        <div class="contact-copy-wrap">
+                            <button type="button" class="contact-copy-btn" id="note-copy-btn" aria-label="Email cím másolása" title="Email cím másolása">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <rect x="9" y="9" width="10" height="10" rx="2"></rect>
+                                    <rect x="5" y="5" width="10" height="10" rx="2"></rect>
+                                </svg>
+                            </button>
+                            <div class="contact-copy-toast" id="note-copy-toast" aria-live="polite"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <aside class="note-board">
                 <div class="note-board-kicker" id="note-kicker">SEND A NOTE</div>
-                <h4 class="note-board-title" id="note-title">Küldj egy rövid üzenetet.</h4>
-                <p class="note-board-copy" id="note-copy">Itt közvetlenül összeállíthatsz egy emailt, ami a saját leveleződben nyílik meg elküldésre.</p>
                 <form class="note-form" id="note-form">
                     <input id="note-subject" class="note-input note-input-line" maxlength="80" placeholder="Tárgy" />
                     <textarea id="note-input" class="note-input" maxlength="320" placeholder="Írj egy rövid üzenetet..."></textarea>
@@ -211,6 +213,7 @@
                         <button type="submit" class="note-submit" id="note-submit">Email megnyitása</button>
                     </div>
                 </form>
+                <p class="note-response" id="note-response">Általában 1-2 munkanapon belül válaszolunk.</p>
             </aside>
         </div>
     </section>
@@ -222,9 +225,23 @@
             <a href="https://github.com/csakzsolti/altr-vision" target="_blank" rel="noopener noreferrer" id="footer-policy-3">Source</a>
         </div>
         <div class="social-links footer-social-links">
-            <a href="https://github.com/csakzsolti/altr-vision" target="_blank" rel="noopener noreferrer" class="social-icon">GH</a>
-            <a href="#" class="social-icon">IT</a>
-            <a href="#" class="social-icon">DC</a>
+            <a href="#" class="social-icon" aria-label="Instagram" title="Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect>
+                    <circle cx="12" cy="12" r="4.2"></circle>
+                    <circle cx="17.3" cy="6.7" r="1.2" class="social-fill"></circle>
+                </svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="Facebook" title="Facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M13.4 20.5v-7.1h2.4l.4-2.8h-2.8V8.8c0-.8.2-1.4 1.4-1.4h1.5V4.9c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4v1.8H7.8v2.8h2.4v7.1z"></path>
+                </svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="TikTok" title="TikTok">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M14.8 4c.5 1.5 1.4 2.6 2.8 3.3.8.4 1.6.6 2.4.6v3a8 8 0 0 1-2.2-.3 8 8 0 0 1-2-.9v5.4c0 2.9-2.2 5.2-5.2 5.2-2.8 0-5.1-2.3-5.1-5.1 0-3 2.4-5.3 5.4-5.1v3c-1.3-.2-2.4.8-2.4 2.1 0 1.2.9 2.1 2.1 2.1 1.3 0 2.2-1 2.2-2.4V4z"></path>
+                </svg>
+            </a>
         </div>
             <div class="footer-tail">
                 <div class="footer-brand">ALTR VISION</div>

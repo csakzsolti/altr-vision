@@ -158,6 +158,19 @@
                 font-size: 0.62rem;
                 letter-spacing: 0.1em;
             }
+            .card-actions {
+                gap: 8px;
+            }
+            .card-detail-link {
+                margin-top: 0;
+                font-size: 0.62rem;
+            }
+            .card-live-link {
+                width: 100%;
+                justify-content: center;
+                padding: 8px 10px;
+                font-size: 0.6rem;
+            }
             .scroll-indicator { margin-bottom: 28px; }
             .info-section { padding: 46px 24px; margin: 8px 0 2px; }
             .about-section { width: calc(100% - 18px); padding: 24px 20px 26px; margin: 28px auto 18px; }
@@ -168,11 +181,39 @@
             .contact-title { max-width: none; }
             .contact-copy { text-align: center; }
             .contact-text { max-width: none; }
+            .contact-direct {
+                max-width: none;
+                gap: 10px;
+                margin-top: 18px;
+                padding-left: 14px;
+            }
+            .contact-direct-copy {
+                font-size: 0.84rem;
+                line-height: 1.62;
+            }
+            .contact-direct-row {
+                justify-content: flex-start;
+            }
+            .contact-direct-kicker {
+                font-size: 0.58rem;
+                letter-spacing: 0.2em;
+            }
+            .contact-copy-toast {
+                font-size: 0.58rem;
+                max-width: 150px;
+                white-space: normal;
+                text-align: center;
+                line-height: 1.35;
+            }
+            .contact-direct-mail {
+                width: auto;
+                justify-content: flex-start;
+                font-size: 0.74rem;
+                padding: 0;
+            }
             .signal-terminal { max-width: none; }
             .social-links { justify-content: center; }
             .note-board { padding: 18px; }
-            .note-board-title { font-size: 1.06rem; }
-            .note-board-copy { font-size: 0.88rem; line-height: 1.56; }
             .note-input-line {
                 height: 42px;
                 min-height: 42px;
@@ -198,6 +239,11 @@
             }
             .note-form-row { flex-direction: column; align-items: stretch; }
             .note-submit { width: 100%; }
+            .note-response {
+                margin-top: 10px;
+                text-align: center;
+                font-size: 0.76rem;
+            }
             .footer-strip {
                 grid-template-columns: 1fr;
                 justify-items: center;

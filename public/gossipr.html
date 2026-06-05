@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GossipR | AltR Vision</title>
-    <meta name="description" id="meta-description" content="GossipR is an anonymous social app concept from AltR Vision, focused on safer expression, temporary content, and a distinct neon atmosphere.">
+    <meta name="description" id="meta-description" content="A GossipR egy helyhez kötött hangemlék-hálózat és játékos közösségi rendszer, ahol valódi helyekhez kapcsolhatsz hangüzeneteket, emlékeket és emberi pillanatokat.">
     <meta property="og:title" id="meta-og-title" content="GossipR | AltR Vision">
-    <meta property="og:description" id="meta-og-description" content="An anonymous social experience with stronger identity, visual character, and cleaner digital rituals.">
+    <meta property="og:description" id="meta-og-description" content="Helyhez kötött hangüzenetek, térképes felfedezés, XP, rangok, kitűzők és a közösség által alakított visszhangok egy sötét neonvilágban.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="assets/gossiprbrand.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" id="meta-twitter-title" content="GossipR | AltR Vision">
-    <meta name="twitter:description" id="meta-twitter-description" content="An anonymous social experience with stronger identity, visual character, and cleaner digital rituals.">
+    <meta name="twitter:description" id="meta-twitter-description" content="Helyhez kötött hangüzenetek, személyes emlékek, XP, rangok és élő visszhangok egy sötét neon hálózatban.">
     <meta name="twitter:image" content="assets/gossiprbrand.png">
     <link rel="icon" type="image/png" href="assets/altr1.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,9 +22,9 @@
             --accent: #00e5ff;
             --accent-soft: rgba(0, 229, 255, 0.16);
             --accent-strong: rgba(0, 229, 255, 0.28);
-            --bg: #050507;
             --border: rgba(255, 255, 255, 0.1);
-            --text-soft: rgba(255, 255, 255, 0.72);
+            --text-soft: rgba(255, 255, 255, 0.74);
+            --panel: rgba(8, 9, 14, 0.78);
         }
         * { box-sizing: border-box; cursor: none !important; }
         body {
@@ -35,43 +35,97 @@
                 radial-gradient(circle at bottom right, rgba(156, 39, 176, 0.18), transparent 34%),
                 linear-gradient(180deg, #050507, #0a0b11);
             color: white;
-            font-family: 'Inter', sans-serif;
+            font-family: "Inter", sans-serif;
             overflow-x: hidden;
         }
-        #particles { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        #particles {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
         #cursor {
-            width: 22px; height: 22px; border: 2px solid var(--accent); border-radius: 50%;
-            position: fixed; top: 0; left: 0; transform: translate3d(-50%, -50%, 0);
-            pointer-events: none; z-index: 9999; box-shadow: 0 0 16px var(--accent);
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate3d(-50%, -50%, 0);
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 16px var(--accent);
             will-change: transform;
             opacity: 0;
             transition: opacity 0.2s ease;
         }
         .topbar {
-            position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
-            width: min(1120px, calc(100% - 24px)); display: flex; align-items: center; justify-content: center;
-            gap: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 18px;
-            background: rgba(10, 11, 17, 0.92); z-index: 1000;
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(1120px, calc(100% - 24px));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(10, 11, 17, 0.92);
+            z-index: 1000;
         }
-        .topbar-group { display: flex; align-items: center; gap: 10px; }
-        .topbar-nav { display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .lang-switcher { display: flex; align-items: center; gap: 8px; }
-        .topbar .lang-switcher { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
+        .topbar-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .topbar .lang-switcher {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
         .nav-chip {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 40px;
-            padding: 0 16px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.03);
-            color: white; text-decoration: none; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em;
-            text-transform: uppercase; transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 40px;
+            padding: 0 16px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
         }
-        .nav-chip:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); box-shadow: 0 0 20px var(--accent-soft); }
-        .nav-chip.compact { width: 40px; padding: 0; font-size: 1rem; letter-spacing: 0; }
+        .nav-chip:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-soft);
+        }
         .lang-btn {
             min-width: 42px;
             height: 40px;
             border-radius: 999px;
             border: 1px solid var(--border);
-            background: rgba(255,255,255,0.03);
-            color: rgba(255,255,255,0.74);
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.74);
             font-size: 0.68rem;
             font-weight: 800;
             letter-spacing: 0.16em;
@@ -82,35 +136,90 @@
             gap: 7px;
             transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
         }
-        .lang-flag { font-size: 0.9rem; line-height: 1; display: inline-flex; border-radius: 4px; overflow: hidden; }
+        .lang-flag {
+            font-size: 0.9rem;
+            line-height: 1;
+            display: inline-flex;
+            border-radius: 4px;
+            overflow: hidden;
+        }
         .lang-btn.active {
             color: white;
             border-color: var(--accent);
-            background: rgba(0,229,255,0.08);
+            background: rgba(0, 229, 255, 0.08);
             box-shadow: 0 0 16px var(--accent-soft);
         }
         .project-shell {
-            width: min(1180px, calc(100% - 32px)); margin: 116px auto 40px;
-            display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr); gap: 34px; align-items: start;
+            width: min(1180px, calc(100% - 32px));
+            margin: 116px auto 40px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.96fr);
+            gap: 34px;
+            align-items: start;
         }
-        .media-panel, .content-panel {
-            border: 1px solid var(--border); border-radius: 32px; background: rgba(8, 9, 14, 0.72);
-            overflow: hidden; box-shadow: 0 18px 42px rgba(0,0,0,0.26); contain: paint;
+        .media-panel,
+        .content-panel {
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            background: var(--panel);
+            overflow: hidden;
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.26);
+            contain: paint;
         }
-        .media-panel { position: sticky; top: 104px; }
+        .media-panel {
+            position: sticky;
+            top: 104px;
+        }
         .media-stage {
-            position: relative; aspect-ratio: 1.08 / 1; overflow: hidden;
-            background: radial-gradient(circle at top right, rgba(0,229,255,0.12), transparent 30%), linear-gradient(160deg, rgba(0,229,255,0.08), rgba(12,13,18,0.2)), #0b0d12;
+            position: relative;
+            aspect-ratio: 1.08 / 1;
+            overflow: hidden;
+            background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.12), transparent 30%), linear-gradient(160deg, rgba(0, 229, 255, 0.08), rgba(12, 13, 18, 0.2)), #0b0d12;
         }
-        .media-stage::after { content: ""; position: absolute; inset: auto 0 0 0; height: 40%; background: linear-gradient(180deg, transparent, rgba(5,5,7,0.7)); pointer-events: none; }
-        .project-image { width: 100%; height: 100%; object-fit: cover; opacity: 0.86; transform: scale(1.01); transition: transform 0.7s ease, opacity 0.7s ease; }
-        .media-panel:hover .project-image { transform: scale(1.03); opacity: 0.92; }
+        .media-stage::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0 0;
+            height: 40%;
+            background: linear-gradient(180deg, transparent, rgba(5, 5, 7, 0.72));
+            pointer-events: none;
+        }
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.94;
+            transform: scale(1.01);
+            transition: transform 0.7s ease, opacity 0.7s ease;
+        }
+        .media-panel:hover .project-image {
+            transform: scale(1.03);
+            opacity: 1;
+        }
         .media-badge {
-            position: absolute; left: 24px; bottom: 24px; display: inline-flex; align-items: center; gap: 10px;
-            padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.12); background: rgba(8,11,18,0.88);
-            font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: white;
+            position: absolute;
+            left: 24px;
+            bottom: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(8, 11, 18, 0.88);
+            font-size: 0.72rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: white;
         }
-        .media-badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
+        .media-badge::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 14px var(--accent);
+        }
         .content-panel {
             padding: 38px 38px 40px;
             background:
@@ -127,45 +236,105 @@
             pointer-events: none;
         }
         .eyebrow {
-            display: inline-flex; align-items: center; gap: 10px; margin-bottom: 18px; color: var(--accent);
-            font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            color: var(--accent);
+            font-size: 0.72rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-weight: 700;
         }
-        .eyebrow::before { content: ""; width: 30px; height: 1px; background: linear-gradient(90deg, var(--accent), transparent); }
+        .eyebrow::before {
+            content: "";
+            width: 30px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
         .project-title {
-            margin: 0; font-family: 'Orbitron', sans-serif; font-size: clamp(2.8rem, 7vw, 5rem); line-height: 0.94;
-            letter-spacing: -0.06em; text-transform: uppercase; color: white; text-shadow: 0 0 26px rgba(255,255,255,0.08);
+            margin: 0;
+            font-family: "Orbitron", sans-serif;
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            line-height: 0.94;
+            letter-spacing: -0.06em;
+            text-transform: uppercase;
+            color: white;
+            text-shadow: 0 0 26px rgba(255, 255, 255, 0.08);
         }
         .status-badge {
-            display: inline-flex; align-items: center; gap: 10px; margin: 18px 0 20px; padding: 9px 14px; border-radius: 999px;
-            border: 1px solid var(--accent-strong); background: var(--accent-soft); color: var(--accent); font-size: 0.72rem;
-            letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 18px 0 20px;
+            padding: 9px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--accent-strong);
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-weight: 700;
         }
-        .status-badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 10px currentColor; }
-        .project-text { margin: 0; font-size: 1.04rem; line-height: 1.86; color: rgba(255, 255, 255, 0.8); max-width: 56ch; }
-        .stats-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 32px 0 36px; }
+        .status-badge::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 10px currentColor;
+        }
+        .link-row {
+            margin-bottom: 22px;
+        }
+        .link-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            border: 1px solid var(--accent-strong);
+            background: rgba(0, 229, 255, 0.08);
+            color: white;
+            text-decoration: none;
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .link-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 22px var(--accent-soft);
+            border-color: var(--accent);
+        }
+        .project-text {
+            margin: 0;
+            font-size: 1.03rem;
+            line-height: 1.84;
+            color: rgba(255, 255, 255, 0.82);
+            max-width: 58ch;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin: 30px 0 34px;
+        }
         .stat-card {
             display: grid;
-            grid-template-columns: minmax(90px, 118px) minmax(0, 1fr);
+            grid-template-columns: minmax(90px, 120px) minmax(0, 1fr);
             align-items: center;
             gap: 14px;
             min-width: 0;
             padding: 12px 14px;
             border-radius: 16px;
-            border: 1px solid color-mix(in srgb, var(--accent) 28%, rgba(255,255,255,0.08));
+            border: 1px solid color-mix(in srgb, var(--accent) 28%, rgba(255, 255, 255, 0.08));
             background:
-                linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, transparent), rgba(255,255,255,0.02)),
-                rgba(255,255,255,0.02);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
-            transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
-        }
-        .content-panel:hover .stat-card {
-            border-color: color-mix(in srgb, var(--accent) 42%, rgba(255,255,255,0.08));
-            background:
-                linear-gradient(180deg, color-mix(in srgb, var(--accent) 11%, transparent), rgba(255,255,255,0.03)),
-                rgba(255,255,255,0.025);
-            box-shadow:
-                inset 0 1px 0 rgba(255,255,255,0.04),
-                inset 4px 0 0 color-mix(in srgb, var(--accent) 82%, transparent);
+                linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, transparent), rgba(255, 255, 255, 0.02)),
+                rgba(255, 255, 255, 0.02);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
         .stat-label {
             display: inline-flex;
@@ -190,48 +359,147 @@
         .stat-value {
             display: block;
             color: white;
-            font-family: 'Orbitron', 'Inter', sans-serif;
+            font-family: "Orbitron", "Inter", sans-serif;
             font-size: 0.82rem;
             line-height: 1.34;
             letter-spacing: 0.01em;
             font-weight: 500;
             overflow-wrap: anywhere;
         }
-        .section-block + .section-block { margin-top: 34px; }
+        .section-block + .section-block {
+            margin-top: 28px;
+        }
         .section-block {
             padding: 24px 24px 22px;
             border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             background:
-                linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.018)),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018)),
                 radial-gradient(circle at top right, rgba(0, 229, 255, 0.07), transparent 38%);
         }
-        .section-title { margin: 0 0 18px; font-size: 0.8rem; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(255,255,255,0.52); font-weight: 800; }
-        .feature-list { display: grid; gap: 14px; }
+        .section-title {
+            margin: 0 0 18px;
+            font-size: 0.8rem;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.52);
+            font-weight: 800;
+        }
+        .feature-list {
+            display: grid;
+            gap: 14px;
+        }
         .feature-item {
-            display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 14px; padding: 18px; border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+            display: grid;
+            grid-template-columns: 18px minmax(0, 1fr);
+            gap: 14px;
+            padding: 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
             transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
         }
-        .feature-item:hover { transform: translateY(-2px); border-color: var(--accent-strong); background: linear-gradient(180deg, rgba(0,229,255,0.08), rgba(255,255,255,0.04)); }
-        .feature-dot { width: 8px; height: 8px; margin-top: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 14px var(--accent); }
-        .feature-item strong { display: block; margin-bottom: 6px; font-size: 0.96rem; color: white; }
-        .feature-item span { display: block; color: var(--text-soft); font-size: 0.92rem; line-height: 1.6; }
-        .timeline { display: grid; gap: 12px; }
+        .feature-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-strong);
+            background: linear-gradient(180deg, rgba(0, 229, 255, 0.08), rgba(255, 255, 255, 0.04));
+        }
+        .feature-dot {
+            width: 8px;
+            height: 8px;
+            margin-top: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 14px var(--accent);
+        }
+        .feature-item strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.96rem;
+            color: white;
+        }
+        .feature-item span {
+            display: block;
+            color: var(--text-soft);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+        .rank-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+        .rank-card {
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
+            overflow: hidden;
+        }
+        .rank-video {
+            width: 100%;
+            aspect-ratio: 0.82 / 1;
+            object-fit: cover;
+            display: block;
+            background: #06070b;
+        }
+        .rank-meta {
+            padding: 14px 15px 16px;
+        }
+        .rank-kicker {
+            display: block;
+            margin-bottom: 6px;
+            color: color-mix(in srgb, var(--accent) 78%, white 22%);
+            font-size: 0.62rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+        .rank-title {
+            display: block;
+            color: white;
+            font-size: 0.96rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .rank-copy {
+            color: var(--text-soft);
+            font-size: 0.88rem;
+            line-height: 1.55;
+        }
+        .timeline {
+            display: grid;
+            gap: 12px;
+        }
         .timeline-row {
             display: grid;
-            grid-template-columns: 118px minmax(0, 1fr);
+            grid-template-columns: 126px minmax(0, 1fr);
             gap: 16px;
             padding: 16px 0;
-            border-top: 1px solid rgba(255,255,255,0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .timeline-row:first-child { border-top: none; padding-top: 0; }
-        .timeline-key { color: rgba(0, 229, 255, 0.8); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.22em; font-weight: 700; }
-        .timeline-value { color: rgba(255,255,255,0.9); line-height: 1.7; }
+        .timeline-row:first-child {
+            border-top: none;
+            padding-top: 0;
+        }
+        .timeline-key {
+            color: rgba(0, 229, 255, 0.8);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            font-weight: 700;
+        }
+        .timeline-value {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+        }
         @media (max-width: 1080px) {
-            .project-shell { grid-template-columns: 1fr; }
-            .media-panel { position: relative; top: auto; }
+            .project-shell {
+                grid-template-columns: 1fr;
+            }
+            .media-panel {
+                position: relative;
+                top: auto;
+            }
         }
         @media (max-width: 720px) {
             * { cursor: auto !important; }
@@ -244,13 +512,10 @@
                 justify-content: center;
                 gap: 8px;
             }
-            .topbar-group,
             .topbar-nav {
                 gap: 8px;
                 flex-wrap: wrap;
                 justify-content: center;
-            }
-            .topbar-nav {
                 width: 100%;
             }
             .topbar .lang-switcher {
@@ -265,17 +530,44 @@
                 font-size: 0.58rem;
                 letter-spacing: 0.12em;
             }
-            .project-shell { width: calc(100% - 18px); margin-top: 126px; gap: 18px; }
-            .content-panel { padding: 24px 18px 26px; }
-            .stats-grid { grid-template-columns: 1fr; gap: 8px; }
-            .stat-card { grid-template-columns: 1fr; gap: 6px; padding: 10px 11px; }
-            .stat-label { font-size: 0.58rem; }
-            .stat-value { font-size: 0.74rem; }
-            .section-block { padding: 20px 18px 18px; }
-            .timeline-row { grid-template-columns: 1fr; gap: 8px; }
+            .project-shell {
+                width: calc(100% - 18px);
+                margin-top: 126px;
+                gap: 18px;
+            }
+            .content-panel {
+                padding: 24px 18px 26px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .stat-card {
+                grid-template-columns: 1fr;
+                gap: 6px;
+                padding: 10px 11px;
+            }
+            .stat-label {
+                font-size: 0.58rem;
+            }
+            .stat-value {
+                font-size: 0.74rem;
+            }
+            .section-block {
+                padding: 20px 18px 18px;
+            }
+            .timeline-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .rank-grid {
+                grid-template-columns: 1fr;
+            }
         }
         body.preview-mode #cursor,
-        body.preview-mode #particles { display: none !important; }
+        body.preview-mode #particles {
+            display: none !important;
+        }
         body.preview-mode .media-panel,
         body.preview-mode .content-panel,
         body.preview-mode .section-block {
@@ -292,7 +584,8 @@
         }
         body.preview-mode .media-panel:hover .project-image,
         body.preview-mode .feature-item:hover,
-        body.preview-mode .nav-chip:hover {
+        body.preview-mode .nav-chip:hover,
+        body.preview-mode .link-chip:hover {
             transform: none;
             box-shadow: none;
         }
@@ -315,6 +608,7 @@
 <body>
     <div id="cursor"></div>
     <canvas id="particles"></canvas>
+
     <nav class="topbar">
         <div class="topbar-nav">
             <a href="projectx.html" class="nav-chip" id="label-prev">Előző</a>
@@ -328,119 +622,197 @@
             <button class="lang-btn" id="btn-xr" type="button"><span class="lang-flag">👽</span><span>XR</span></button>
         </div>
     </nav>
+
     <main class="project-shell">
         <section class="media-panel">
             <div class="media-stage">
                 <img src="assets/gossiprbrand.png" alt="GossipR preview" class="project-image">
-                <div class="media-badge" id="media-badge">Anonymous Signal</div>
+                <div class="media-badge" id="media-badge">Urban Echo Network</div>
             </div>
         </section>
+
         <section class="content-panel">
-            <div class="eyebrow" id="eyebrow">Studio App / 01</div>
+            <div class="eyebrow" id="eyebrow">Studio app / 01</div>
             <h1 class="project-title">GossipR</h1>
-            <div class="status-badge" id="tag-progress">Fejlesztés alatt / v0.1a</div>
+            <div class="status-badge" id="tag-progress">Live alpha / fejlesztés alatt</div>
+            <div class="link-row">
+                <a href="https://gossipr.altrvision.com/" target="_blank" rel="noreferrer" class="link-chip" id="open-live">GossipR megnyitása ↗</a>
+            </div>
+
             <p class="project-text" id="gossipr-desc"></p>
+
             <div class="stats-grid" id="stats-grid"></div>
+
             <section class="section-block">
                 <h2 class="section-title" id="features-title">Fő elemek</h2>
                 <div class="feature-list" id="feature-container"></div>
             </section>
+
+            <section class="section-block">
+                <h2 class="section-title" id="ranks-title">Rang karakterek</h2>
+                <div class="rank-grid">
+                    <article class="rank-card">
+                        <video class="rank-video" src="assets/rank_lvl_01_girl_MOVIE.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                        <div class="rank-meta">
+                            <span class="rank-kicker" id="rank-kicker-1">Rank preview / 01</span>
+                            <span class="rank-title" id="rank-title-1">First pulse</span>
+                            <span class="rank-copy" id="rank-copy-1">Az első rangok még személyesebbek: egy friss hang, egy kisebb nyom, valami, ami még épp csak elkezdett jelen lenni a hálózatban.</span>
+                        </div>
+                    </article>
+                    <article class="rank-card">
+                        <video class="rank-video" src="assets/rank_lvl_05_MOVIE.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                        <div class="rank-meta">
+                            <span class="rank-kicker" id="rank-kicker-2">Rank preview / 05</span>
+                            <span class="rank-title" id="rank-title-2">Louder signal</span>
+                            <span class="rank-copy" id="rank-copy-2">A magasabb rang már nem csak aktivitást, hanem felismerhető jelenlétet jelez: több visszhang, több reakció, erősebb karakter a térképen.</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
             <section class="section-block">
                 <h2 class="section-title" id="timeline-title">Miért érdekes</h2>
                 <div class="timeline" id="timeline"></div>
             </section>
         </section>
     </main>
+
     <script>
         const translations = {
             hu: {
                 prevLabel: "Előző",
                 btnHome: "Vissza főoldalra",
                 nextLabel: "Következő",
-                eyebrow: "Studio App / 01",
-                mediaBadge: "Anonymous Signal",
-                progress: "Fejlesztés alatt / v0.1a",
-                desc: "A GossipR egy újragondolt anonim közösségi platform. Olyan digitális tér, ahol a véleményed szabadon áramolhat, miközben a személyes jelenléted végig kontroll alatt marad.",
+                eyebrow: "Studio app / 01",
+                mediaBadge: "Helyhez kötött emlékréteg",
+                progress: "Live alpha / fejlesztés alatt",
+                liveCta: "GossipR megnyitása ↗",
+                desc: "A GossipR egy helyhez kötött hangemlék-hálózat és játékos közösségi rendszer, ahol valódi helyekhez kapcsolhatsz hangüzeneteket. Itt nem egyszerűen tartalmat hagysz a térképen, hanem egy adott ponthoz kötsz egy emléket, érzést, történetet vagy emberi pillanatot.",
                 featuresTitle: "Fő elemek",
+                ranksTitle: "Rang karakterek",
                 timelineTitle: "Miért érdekes",
                 stats: [
-                    { label: "Műfaj", value: "Social / anonymous" },
-                    { label: "Hangulat", value: "Direct / clean" },
-                    { label: "Státusz", value: "Closed alpha" }
+                    { label: "Műfaj", value: "Hangemlék / közösségi rendszer" },
+                    { label: "Hangulat", value: "Városi / személyes" },
+                    { label: "Státusz", value: "Live alpha" }
                 ],
                 features: [
-                    { title: "End-to-end titkosítás", desc: "A beszélgetések és reakciók nem válnak nyers adatbányává a háttérben." },
-                    { title: "Időzáras posztok", desc: "A tartalom nem ül örökké a rendszeren, hanem ritmust és súlyt kap az eltűnésével." },
-                    { title: "Vizuális pletykatérkép", desc: "A környezeted hangulata és témái anonim módon is érzékelhetők maradnak." }
+                    { title: "Helyhez kötött emlékek", desc: "A hely itt nem háttér, hanem a jelentés része. Ugyanaz a hang sokkal többet jelent, ha pontosan ott hallható vissza, ahol megszületett." },
+                    { title: "Emlék és emberi pillanat", desc: "Nem csak tartalmat hagysz magad után, hanem személyes lenyomatot: történetet, vallomást, poént, hangulatot vagy egy különös pillanat emlékét." },
+                    { title: "Játékos fejlődés", desc: "Feltöltéssel, reakcióval és felfedezéssel XP-t szerzel, rangot lépsz, kitűzőket oldasz fel és mérföldköveket érsz el." },
+                    { title: "A hangok sorsa számít", desc: "A közösség reakciói hatnak a visszhangokra: megerősödhetnek, elhalványulhatnak, ritkábbá válhatnak, vagy öröklétté alakulhatnak." }
+                ],
+                rankCards: [
+                    {
+                        kicker: "Rang preview / 01",
+                        title: "Első nyom",
+                        copy: "Az első rangok még személyesebbek: egy friss hang, egy kisebb nyom, valami, ami még épp csak elkezdett jelen lenni a hálózatban."
+                    },
+                    {
+                        kicker: "Rang preview / 05",
+                        title: "Erősebb jel",
+                        copy: "A magasabb rang már nem csak aktivitást, hanem felismerhető jelenlétet jelez: több visszhang, több reakció, erősebb karakter a térképen."
+                    }
                 ],
                 timeline: [
-                    { key: "Irány", value: "Közösségi élmény újrakeretezése toxikus zaj nélkül." },
-                    { key: "Hangulat", value: "Gyors, tiszta és enyhén játékos felület egy sötétebb neonvilágban." },
-                    { key: "Cél", value: "Olyan anonimitás, ami nem csak elrejt, hanem teret is ad a megszólalásnak." }
-                ]
+                    { key: "Mit hagyhatsz ott", value: "Lehet ez a nagymamád hangja a régi házban, egy szerelmes üzenet ott, ahol minden kezdődött, egy belsős vicc, egy figyelmeztetés, titok vagy különös történet." },
+                    { key: "Mi ad súlyt", value: "A feltöltések száma nem végtelen, bizonyos előnyöket ki kell érdemelni, és a hangok jelenléte sem közömbös. Ettől minden egyes hangüzenet nagyobb jelentőséget kap." },
+                    { key: "A rendszer lényege", value: "Egyszerre helyhez kötött hangemlék-rendszer, személyes történetek hálózata, játékos fejlődési élmény és a közösség által alakított élő hangréteg a világ fölött." }
+                ],
+                metaTitle: "GossipR | AltR Vision",
+                metaDescription: "A GossipR egy helyhez kötött hangemlék-hálózat és játékos közösségi rendszer, ahol valódi helyekhez kapcsolhatsz hangüzeneteket, emlékeket és emberi pillanatokat.",
+                metaOgDescription: "Helyhez kötött hangüzenetek, térképes felfedezés, XP, rangok, kitűzők és a közösség által alakított visszhangok egy sötét neonvilágban."
             },
             en: {
                 prevLabel: "Previous",
-                btnHome: "Back to Home",
+                btnHome: "Back to home",
                 nextLabel: "Next",
-                eyebrow: "Studio App / 01",
-                mediaBadge: "Anonymous Signal",
-                progress: "In Development / v0.1a",
-                desc: "GossipR is a reimagined anonymous social platform. A digital space where your opinion can move freely while your personal presence stays under your control.",
+                eyebrow: "Studio app / 01",
+                mediaBadge: "Urban Echo Network",
+                progress: "Live alpha / in development",
+                liveCta: "Open GossipR ↗",
+                desc: "GossipR is a location-based audio memory network and playful social system where real places can hold voice messages, stories, feelings, and human moments. The place is not background here, it is part of the meaning itself.",
                 featuresTitle: "Core elements",
+                ranksTitle: "Rank characters",
                 timelineTitle: "Why it matters",
                 stats: [
-                    { label: "Genre", value: "Social / anonymous" },
-                    { label: "Mood", value: "Direct / clean" },
-                    { label: "Status", value: "Closed alpha" }
+                    { label: "Genre", value: "Audio memory / social system" },
+                    { label: "Mood", value: "Urban / intimate" },
+                    { label: "Status", value: "Live alpha" }
                 ],
                 features: [
-                    { title: "End-to-end encryption", desc: "Conversations and reactions do not quietly turn into raw background data." },
-                    { title: "Time-locked posts", desc: "Content is not meant to linger forever. Expiry adds rhythm and weight." },
-                    { title: "Visual gossip map", desc: "The mood and themes around you remain readable without exposing identity." }
+                    { title: "Location-bound memory", desc: "A voice changes when it can only be heard where it was born. The map becomes part of the story, not just a utility layer." },
+                    { title: "Human moments, not generic posts", desc: "You are not just dropping content. You are leaving behind a confession, a joke, a warning, a memory, or a strange human trace." },
+                    { title: "Playful progression", desc: "Uploads, reactions, and discovery feed into XP, ranks, badges, milestones, and unlockable advantages." },
+                    { title: "Every echo has a fate", desc: "Community reactions shape each echo. They can strengthen it, weaken it, make it rarer, fade it out, or even push it toward permanence." }
+                ],
+                rankCards: [
+                    {
+                        kicker: "Rank preview / 01",
+                        title: "First pulse",
+                        copy: "Early ranks feel more personal: a fresh signal, a small trace, something just beginning to exist inside the network."
+                    },
+                    {
+                        kicker: "Rank preview / 05",
+                        title: "Louder signal",
+                        copy: "Higher ranks suggest more than activity. They imply recognizable presence, more echoes, more reactions, and a stronger identity on the map."
+                    }
                 ],
                 timeline: [
-                    { key: "Direction", value: "Reframing social interaction without the usual toxic noise." },
-                    { key: "Mood", value: "Fast, clean and slightly playful UI inside a darker neon atmosphere." },
-                    { key: "Goal", value: "Anonymity that does more than hide you. It gives you room to speak." }
-                ]
+                    { key: "What can live there", value: "It could be your grandmother's voice in an old house, a love note, an inside joke, a messy bar conversation, a warning, a secret, or a strange story." },
+                    { key: "What gives it weight", value: "Uploads are not infinite, some privileges must be earned, and the community affects how long a voice remains present inside the network." },
+                    { key: "The core idea", value: "GossipR is simultaneously a place-based audio memory system, a network of personal stories, a playful progression loop, and a living sound layer shaped by the community." }
+                ],
+                metaTitle: "GossipR | AltR Vision",
+                metaDescription: "GossipR is a location-based audio memory network and playful social system built from voice messages, human moments, ranks, badges, and living echoes.",
+                metaOgDescription: "Location-bound voice messages, map discovery, XP, ranks, badges, and community-shaped echoes inside a darker neon atmosphere."
             },
             ja: {
                 prevLabel: "前へ",
                 btnHome: "ホームへ戻る",
                 nextLabel: "次へ",
-                eyebrow: "Studio App / 01",
-                mediaBadge: "Anonymous Signal",
-                progress: "開発中 / v0.1a",
-                desc: "GossipRは、匿名コミュニティを再解釈したソーシャルプラットフォームです。自分の存在をコントロールしながら、意見を自由に流せるデジタル空間を目指しています。",
+                eyebrow: "Studio app / 01",
+                mediaBadge: "場所に残る記憶レイヤー",
+                progress: "Live alpha / 開発中",
+                liveCta: "GossipR を開く ↗",
+                desc: "GossipR は、現実の場所に音声メッセージや記憶、人間らしい瞬間を結びつける、位置連動型の音声記憶ネットワークです。ここでは場所そのものが意味の一部になり、声と空間が一緒になって記憶を作ります。",
                 featuresTitle: "主な要素",
+                ranksTitle: "ランクキャラクター",
                 timelineTitle: "なぜ面白いのか",
                 stats: [
-                    { label: "ジャンル", value: "Social / anonymous" },
-                    { label: "ムード", value: "Direct / clean" },
-                    { label: "状態", value: "Closed alpha" }
+                    { label: "ジャンル", value: "音声記憶 / ソーシャル" },
+                    { label: "ムード", value: "都市的 / 親密" },
+                    { label: "状態", value: "Live alpha" }
                 ],
                 features: [
-                    { title: "エンドツーエンド暗号化", desc: "会話やリアクションが裏でそのまま生データ化されない設計です。" },
-                    { title: "時間で閉じる投稿", desc: "コンテンツは永遠に残る前提ではなく、消えることでリズムと重みを持ちます。" },
-                    { title: "ビジュアル gossip map", desc: "周囲の空気や話題を、匿名性を保ったまま感じ取れるようにします。" }
+                    { title: "場所に結びついた記憶", desc: "同じ声でも、生まれた場所で聞こえると意味が変わります。地図は背景ではなく、物語の一部になります。" },
+                    { title: "投稿ではなく人間の瞬間", desc: "残すのは単なるコンテンツではなく、告白、冗談、警告、思い出、あるいは奇妙な痕跡です。" },
+                    { title: "遊びとしての成長", desc: "投稿、反応、発見が XP になり、ランク、バッジ、マイルストーン、解除要素へつながっていきます。" },
+                    { title: "音の運命が変わる", desc: "コミュニティの反応によって、各エコーは強くなったり弱くなったり、希少化したり、消えていったり、永続化したりします。" }
+                ],
+                rankCards: [
+                    {
+                        kicker: "Rank preview / 01",
+                        title: "最初のパルス",
+                        copy: "最初のランクはまだ個人的です。小さな痕跡が、ネットワークの中で静かに存在を始めます。"
+                    },
+                    {
+                        kicker: "Rank preview / 05",
+                        title: "強くなる信号",
+                        copy: "上位ランクは単なる活動量ではなく、地図の中で認識される存在感そのものを示します。"
+                    }
                 ],
                 timeline: [
-                    { key: "方向性", value: "いつもの有害なノイズを減らしながら、ソーシャル体験を組み直すこと。" },
-                    { key: "ムード", value: "速く、クリーンで、少し遊び心のあるUIを暗めのネオン空間で。" },
-                    { key: "目的", value: "ただ隠れるだけではなく、発言するための余白を与える匿名性。" }
-                ]
+                    { key: "そこに残せるもの", value: "古い家に残る祖母の声、恋人へのメッセージ、仲間内だけの冗談、酔った会話、警告、秘密、奇妙な物語などが残せます。" },
+                    { key: "重みを与えるもの", value: "投稿数は無限ではなく、特典は解除する必要があり、コミュニティの反応が声の存在感と寿命に影響します。" },
+                    { key: "システムの核心", value: "GossipR は、場所に結びついた音声記憶システムであり、個人的な物語のネットワークであり、遊びとして成長する体験でもあり、コミュニティが形作る生きた音の層でもあります。" }
+                ],
+                metaTitle: "GossipR | AltR Vision",
+                metaDescription: "GossipR は、現実の場所に音声メッセージ、記憶、人間らしい瞬間を残せる位置連動型の音声記憶ネットワークです。",
+                metaOgDescription: "場所に結びついた音声メッセージ、地図上の発見、XP、ランク、バッジ、そしてコミュニティが育てるエコー。"
             }
         };
-        translations.hu.metaTitle = "GossipR | AltR Vision";
-        translations.hu.metaDescription = "A GossipR az AltR Vision anonim közösségi appkoncepciója: tisztább, biztonságosabb és karakteresebb digitális megszólalási tér.";
-        translations.hu.metaOgDescription = "Anonim közösségi élmény erősebb vizuális identitással, rövid életű tartalmakkal és sötét neon hangulattal.";
-        translations.en.metaTitle = "GossipR | AltR Vision";
-        translations.en.metaDescription = "GossipR is AltR Vision's anonymous social app concept built around safer expression, temporary content, and a more distinctive atmosphere.";
-        translations.en.metaOgDescription = "An anonymous social experience with stronger visual identity, time-based content, and a darker neon mood.";
-        translations.ja.metaTitle = "GossipR | AltR Vision";
-        translations.ja.metaDescription = "GossipRは、より安全な表現、時間で閉じるコンテンツ、そして独自の空気感を軸にしたAltR Visionの匿名ソーシャルアプリ構想です。";
-        translations.ja.metaOgDescription = "より強いビジュアルアイデンティティと時間制コンテンツ、ダークなネオンムードを持つ匿名ソーシャル体験。";
+
         const alienGlyphMap = {
             a: "∆", A: "∆", b: "β", B: "β", c: "Ↄ", C: "Ↄ", d: "◧", D: "◧", e: "Ξ", E: "Ξ",
             f: "Ϝ", F: "Ϝ", g: "Ǥ", G: "Ǥ", h: "Ħ", H: "Ħ", i: "ı", I: "ı", j: "ʝ", J: "ʝ",
@@ -449,83 +821,108 @@
             u: "⋃", U: "⋃", v: "⋎", V: "⋎", w: "Ψ", W: "Ψ", x: "Ӿ", X: "Ӿ", y: "Ұ", Y: "Ұ", z: "Ȥ", Z: "Ȥ",
             0: "◌", 1: "⟊", 2: "ᒿ", 3: "Ӡ", 4: "ϟ", 5: "Ϭ", 6: "Ⳓ", 7: "⌁", 8: "∞", 9: "ϴ"
         };
+
         function alienizeString(value) {
-            return value.split(/(<[^>]+>)/g).map((chunk) => {
-                if (chunk.startsWith("<") && chunk.endsWith(">")) return chunk;
-                return chunk.replace(/[A-Za-z0-9]/g, (char) => alienGlyphMap[char] || char);
-            }).join("");
+            return value
+                .split(/(<[^>]+>)/g)
+                .map((chunk) => {
+                    if (chunk.startsWith("<") && chunk.endsWith(">")) return chunk;
+                    return chunk
+                        .replace(/[A-Za-z0-9]/g, (char) => alienGlyphMap[char] || char)
+                        .replace(/\s+/g, " ⟡ ");
+                })
+                .join("");
         }
+
         function alienizeDeep(value) {
             if (Array.isArray(value)) return value.map(alienizeDeep);
-            if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, alienizeDeep(item)]));
-            if (typeof value === 'string') return alienizeString(value);
+            if (value && typeof value === "object") {
+                return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, alienizeDeep(item)]));
+            }
+            if (typeof value === "string") return alienizeString(value);
             return value;
         }
+
         translations.xr = alienizeDeep(translations.en);
-        let currentLang = ['hu', 'en', 'ja', 'xr'].includes(localStorage.getItem('selectedLang')) ? localStorage.getItem('selectedLang') : 'hu';
+
+        let currentLang = ["hu", "en", "ja", "xr"].includes(localStorage.getItem("selectedLang")) ? localStorage.getItem("selectedLang") : "hu";
         document.documentElement.lang = currentLang;
+
         function renderPage() {
             const data = translations[currentLang];
             document.title = data.metaTitle;
-            document.getElementById('meta-description').setAttribute('content', data.metaDescription);
-            document.getElementById('meta-og-title').setAttribute('content', data.metaTitle);
-            document.getElementById('meta-og-description').setAttribute('content', data.metaOgDescription);
-            document.getElementById('meta-twitter-title').setAttribute('content', data.metaTitle);
-            document.getElementById('meta-twitter-description').setAttribute('content', data.metaOgDescription);
-            document.getElementById('btn-home').textContent = data.btnHome;
-            document.getElementById('label-prev').textContent = data.prevLabel;
-            document.getElementById('label-next').textContent = data.nextLabel;
-            document.getElementById('eyebrow').textContent = data.eyebrow;
-            document.getElementById('media-badge').textContent = data.mediaBadge;
-            document.getElementById('tag-progress').textContent = data.progress;
-            document.getElementById('gossipr-desc').textContent = data.desc;
-            document.getElementById('features-title').textContent = data.featuresTitle;
-            document.getElementById('timeline-title').textContent = data.timelineTitle;
-            document.getElementById('stats-grid').innerHTML = data.stats.map(item => `<div class="stat-card"><span class="stat-label">${item.label}</span><span class="stat-value">${item.value}</span></div>`).join('');
-            document.getElementById('feature-container').innerHTML = data.features.map(item => `<article class="feature-item"><div class="feature-dot"></div><div><strong>${item.title}</strong><span>${item.desc}</span></div></article>`).join('');
-            document.getElementById('timeline').innerHTML = data.timeline.map(item => `<div class="timeline-row"><div class="timeline-key">${item.key}</div><div class="timeline-value">${item.value}</div></div>`).join('');
-            document.getElementById('btn-hu').classList.toggle('active', currentLang === 'hu');
-            document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
-            document.getElementById('btn-ja').classList.toggle('active', currentLang === 'ja');
-            document.getElementById('btn-xr').classList.toggle('active', currentLang === 'xr');
+            document.getElementById("meta-description").setAttribute("content", data.metaDescription);
+            document.getElementById("meta-og-title").setAttribute("content", data.metaTitle);
+            document.getElementById("meta-og-description").setAttribute("content", data.metaOgDescription);
+            document.getElementById("meta-twitter-title").setAttribute("content", data.metaTitle);
+            document.getElementById("meta-twitter-description").setAttribute("content", data.metaOgDescription);
+            document.getElementById("label-prev").textContent = data.prevLabel;
+            document.getElementById("btn-home").textContent = data.btnHome;
+            document.getElementById("label-next").textContent = data.nextLabel;
+            document.getElementById("eyebrow").textContent = data.eyebrow;
+            document.getElementById("media-badge").textContent = data.mediaBadge;
+            document.getElementById("tag-progress").textContent = data.progress;
+            document.getElementById("open-live").textContent = data.liveCta;
+            document.getElementById("gossipr-desc").textContent = data.desc;
+            document.getElementById("features-title").textContent = data.featuresTitle;
+            document.getElementById("ranks-title").textContent = data.ranksTitle;
+            document.getElementById("timeline-title").textContent = data.timelineTitle;
+            document.getElementById("stats-grid").innerHTML = data.stats.map((item) => `<div class="stat-card"><span class="stat-label">${item.label}</span><span class="stat-value">${item.value}</span></div>`).join("");
+            document.getElementById("feature-container").innerHTML = data.features.map((item) => `<article class="feature-item"><div class="feature-dot"></div><div><strong>${item.title}</strong><span>${item.desc}</span></div></article>`).join("");
+            document.getElementById("timeline").innerHTML = data.timeline.map((item) => `<div class="timeline-row"><div class="timeline-key">${item.key}</div><div class="timeline-value">${item.value}</div></div>`).join("");
+            document.getElementById("rank-kicker-1").textContent = data.rankCards[0].kicker;
+            document.getElementById("rank-title-1").textContent = data.rankCards[0].title;
+            document.getElementById("rank-copy-1").textContent = data.rankCards[0].copy;
+            document.getElementById("rank-kicker-2").textContent = data.rankCards[1].kicker;
+            document.getElementById("rank-title-2").textContent = data.rankCards[1].title;
+            document.getElementById("rank-copy-2").textContent = data.rankCards[1].copy;
+            document.getElementById("btn-hu").classList.toggle("active", currentLang === "hu");
+            document.getElementById("btn-en").classList.toggle("active", currentLang === "en");
+            document.getElementById("btn-ja").classList.toggle("active", currentLang === "ja");
+            document.getElementById("btn-xr").classList.toggle("active", currentLang === "xr");
             document.documentElement.lang = currentLang;
         }
-        const isPreview = new URLSearchParams(window.location.search).get('preview') === '1';
-        if (isPreview) document.body.classList.add('preview-mode');
+
+        const isPreview = new URLSearchParams(window.location.search).get("preview") === "1";
+        if (isPreview) document.body.classList.add("preview-mode");
         renderPage();
-        document.getElementById('btn-hu').addEventListener('click', () => {
-            currentLang = 'hu';
-            localStorage.setItem('selectedLang', 'hu');
+
+        document.getElementById("btn-hu").addEventListener("click", () => {
+            currentLang = "hu";
+            localStorage.setItem("selectedLang", "hu");
             renderPage();
         });
-        document.getElementById('btn-en').addEventListener('click', () => {
-            currentLang = 'en';
-            localStorage.setItem('selectedLang', 'en');
+        document.getElementById("btn-en").addEventListener("click", () => {
+            currentLang = "en";
+            localStorage.setItem("selectedLang", "en");
             renderPage();
         });
-        document.getElementById('btn-ja').addEventListener('click', () => {
-            currentLang = 'ja';
-            localStorage.setItem('selectedLang', 'ja');
+        document.getElementById("btn-ja").addEventListener("click", () => {
+            currentLang = "ja";
+            localStorage.setItem("selectedLang", "ja");
             renderPage();
         });
-        document.getElementById('btn-xr').addEventListener('click', () => {
-            currentLang = 'xr';
-            localStorage.setItem('selectedLang', 'xr');
+        document.getElementById("btn-xr").addEventListener("click", () => {
+            currentLang = "xr";
+            localStorage.setItem("selectedLang", "xr");
             renderPage();
         });
+
         if (!isPreview) {
-            const cursor = document.getElementById('cursor');
+            const cursor = document.getElementById("cursor");
             let mouseX = -100;
             let mouseY = -100;
             let hasMoved = false;
-            document.addEventListener('mousemove', event => {
+
+            document.addEventListener("mousemove", (event) => {
                 mouseX = event.clientX;
                 mouseY = event.clientY;
                 if (!hasMoved) {
                     hasMoved = true;
-                    cursor.style.opacity = '1';
+                    cursor.style.opacity = "1";
                 }
             });
+
             function renderCursor() {
                 if (hasMoved && window.innerWidth > 720) {
                     cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
@@ -533,17 +930,27 @@
                 requestAnimationFrame(renderCursor);
             }
             renderCursor();
-            const canvas = document.getElementById('particles');
-            const ctx = canvas.getContext('2d');
+
+            const canvas = document.getElementById("particles");
+            const ctx = canvas.getContext("2d");
             let particles = [];
+
             function initParticles() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-                particles = Array.from({ length: 18 }, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.8 + 0.6, speedX: (Math.random() - 0.5) * 0.16, speedY: (Math.random() - 0.5) * 0.16, opacity: Math.random() }));
+                particles = Array.from({ length: 18 }, () => ({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.8 + 0.6,
+                    speedX: (Math.random() - 0.5) * 0.16,
+                    speedY: (Math.random() - 0.5) * 0.16,
+                    opacity: Math.random()
+                }));
             }
+
             function drawParticles() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(particle => {
+                particles.forEach((particle) => {
                     particle.x += particle.speedX;
                     particle.y += particle.speedY;
                     if (particle.x > canvas.width) particle.x = 0;
@@ -557,7 +964,8 @@
                 });
                 requestAnimationFrame(drawParticles);
             }
-            window.addEventListener('resize', initParticles);
+
+            window.addEventListener("resize", initParticles);
             initParticles();
             drawParticles();
         }

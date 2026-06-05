@@ -19,9 +19,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent: #8b5cf6;
-            --accent-soft: rgba(139, 92, 246, 0.16);
-            --accent-strong: rgba(139, 92, 246, 0.3);
+            --accent: #7dff4d;
+            --accent-soft: rgba(125, 255, 77, 0.15);
+            --accent-strong: rgba(125, 255, 77, 0.28);
             --bg: #050507;
             --border: rgba(255, 255, 255, 0.1);
             --text-soft: rgba(255, 255, 255, 0.72);
@@ -31,7 +31,7 @@
             margin: 0;
             min-height: 100vh;
             background:
-                radial-gradient(circle at top left, rgba(139, 92, 246, 0.18), transparent 32%),
+                radial-gradient(circle at top left, rgba(125, 255, 77, 0.18), transparent 32%),
                 radial-gradient(circle at bottom right, rgba(0, 229, 255, 0.14), transparent 36%),
                 linear-gradient(180deg, #050507, #0a0b11);
             color: white;
@@ -67,27 +67,28 @@
         .nav-chip.compact { width: 40px; padding: 0; font-size: 1rem; letter-spacing: 0; }
         .lang-btn {
             min-width: 42px;
-            height: 40px;
-            border-radius: 999px;
+            padding: 6px 12px;
+            border-radius: 10px;
             border: 1px solid var(--border);
             background: rgba(255,255,255,0.03);
-            color: rgba(255,255,255,0.74);
-            font-size: 0.68rem;
-            font-weight: 800;
-            letter-spacing: 0.16em;
+            color: #666;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
             text-transform: uppercase;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 7px;
-            transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            backdrop-filter: blur(10px);
+            transition: 0.4s;
         }
         .lang-flag { font-size: 0.9rem; line-height: 1; display: inline-flex; border-radius: 4px; overflow: hidden; }
         .lang-btn.active {
             color: white;
-            border-color: #00e5ff;
-            background: rgba(0,229,255,0.08);
-            box-shadow: 0 0 16px rgba(0,229,255,0.18);
+            border-color: var(--accent);
+            background: var(--accent-soft);
+            box-shadow: 0 0 10px var(--accent-soft);
         }
         .project-shell {
             width: min(1180px, calc(100% - 32px)); margin: 116px auto 40px;
@@ -115,7 +116,7 @@
             padding: 38px 38px 40px;
             background:
                 linear-gradient(180deg, rgba(13, 12, 24, 0.92), rgba(10, 11, 18, 0.9)),
-                radial-gradient(circle at top right, rgba(139, 92, 246, 0.12), transparent 36%);
+                radial-gradient(circle at top right, rgba(125, 255, 77, 0.12), transparent 36%);
             position: relative;
         }
         .content-panel::before {
@@ -123,7 +124,7 @@
             position: absolute;
             inset: 0 0 auto 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.6), transparent);
+            background: linear-gradient(90deg, transparent, rgba(125, 255, 77, 0.6), transparent);
             pointer-events: none;
         }
         .eyebrow {
@@ -137,7 +138,7 @@
         }
         .status-badge {
             display: inline-flex; align-items: center; gap: 10px; margin: 18px 0 20px; padding: 9px 14px; border-radius: 999px;
-            border: 1px solid var(--accent-strong); background: var(--accent-soft); color: #c8b6ff; font-size: 0.72rem;
+            border: 1px solid var(--accent-strong); background: var(--accent-soft); color: #d9ffcb; font-size: 0.72rem;
             letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700;
         }
         .status-badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 10px currentColor; }
@@ -151,27 +152,27 @@
             min-width: 0;
             padding: 12px 14px;
             border-radius: 16px;
-            border: 1px solid color-mix(in srgb, #8b5cf6 28%, rgba(255,255,255,0.08));
+            border: 1px solid color-mix(in srgb, #7dff4d 28%, rgba(255,255,255,0.08));
             background:
-                linear-gradient(180deg, color-mix(in srgb, #8b5cf6 8%, transparent), rgba(255,255,255,0.02)),
+                linear-gradient(180deg, color-mix(in srgb, #7dff4d 8%, transparent), rgba(255,255,255,0.02)),
                 rgba(255,255,255,0.02);
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
             transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
         }
         .content-panel:hover .stat-card {
-            border-color: color-mix(in srgb, #8b5cf6 42%, rgba(255,255,255,0.08));
+            border-color: color-mix(in srgb, #7dff4d 42%, rgba(255,255,255,0.08));
             background:
-                linear-gradient(180deg, color-mix(in srgb, #8b5cf6 11%, transparent), rgba(255,255,255,0.03)),
+                linear-gradient(180deg, color-mix(in srgb, #7dff4d 11%, transparent), rgba(255,255,255,0.03)),
                 rgba(255,255,255,0.025);
             box-shadow:
                 inset 0 1px 0 rgba(255,255,255,0.04),
-                inset 4px 0 0 color-mix(in srgb, #8b5cf6 82%, transparent);
+                inset 4px 0 0 color-mix(in srgb, #7dff4d 82%, transparent);
         }
         .stat-label {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: color-mix(in srgb, #8b5cf6 78%, white 22%);
+            color: color-mix(in srgb, #7dff4d 78%, white 22%);
             font-size: 0.62rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
@@ -183,8 +184,8 @@
             width: 7px;
             height: 7px;
             border-radius: 50%;
-            background: #8b5cf6;
-            box-shadow: 0 0 12px #8b5cf6;
+            background: #7dff4d;
+            box-shadow: 0 0 12px #7dff4d;
             flex-shrink: 0;
         }
         .stat-value {
@@ -204,7 +205,7 @@
             border: 1px solid rgba(255,255,255,0.08);
             background:
                 linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.018)),
-                radial-gradient(circle at top right, rgba(139, 92, 246, 0.09), transparent 40%);
+                radial-gradient(circle at top right, rgba(125, 255, 77, 0.09), transparent 40%);
         }
         .section-title { margin: 0 0 18px; font-size: 0.8rem; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(255,255,255,0.52); font-weight: 800; }
         .feature-list { display: grid; gap: 14px; }
@@ -214,8 +215,8 @@
             background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
             transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
         }
-        .feature-item:hover { transform: translateY(-2px); border-color: rgba(139, 92, 246, 0.3); background: linear-gradient(180deg, rgba(139,92,246,0.1), rgba(255,255,255,0.04)); }
-        .feature-dot { width: 8px; height: 8px; margin-top: 7px; border-radius: 50%; background: #8b5cf6; box-shadow: 0 0 14px #8b5cf6; }
+        .feature-item:hover { transform: translateY(-2px); border-color: rgba(125, 255, 77, 0.3); background: linear-gradient(180deg, rgba(125,255,77,0.1), rgba(255,255,255,0.04)); }
+        .feature-dot { width: 8px; height: 8px; margin-top: 7px; border-radius: 50%; background: #7dff4d; box-shadow: 0 0 14px #7dff4d; }
         .feature-item strong { display: block; margin-bottom: 6px; font-size: 0.96rem; color: white; }
         .feature-item span { display: block; color: var(--text-soft); font-size: 0.92rem; line-height: 1.6; }
         .timeline { display: grid; gap: 12px; }

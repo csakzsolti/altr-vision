@@ -19,7 +19,7 @@
                 "projects": "Projektek",
                 "nav-projects": "Projektek", "nav-vision": "Vízió",
                 "tag-app": "App", "tag-progress": "Fejlesztés alatt",
-                "desc-gossipr": "Az anonim közösségi élmény újradefiniálása. Biztonságos, gyors és valódi.",
+                "desc-gossipr": "Helyhez kötött hangüzenetek, személyes emlékek és közösségi visszhangok egy sötét neon hálózatban.",
                 "tag-tool": "APP", "tag-concept": "Koncepció",
                 "desc-wayr": "A csomagszállítás új formája. Gyors, és környezetbarát!",
                 "tag-gaming": "Gaming", "tag-future": "Hamarosan",
@@ -48,7 +48,7 @@
                 "projects": "Projects",
                 "nav-projects": "Projects", "nav-vision": "Vision",
                 "tag-app": "App", "tag-progress": "In Progress",
-                "desc-gossipr": "Redefining the anonymous social experience. Secure, fast, and authentic.",
+                "desc-gossipr": "Location-bound voice messages, human moments, and social echoes inside a darker neon network.",
                 "tag-tool": "Tool", "tag-concept": "Concept",
                 "desc-wayr": "Navigation that doesn't just show directions, but provides an experience.",
                 "tag-gaming": "Gaming", "tag-future": "Coming Soon",
@@ -77,7 +77,7 @@
                 "projects": "プロジェクト",
                 "nav-projects": "プロジェクト", "nav-vision": "ビジョン",
                 "tag-app": "アプリ", "tag-progress": "開発中",
-                "desc-gossipr": "匿名のコミュニティ体験を再設計。安全で、速く、誠実に。",
+                "desc-gossipr": "場所に結びついた音声メッセージ、人間的な瞬間、そして社会的なエコーが重なるネオンネットワーク。",
                 "tag-tool": "アプリ", "tag-concept": "コンセプト",
                 "desc-wayr": "配送の新しいかたち。速く、軽やかで、より環境にやさしく。",
                 "tag-gaming": "ゲーム", "tag-future": "近日公開",
@@ -114,6 +114,8 @@
         translations.hu["contact-kicker"] = "OPEN CHANNEL";
         translations.hu["contact-title"] = "Érdekes app, játékötlet vagy furcsa digitális rendszer jár a fejedben?";
         translations.hu["contact-text"] = "Nyitottak vagyunk új együttműködésekre, prototípusokra és különös ötletekre, amiknek saját hangjuk van.";
+        translations.hu["contact-direct-kicker"] = "DIRECT SIGNAL";
+        translations.hu["contact-route-general-copy"] = "Vedd fel velünk a kapcsolatot, ha érdeklődés, partneri megkeresés, sajtó vagy bármilyen kreatív együttműködés miatt írnál nekünk.";
         translations.hu["note-kicker"] = "SEND A NOTE";
         translations.hu["note-title"] = "Küldj egy emailt.";
         translations.hu["note-copy"] = "Írj tárgyat és üzenetet, mi pedig a saját leveleződben nyitjuk meg elküldésre kész állapotban.";
@@ -122,6 +124,9 @@
         translations.hu["note-placeholder"] = "Üzenet";
         translations.hu["note-sent"] = "Email előkészítve";
         translations.hu["note-error"] = "Adj meg tárgyat vagy üzenetet";
+        translations.hu["note-copy-action"] = "Email cím másolása";
+        translations.hu["note-copied"] = "Email cím kimásolva";
+        translations.hu["note-response"] = "Általában 1-2 munkanapon belül válaszolunk.";
         translations.hu["footer-policy-1"] = "Adatkezelés";
         translations.hu["footer-policy-2"] = "Felhasználás";
         translations.hu["footer-policy-3"] = "Forrás";
@@ -155,6 +160,8 @@
         translations.en["contact-kicker"] = "OPEN CHANNEL";
         translations.en["contact-title"] = "Got an interesting app, game concept, or strange digital system in mind?";
         translations.en["contact-text"] = "We are open to new collaborations, prototypes, and odd ideas with a distinct voice of their own.";
+        translations.en["contact-direct-kicker"] = "DIRECT SIGNAL";
+        translations.en["contact-route-general-copy"] = "Get in touch if you are reaching out about an inquiry, a partnership, press, or any kind of creative collaboration.";
         translations.en["note-kicker"] = "SEND A NOTE";
         translations.en["note-title"] = "Send an email.";
         translations.en["note-copy"] = "Write a subject and message, and we will open it in your default mail app ready to send.";
@@ -163,6 +170,9 @@
         translations.en["note-placeholder"] = "Message";
         translations.en["note-sent"] = "Email draft prepared";
         translations.en["note-error"] = "Add a subject or message";
+        translations.en["note-copy-action"] = "Copy email address";
+        translations.en["note-copied"] = "Email copied";
+        translations.en["note-response"] = "We usually reply within 1-2 business days.";
         translations.en["footer-policy-1"] = "Privacy Policy";
         translations.en["footer-policy-2"] = "Terms of Use";
         translations.en["footer-policy-3"] = "Source";
@@ -196,6 +206,8 @@
         translations.ja["contact-kicker"] = "OPEN CHANNEL";
         translations.ja["contact-title"] = "面白いアプリやゲーム案、少し変わったデジタルシステムを考えていますか？";
         translations.ja["contact-text"] = "新しい協業、試作、そして独自の声を持つ少し奇妙なアイデアにオープンです。";
+        translations.ja["contact-direct-kicker"] = "DIRECT SIGNAL";
+        translations.ja["contact-route-general-copy"] = "お問い合わせ、提携、プレス、またはクリエイティブな協業についてご連絡いただく場合は、このメールからどうぞ。";
         translations.ja["note-kicker"] = "SEND A NOTE";
         translations.ja["note-title"] = "短いメールを送る";
         translations.ja["note-copy"] = "件名とメッセージを書くと、送信準備が整った状態であなたのメールアプリが開きます。";
@@ -204,6 +216,9 @@
         translations.ja["note-placeholder"] = "メッセージ";
         translations.ja["note-sent"] = "メールの下書きを作成しました";
         translations.ja["note-error"] = "件名かメッセージを入力してください";
+        translations.ja["note-copy-action"] = "メールアドレスをコピー";
+        translations.ja["note-copied"] = "メールアドレスをコピーしました";
+        translations.ja["note-response"] = "通常は1〜2営業日以内に返信します。";
         translations.ja["footer-policy-1"] = "プライバシー";
         translations.ja["footer-policy-2"] = "利用規約";
         translations.ja["footer-policy-3"] = "ソース";
@@ -330,11 +345,11 @@
                     title: "GossipR",
                     color: "var(--neon-blue)",
                     metaAccent: "#00e5ff",
-                    desc: "Az anonim közösségi élmény újradefiniálása. Biztonságos, gyors és valódi.",
+                    desc: "Helyhez kötött hangüzenetek, személyes emlékek és közösségi visszhangok egy sötét neon hálózatban.",
                     meta: [
-                        { label: "Műfaj", value: "Social / anonymous" },
-                        { label: "Hangulat", value: "Direct / clean" },
-                        { label: "Státusz", value: "Closed alpha" }
+                        { label: "Műfaj", value: "Location audio / social" },
+                        { label: "Hangulat", value: "Urban / secretive" },
+                        { label: "Státusz", value: "Live alpha" }
                     ],
                     cta: "Projekt megnyitása"
                 },
@@ -374,11 +389,11 @@
                     title: "GossipR",
                     color: "var(--neon-blue)",
                     metaAccent: "#00e5ff",
-                    desc: "Redefining the anonymous social experience. Secure, fast, and authentic.",
+                    desc: "Location-bound voice messages, human moments, and social echoes inside a darker neon network.",
                     meta: [
-                        { label: "Genre", value: "Social / anonymous" },
-                        { label: "Mood", value: "Direct / clean" },
-                        { label: "Status", value: "Closed alpha" }
+                        { label: "Genre", value: "Location audio / social" },
+                        { label: "Mood", value: "Urban / secretive" },
+                        { label: "Status", value: "Live alpha" }
                     ],
                     cta: "Open project"
                 },
@@ -418,11 +433,11 @@
                     title: "GossipR",
                     color: "var(--neon-blue)",
                     metaAccent: "#00e5ff",
-                    desc: "匿名コミュニティ体験を再設計。安全で、速く、誠実に。",
+                    desc: "場所に結びついた音声メッセージ、人間的な瞬間、そして社会的なエコーが重なるネオンネットワーク。",
                     meta: [
-                        { label: "ジャンル", value: "Social / anonymous" },
-                        { label: "ムード", value: "Direct / clean" },
-                        { label: "状態", value: "Closed alpha" }
+                        { label: "ジャンル", value: "Location audio / social" },
+                        { label: "ムード", value: "Urban / secretive" },
+                        { label: "状態", value: "Live alpha" }
                     ],
                     cta: "プロジェクトを開く"
                 },

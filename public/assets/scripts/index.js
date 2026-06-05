@@ -1,4 +1,9 @@
-﻿function updateSectionKickers(lang) {
+﻿const contactChannels = {
+    general: 'takeus@altrvision.com',
+    internalAdmin: 'hidden@altrvision.com'
+};
+
+function updateSectionKickers(lang) {
             Object.entries(sectionKickers[lang]).forEach(([id, kicker]) => {
                 const el = document.getElementById(id);
                 if (el) el.setAttribute('data-kicker', kicker);
@@ -7,18 +12,25 @@
 
         function renderProjectCards(lang) {
             document.querySelectorAll('.content-grid .card').forEach(card => {
-                const href = card.getAttribute('href');
+                const href = card.getAttribute('data-href') || card.getAttribute('href');
                 const config = projectCardContent[lang][href];
                 const content = card.querySelector('.card-content');
                 if (!config || !content) return;
 
-                const tagsHtml = config.tags.map((tag, index) => `<span class="tag">${tag}</span>`).join('');
+                const tagsHtml = config.tags.map((tag) => `<span class="tag">${tag}</span>`).join('');
                 const metaHtml = config.meta.map(item => `
                     <div class="card-meta-item" style="--meta-accent: ${config.metaAccent};">
                         <span class="card-meta-label">${item.label}</span>
                         <span class="card-meta-value">${item.value}</span>
                     </div>
                 `).join('');
+                const actionsHtml = `
+                    <div class="card-actions">
+                        <a class="card-detail-link" href="${href}">${translations[lang]["project-open-hint"]}<span aria-hidden="true">&#8599;</span></a>
+                        ${config.liveUrl ? `<a class="card-live-link" href="${config.liveUrl}" target="_blank" rel="noopener noreferrer">${config.liveLabel}<span aria-hidden="true">&#8599;</span></a>` : ''}
+
+                    </div>
+                `;
 
                 content.innerHTML = `
                     <div class="card-head">
@@ -30,8 +42,32 @@
                     </div>
                     <p class="card-copy">${config.desc}</p>
                     <div class="card-meta">${metaHtml}</div>
-                    <div class="card-open-hint">${translations[lang]["project-open-hint"]}<span aria-hidden="true">↗</span></div>
+                    ${actionsHtml}
                 `;
+            });
+        }
+
+        function initProjectCardNavigation() {
+            document.querySelectorAll('.content-grid .card[data-href]').forEach((card) => {
+                if (card.dataset.navBound === 'true') return;
+                card.dataset.navBound = 'true';
+
+                const navigate = () => {
+                    const href = card.getAttribute('data-href');
+                    if (href) window.location.href = href;
+                };
+
+                card.addEventListener('click', (event) => {
+                    if (event.target.closest('a')) return;
+                    navigate();
+                });
+
+                card.addEventListener('keydown', (event) => {
+                    if (event.key !== 'Enter' && event.key !== ' ') return;
+                    if (event.target.closest('a')) return;
+                    event.preventDefault();
+                    navigate();
+                });
             });
         }
 
@@ -94,19 +130,19 @@
             });
 
             const huModes = [
-                { start: 0, end: 1, label: "ÉJFÉLI MŰSZAK" },
-                { start: 1, end: 3, label: "MÁR MEGINT TÚL SOKÁIG VAGYOK ÉBREN" },
+                { start: 0, end: 1, label: "\u00c9JF\u00c9LI M\u0170SZAK" },
+                { start: 1, end: 3, label: "M\u00c1R MEGINT T\u00daL SOK\u00c1IG VAGYOK \u00c9BREN" },
                 { start: 3, end: 5, label: "MA SEM ALSZOM" },
-                { start: 5, end: 6, label: "NÉZZ VISSZA MÁSKOR IS!" },
-                { start: 6, end: 8, label: "KÁVÉSZÜNET" },
-                { start: 8, end: 9, label: "NA JÓ, INDULJUNK EL" },
-                { start: 9, end: 12, label: "KEZDŐDIK A NAP?" },
-                { start: 12, end: 13, label: "EBÉDELTÉL MÁR?" },
-                { start: 13, end: 15, label: "POSZTEBÉD KÓMA" },
-                { start: 15, end: 17, label: "MÉG EGY KIS KREATÍV HALOGATÁS" },
-                { start: 17, end: 20, label: "MUNKA UTÁNI BÖNGÉSZGETÉS?" },
-                { start: 20, end: 22, label: "NÉZZ VISSZA MÁSKOR IS!" },
-                { start: 22, end: 24, label: "ILYENKOR JOBBAK AZ ÖTLETEK" }
+                { start: 5, end: 6, label: "N\u00c9ZZ VISSZA M\u00c1SKOR IS!" },
+                { start: 6, end: 8, label: "K\u00c1V\u00c9SZ\u00dcNET" },
+                { start: 8, end: 9, label: "NA J\u00d3, INDULJUNK EL" },
+                { start: 9, end: 12, label: "KEZD\u0150DIK A NAP?" },
+                { start: 12, end: 13, label: "EB\u00c9DELT\u00c9L M\u00c1R?" },
+                { start: 13, end: 15, label: "POSZTEB\u00c9D K\u00d3MA" },
+                { start: 15, end: 17, label: "M\u00c9G EGY KIS KREAT\u00cdV HALOGAT\u00c1S" },
+                { start: 17, end: 20, label: "MUNKA UT\u00c1NI B\u00d6NG\u00c9SZGET\u00c9S?" },
+                { start: 20, end: 22, label: "N\u00c9ZZ VISSZA M\u00c1SKOR IS!" },
+                { start: 22, end: 24, label: "ILYENKOR JOBBAK AZ \u00d6TLETEK" }
             ];
             const enModes = [
                 { start: 0, end: 1, label: "MIDNIGHT SHIFT" },
@@ -125,19 +161,19 @@
             ];
 
             const jaModes = [
-                { start: 0, end: 1, label: "深夜シフト中" },
-                { start: 1, end: 3, label: "また夜更かししてる" },
-                { start: 3, end: 5, label: "今夜も寝ない気がする" },
-                { start: 5, end: 6, label: "またのぞきに来てね" },
-                { start: 6, end: 8, label: "コーヒーブレイク" },
-                { start: 8, end: 9, label: "さて、始めようか" },
-                { start: 9, end: 12, label: "一日が始まる？" },
+                { start: 0, end: 1, label: "深夜モード" },
+                { start: 1, end: 3, label: "また夜更かし中" },
+                { start: 3, end: 5, label: "今夜も寝ないかも" },
+                { start: 5, end: 6, label: "また後で見に来て" },
+                { start: 6, end: 8, label: "コーヒー休憩" },
+                { start: 8, end: 9, label: "そろそろ始動" },
+                { start: 9, end: 12, label: "そろそろ一日が始まる？" },
                 { start: 12, end: 13, label: "もうお昼食べた？" },
-                { start: 13, end: 15, label: "昼食後のぼんやりタイム" },
-                { start: 15, end: 17, label: "ちょっと創造的に先延ばし" },
-                { start: 17, end: 20, label: "仕事帰りに見てる？" },
-                { start: 20, end: 22, label: "またのぞきに来てね" },
-                { start: 22, end: 24, label: "この時間のほうがアイデアが冴える" }
+                { start: 13, end: 15, label: "昼食後のぼんやり時間" },
+                { start: 15, end: 17, label: "少しだけ創作的先延ばし" },
+                { start: 17, end: 20, label: "仕事帰りのブラウジング？" },
+                { start: 20, end: 22, label: "また後で見に来て" },
+                { start: 22, end: 24, label: "夜のほうがアイデアが来る" }
             ];
 
             const xrModes = alienizeDeep(enModes);
@@ -154,8 +190,13 @@
             const subjectEl = document.getElementById('note-subject');
             const statusEl = document.getElementById('note-status');
             const signalTextEl = document.getElementById('footer-signal-text');
+            const copyBtn = document.getElementById('note-copy-btn');
             if (inputEl) inputEl.setAttribute('placeholder', translations[currentLang]["note-placeholder"]);
             if (subjectEl) subjectEl.setAttribute('placeholder', translations[currentLang]["note-subject-placeholder"]);
+            if (copyBtn) {
+                copyBtn.setAttribute('aria-label', translations[currentLang]["note-copy-action"]);
+                copyBtn.setAttribute('title', translations[currentLang]["note-copy-action"]);
+            }
             if (statusEl) statusEl.textContent = '';
 
             const hintMessages = footerHintMessages[currentLang] || [];
@@ -165,10 +206,13 @@
         }
 
         function initFooterInteractive() {
-            const formEl = document.getElementById('note-form');
+                        const formEl = document.getElementById('note-form');
             const inputEl = document.getElementById('note-input');
             const subjectEl = document.getElementById('note-subject');
             const statusEl = document.getElementById('note-status');
+            const copyBtn = document.getElementById('note-copy-btn');
+            const copyToastEl = document.getElementById('note-copy-toast');
+            const noteAddressEl = document.getElementById('note-address');
             const signalTriggerEl = document.getElementById('footer-signal-trigger');
             const signalTextEl = document.getElementById('footer-signal-text');
             const anomalyEl = document.getElementById('footer-anomaly');
@@ -183,9 +227,34 @@
                         return;
                     }
 
-                    const mailto = `mailto:varadizsolt3@gmail.com?subject=${encodeURIComponent(subject || 'AltR Vision note')}&body=${encodeURIComponent(body)}`;
+                    const mailto = `mailto:${contactChannels.general}?subject=${encodeURIComponent(subject || 'AltR Vision inquiry')}&body=${encodeURIComponent(body)}`;
                     window.location.href = mailto;
                     statusEl.textContent = translations[currentLang]["note-sent"];
+                });
+            }
+
+            if (copyBtn && noteAddressEl) {
+                copyBtn.addEventListener('click', async () => {
+                    try {
+                        await navigator.clipboard.writeText(noteAddressEl.textContent.trim());
+                        if (copyToastEl) {
+                            copyToastEl.textContent = translations[currentLang]["note-copied"];
+                            copyToastEl.classList.add('is-visible');
+                            clearTimeout(copyToastEl._hideTimer);
+                            copyToastEl._hideTimer = window.setTimeout(() => {
+                                copyToastEl.classList.remove('is-visible');
+                            }, 1500);
+                        }
+                    } catch (error) {
+                        if (copyToastEl) {
+                            copyToastEl.textContent = noteAddressEl.textContent.trim();
+                            copyToastEl.classList.add('is-visible');
+                            clearTimeout(copyToastEl._hideTimer);
+                            copyToastEl._hideTimer = window.setTimeout(() => {
+                                copyToastEl.classList.remove('is-visible');
+                            }, 1500);
+                        }
+                    }
                 });
             }
 
@@ -334,6 +403,7 @@
 
 
         setLang(currentLang);
+        initProjectCardNavigation();
         updateNavStatus();
         window.setInterval(updateNavStatus, 15000);
         initFooterInteractive();
@@ -645,3 +715,14 @@
         initDockTracking();
         syncDockWithScrollTop();
         animate();
+
+
+
+
+
+
+
+
+
+
+

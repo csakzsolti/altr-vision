@@ -127,6 +127,24 @@
             color: #7dff65;
         }
 
+        body.xr-mode .project-card {
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.05) inset,
+                0 0 20px rgba(255,255,255,0.03);
+        }
+
+        body.xr-mode .project-card .project-title,
+        body.xr-mode .project-card .card-meta-label,
+        body.xr-mode .project-card .card-meta-label::before,
+        body.xr-mode .project-card .project-tag {
+            text-shadow: none;
+            animation: none;
+        }
+
+        body.xr-mode .project-card .project-tag {
+            color: rgba(255,255,255,0.72);
+        }
+
         body.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake {
             10%, 90% { transform: translate3d(-1px, 0, 0); }
