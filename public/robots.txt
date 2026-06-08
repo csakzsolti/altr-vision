@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location for altrvision.com
+Sitemap: https://altrvision.com/sitemap.xml
+
+# Optional Host directive
+Host: altrvision.com
